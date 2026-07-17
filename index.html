@@ -444,43 +444,79 @@ function generateId() {
 }
 
 // ==================== 路由 ====================
-function navigate(page, params) {
+let isNavigating = false;
+let currentPage = 'home';
+
+function showPage(page) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('errorPage').classList.remove('active');
-  
   const el = document.getElementById('page-' + page);
-  if (el) el.classList.add('active');
-  
+  if (el) {
+    el.classList.add('active');
+    currentPage = page;
+  }
   window.scrollTo(0, 0);
+}
+
+function navigate(page, params) {
+  if (isNavigating) return;
+  isNavigating = true;
+  
+  showPage(page);
   
   if (page === 'home') {
-    window.location.hash = '';
+    if (window.location.hash) {
+      history.replaceState(null, '', window.location.pathname);
+    }
   } else if (page === 'create') {
-    window.location.hash = '#create';
+    if (window.location.hash !== '#create') {
+      history.replaceState(null, '', '#create');
+    }
     initCreatePage();
   } else if (page === 'invite') {
+    if (params) {
+      history.replaceState(null, '', '#invite/' + params);
+    }
     showInvite(params);
   } else if (page === 'manage') {
+    if (params && params.id) {
+      history.replaceState(null, '', '#manage/' + params.id + '/' + params.token);
+    }
     showManage(params);
   }
+  
+  setTimeout(() => { isNavigating = false; }, 100);
 }
 
 function parseHash() {
+  if (isNavigating) return;
   const hash = window.location.hash.replace('#', '');
-  if (!hash) return navigate('home');
   
-  if (hash === 'create') return navigate('create');
+  if (!hash) {
+    return showPage('home');
+  }
+  
+  if (hash === 'create') {
+    showPage('create');
+    initCreatePage();
+    return;
+  }
   
   if (hash.startsWith('invite/')) {
-    return navigate('invite', hash.replace('invite/', ''));
+    const id = hash.replace('invite/', '');
+    showPage('invite');
+    showInvite(id);
+    return;
   }
   
   if (hash.startsWith('manage/')) {
     const parts = hash.replace('manage/', '').split('/');
-    return navigate('manage', { id: parts[0], token: parts[1] });
+    showPage('manage');
+    showManage({ id: parts[0], token: parts[1] });
+    return;
   }
   
-  navigate('home');
+  showPage('home');
 }
 
 window.addEventListener('hashchange', parseHash);
