@@ -128,7 +128,7 @@ if(inv.sch&&inv.sch.length)schH=inv.sch.map(function(s){return'<div>'+E(s.time)+
 function render(){
   document.getElementById('content').innerHTML=
     '<div class="sb '+(sc[inv.status]||'')+'">'+(sl[inv.status]||inv.status)+'</div>'+
-    '<div class="ib"><div class="lb">💌 邀请标题</div><div class="vl big">'+E(inv.title)+'</div></div>'+
+    '<div class="ib"><div class="lb">💖 邀请标题</div><div class="vl big">'+E(inv.title)+'</div></div>'+
     '<div class="ib"><div class="lb">👤 致</div><div class="vl">'+E(inv.nickname)+'</div></div>'+
     '<div class="ib"><div class="lb">🔗 邀请链接</div><div class="lb2">'+invUrl+'</div></div>'+
     '<div class="ib"><div class="lb">📅 日期 · 时间 · 地点</div><div class="vl">'+E(inv.date)+' '+E(inv.time)+'<br>'+E(inv.location)+'</div></div>'+
