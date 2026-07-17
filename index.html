@@ -9,243 +9,156 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{
   font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  background:#FFFDF9;color:#3D3D3D;min-height:100vh;min-height:100dvh;
-  display:flex;flex-direction:column;align-items:center;
-  padding:0;text-align:center;overflow-x:hidden;
+  background:linear-gradient(180deg,#FFF8F5 0%,#FFEDE8 50%,#FFEBF2 100%);
+  min-height:100vh;min-height:100dvh;color:#3D2C35;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:40px 28px;text-align:center;overflow:hidden;
 }
 
-.hero-illustration{
-  width:100%;max-width:420px;padding:30px 20px 10px;
-  display:flex;align-items:flex-end;justify-content:center;
+.hero{
+  width:100%;max-width:340px;margin:0 auto 30px;
+  display:flex;align-items:center;justify-content:center;
 }
-.hero-illustration svg{width:100%;max-width:360px;height:auto}
+.hero svg{width:100%;max-width:300px;height:auto}
 
-.container{
-  width:100%;max-width:420px;padding:0 28px 50px;
-  position:relative;z-index:1;
+.english-label{
+  font-size:11px;color:#B098A3;letter-spacing:.18em;margin-bottom:14px;
+  text-transform:uppercase;font-weight:600;
 }
-
-.scribble-title{
-  font-size:34px;font-weight:900;color:#2D2D2D;
-  letter-spacing:-.02em;margin-bottom:4px;line-height:1.1;
+.chinese-title{
+  font-size:32px;font-weight:800;color:#3D2C35;line-height:1.3;
+  margin-bottom:8px;
 }
-.scribble-sub{
-  font-size:13px;color:#AAA;letter-spacing:.14em;margin-bottom:34px;
+.chinese-sub{
+  font-size:15px;color:#9B8893;letter-spacing:.04em;margin-bottom:40px;
   font-weight:500;
 }
 
-.divider{
-  display:flex;align-items:center;gap:10px;margin-bottom:34px;
-}
-.divider::before,.divider::after{
-  content:'';flex:1;height:1px;background:#E5E0D8;
-}
-.divider span{color:#CCC;font-size:11px}
-
 .btn{
-  display:inline-block;padding:15px 50px;
-  background:#2D2D2D;color:#FFFDF9;font-size:15px;
-  letter-spacing:.04em;cursor:pointer;text-decoration:none;
-  border-radius:28px;font-weight:600;transition:all .3s;
-  border:none;font-family:inherit;
+  display:inline-flex;align-items:center;gap:6px;
+  padding:16px 52px;border-radius:30px;
+  background:linear-gradient(135deg,#E89BB8,#E0709F);
+  color:#fff;font-size:16px;font-weight:600;letter-spacing:.04em;
+  cursor:pointer;text-decoration:none;border:none;
+  box-shadow:0 6px 20px rgba(224,112,159,.3);
+  transition:all .3s;font-family:inherit;
 }
-.btn:active{transform:scale(.96);background:#1A1A1A}
+.btn:active{transform:scale(.96)}
+.btn:hover{box-shadow:0 8px 24px rgba(224,112,159,.4)}
 
-.footer-text{margin-top:30px;font-size:11px;color:#CCC;letter-spacing:.06em}
+.footer-text{margin-top:30px;font-size:12px;color:#B098A3;letter-spacing:.06em}
 
-.bottom-dots{
-  display:flex;justify-content:center;gap:5px;margin-top:36px;
-}
-.bottom-dots span{width:3px;height:3px;border-radius:50%;background:#E0DCD5}
+.decor-icons{position:absolute;pointer-events:none;z-index:0;font-size:16px}
+.decor-icons span{position:absolute;animation:twinkle 3s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.2)}}
 
-@keyframes riseIn{
-  from{opacity:0;transform:translateY(24px)}
-  to{opacity:1;transform:translateY(0)}
-}
-.anim{animation:riseIn .7s ease forwards;opacity:0}
+@keyframes riseIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.anim{animation:riseIn .8s ease forwards;opacity:0}
 .anim.d1{animation-delay:.1s}.anim.d2{animation-delay:.3s}.anim.d3{animation-delay:.5s}
 </style>
 </head>
 <body>
 
-<div class="hero-illustration anim d1">
-<svg viewBox="0 0 360 280" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <!-- 素描纹理滤镜 -->
-    <filter id="sketch">
-      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise"/>
-      <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
-    </filter>
-    <!-- 铅笔线条效果 -->
-    <filter id="pencil">
-      <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="4" result="n"/>
-      <feDisplacementMap in="SourceGraphic" in2="n" scale="1" xChannelSelector="R" yChannelSelector="G"/>
-    </filter>
-  </defs>
-
-  <!-- ===== 左边女孩 ===== -->
-  <g filter="url(#pencil)">
-    <!-- 头发轮廓 - 松散线条 -->
-    <path d="M50 80 Q48 50 65 35 Q80 25 95 30 Q108 28 118 42 Q125 55 120 75" 
-          fill="none" stroke="#4A3728" stroke-width="1.8" stroke-linecap="round"/>
-    <!-- 头发内部排线 -->
-    <path d="M60 55 Q70 45 85 42 Q98 43 108 52" fill="none" stroke="#4A3728" stroke-width="0.8" opacity="0.5"/>
-    <path d="M55 65 Q65 50 82 46 Q100 48 115 62" fill="none" stroke="#4A3728" stroke-width="0.8" opacity="0.4"/>
-    
-    <!-- 刘海 -->
-    <path d="M60 42 Q70 52 80 48 Q90 44 100 46 Q110 50 115 42" 
-          fill="none" stroke="#4A3728" stroke-width="1.6" stroke-linecap="round"/>
-    
-    <!-- 脸 -->
-    <ellipse cx="90" cy="68" rx="24" ry="26" fill="none" stroke="#4A3728" stroke-width="1.6"/>
-    
-    <!-- 腮红（素描交叉线） -->
-    <g opacity="0.4">
-      <line x1="74" y1="76" x2="82" y2="80" stroke="#D4956A" stroke-width="0.6"/>
-      <line x1="76" y1="78" x2="84" y2="76" stroke="#D4956A" stroke-width="0.6"/>
-      <line x1="98" y1="76" x2="106" y2="80" stroke="#D4956A" stroke-width="0.6"/>
-      <line x1="96" y1="78" x2="104" y2="76" stroke="#D4956A" stroke-width="0.6"/>
-    </g>
-    
-    <!-- 眼睛 -->
-    <circle cx="80" cy="66" r="3.2" fill="#3D3D3D"/>
-    <circle cx="100" cy="66" r="3.2" fill="#3D3D3D"/>
-    <circle cx="81" cy="65" r="1" fill="white"/>
-    <circle cx="101" cy="65" r="1" fill="white"/>
-    <!-- 睫毛 -->
-    <path d="M76 64 Q78 62 80 63" fill="none" stroke="#3D3D3D" stroke-width="0.8" stroke-linecap="round"/>
-    <path d="M100 64 Q102 62 104 63" fill="none" stroke="#3D3D3D" stroke-width="0.8" stroke-linecap="round"/>
-    
-    <!-- 嘴巴 -->
-    <path d="M86 78 Q90 82 94 78" fill="none" stroke="#4A3728" stroke-width="1.2" stroke-linecap="round"/>
-    
-    <!-- 身体 - 宽松T恤 -->
-    <path d="M66 94 Q63 110 60 155 L120 155 Q117 110 114 94 Z" 
-          fill="none" stroke="#4A3728" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-    <!-- 领口 -->
-    <path d="M76 96 Q90 104 104 96" fill="none" stroke="#4A3728" stroke-width="1.4" stroke-linecap="round"/>
-    <!-- 衣服褶皱 -->
-    <line x1="90" y1="100" x2="90" y2="140" stroke="#4A3728" stroke-width="0.6" opacity="0.3"/>
-    <path d="M72 130 Q80 125 88 132" fill="none" stroke="#4A3728" stroke-width="0.5" opacity="0.3"/>
-    
-    <!-- 左臂 - 伸向中间 -->
-    <path d="M66 100 Q50 108 45 120 Q40 132 50 148" 
-          fill="none" stroke="#4A3728" stroke-width="2.5" stroke-linecap="round"/>
-    <!-- 手指 -->
-    <path d="M50 145 Q48 150 45 148 M52 148 Q50 152 47 150 M54 146 Q53 152 50 150" 
-          fill="none" stroke="#4A3728" stroke-width="1" stroke-linecap="round"/>
-    
-    <!-- 右臂 -->
-    <path d="M114 100 Q128 115 125 145" 
-          fill="none" stroke="#4A3728" stroke-width="2.5" stroke-linecap="round"/>
-    
-    <!-- 腿 -->
-    <line x1="78" y1="155" x2="74" y2="210" stroke="#4A3728" stroke-width="2.5" stroke-linecap="round"/>
-    <line x1="102" y1="155" x2="106" y2="210" stroke="#4A3728" stroke-width="2.5" stroke-linecap="round"/>
-    
-    <!-- 鞋子 -->
-    <path d="M64 210 Q74 204 84 210" fill="none" stroke="#3D3D3D" stroke-width="2" stroke-linecap="round"/>
-    <path d="M96 210 Q106 204 116 210" fill="none" stroke="#3D3D3D" stroke-width="2" stroke-linecap="round"/>
-  </g>
-
-  <!-- ===== 右边女孩 ===== -->
-  <g filter="url(#pencil)">
-    <!-- 头发轮廓 -->
-    <path d="M230 80 Q232 50 248 35 Q265 28 280 35 Q295 45 298 75" 
-          fill="none" stroke="#4A3728" stroke-width="1.8" stroke-linecap="round"/>
-    <!-- 长发 -->
-    <path d="M230 60 Q225 80 228 120 Q230 140 225 155" fill="none" stroke="#4A3728" stroke-width="1.4" opacity="0.7" stroke-linecap="round"/>
-    <path d="M298 60 Q302 80 300 120 Q298 140 303 155" fill="none" stroke="#4A3728" stroke-width="1.4" opacity="0.7" stroke-linecap="round"/>
-    <!-- 头发排线 -->
-    <path d="M240 55 Q255 42 272 44 Q285 48 290 58" fill="none" stroke="#4A3728" stroke-width="0.7" opacity="0.4"/>
-    <path d="M238 68 Q250 50 270 48 Q288 52 295 70" fill="none" stroke="#4A3728" stroke-width="0.7" opacity="0.35"/>
-    
-    <!-- 刘海 -->
-    <path d="M238 45 Q248 55 258 50 Q268 46 278 48 Q288 52 293 44" 
-          fill="none" stroke="#4A3728" stroke-width="1.6" stroke-linecap="round"/>
-    
-    <!-- 脸 -->
-    <ellipse cx="268" cy="68" rx="24" ry="26" fill="none" stroke="#4A3728" stroke-width="1.6"/>
-    
-    <!-- 腮红 -->
-    <g opacity="0.4">
-      <line x1="252" y1="76" x2="260" y2="80" stroke="#D4956A" stroke-width="0.6"/>
-      <line x1="254" y1="78" x2="262" y2="76" stroke="#D4956A" stroke-width="0.6"/>
-      <line x1="276" y1="76" x2="284" y2="80" stroke="#D4956A" stroke-width="0.6"/>
-      <line x1="274" y1="78" x2="282" y2="76" stroke="#D4956A" stroke-width="0.6"/>
-    </g>
-    
-    <!-- 眼睛 -->
-    <circle cx="258" cy="66" r="3.2" fill="#3D3D3D"/>
-    <circle cx="278" cy="66" r="3.2" fill="#3D3D3D"/>
-    <circle cx="259" cy="65" r="1" fill="white"/>
-    <circle cx="279" cy="65" r="1" fill="white"/>
-    <path d="M254 64 Q256 62 258 63" fill="none" stroke="#3D3D3D" stroke-width="0.8" stroke-linecap="round"/>
-    <path d="M278 64 Q280 62 282 63" fill="none" stroke="#3D3D3D" stroke-width="0.8" stroke-linecap="round"/>
-    
-    <!-- 嘴巴 -->
-    <path d="M264 78 Q268 82 272 78" fill="none" stroke="#4A3728" stroke-width="1.2" stroke-linecap="round"/>
-    
-    <!-- 身体 - 连衣裙 -->
-    <path d="M244 94 Q241 110 238 155 L298 155 Q295 110 292 94 Z" 
-          fill="none" stroke="#4A3728" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-    <!-- 领口 -->
-    <path d="M254 96 Q268 104 282 96" fill="none" stroke="#4A3728" stroke-width="1.4" stroke-linecap="round"/>
-    <!-- 裙子褶皱 -->
-    <line x1="268" y1="98" x2="268" y2="148" stroke="#4A3728" stroke-width="0.6" opacity="0.3"/>
-    <path d="M248 135 Q258 130 268 137" fill="none" stroke="#4A3728" stroke-width="0.5" opacity="0.3"/>
-    
-    <!-- 右臂 - 伸向中间 -->
-    <path d="M292 100 Q308 108 312 120 Q316 132 308 148" 
-          fill="none" stroke="#4A3728" stroke-width="2.5" stroke-linecap="round"/>
-    <!-- 手指 -->
-    <path d="M308 145 Q310 150 313 148 M306 148 Q308 152 311 150 M304 146 Q305 152 308 150" 
-          fill="none" stroke="#4A3728" stroke-width="1" stroke-linecap="round"/>
-    
-    <!-- 左臂 -->
-    <path d="M244 100 Q230 115 233 145" 
-          fill="none" stroke="#4A3728" stroke-width="2.5" stroke-linecap="round"/>
-    
-    <!-- 腿 -->
-    <line x1="256" y1="155" x2="252" y2="210" stroke="#4A3728" stroke-width="2.5" stroke-linecap="round"/>
-    <line x1="280" y1="155" x2="284" y2="210" stroke="#4A3728" stroke-width="2.5" stroke-linecap="round"/>
-    
-    <!-- 鞋子 -->
-    <path d="M242 210 Q252 204 262 210" fill="none" stroke="#3D3D3D" stroke-width="2" stroke-linecap="round"/>
-    <path d="M274 210 Q284 204 294 210" fill="none" stroke="#3D3D3D" stroke-width="2" stroke-linecap="round"/>
-  </g>
-
-  <!-- ===== 手拉手爱心 ===== -->
-  <g filter="url(#pencil)">
-    <path d="M152 150 Q155 140 162 142 Q168 140 168 148 Q168 156 160 164 Q152 156 152 150 Z" 
-          fill="none" stroke="#E07060" stroke-width="1.4" stroke-linecap="round"/>
-    <path d="M168 150 Q175 140 182 142 Q188 140 188 148 Q188 156 180 164 Q172 156 168 150 Z" 
-          fill="none" stroke="#E07060" stroke-width="1.4" stroke-linecap="round"/>
-    <!-- 爱心内部排线 -->
-    <line x1="162" y1="146" x2="162" y2="158" stroke="#E07060" stroke-width="0.5" opacity="0.3"/>
-    <line x1="178" y1="146" x2="178" y2="158" stroke="#E07060" stroke-width="0.5" opacity="0.3"/>
-  </g>
-
-  <!-- 地面 -->
-  <path d="M80 218 Q170 212 260 218" fill="none" stroke="#C4B8A8" stroke-width="1" opacity="0.5" stroke-dasharray="2,3"/>
-  
-  <!-- 手绘小星星 -->
-  <text x="30" y="30" font-size="16" fill="#C4B8A8" opacity="0.5" font-family="serif">✧</text>
-  <text x="320" y="25" font-size="13" fill="#C4B8A8" opacity="0.5" font-family="serif">✦</text>
-  <text x="175" y="15" font-size="12" fill="#C4B8A8" opacity="0.4" font-family="serif">✧</text>
-</svg>
+<div class="decor-icons" style="width:100%;height:100%;top:0;left:0;position:absolute">
+  <span style="top:10%;left:8%;color:#FFD700">✦</span>
+  <span style="top:18%;right:10%;color:#E0709F">♥</span>
+  <span style="bottom:25%;left:6%;color:#FFA0C0">✧</span>
+  <span style="top:50%;right:6%;color:#FFD700">✦</span>
+  <span style="bottom:15%;right:12%;color:#E89BB8">♥</span>
 </div>
 
-<div class="container">
-  <h1 class="scribble-title anim d2">约会邀请</h1>
-  <p class="scribble-sub anim d2">BE MY DATE?</p>
-  <div class="divider anim d2"><span>✦</span></div>
-  <a class="btn anim d3" href="create.html">创建邀请</a>
-  <p class="footer-text anim d3">为特别的人，制作一份特别的邀请</p>
-  <div class="bottom-dots anim d3">
-    <span></span><span></span><span></span>
-  </div>
+<div class="hero anim d1">
+  <svg viewBox="0 0 300 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- 左边女孩 -->
+    <g>
+      <!-- 头发 -->
+      <ellipse cx="100" cy="60" rx="35" ry="38" fill="#8B6914"/>
+      <ellipse cx="92" cy="55" rx="24" ry="30" fill="#A0782C"/>
+      <!-- 刘海 -->
+      <ellipse cx="100" cy="42" rx="26" ry="14" fill="#6B4F10"/>
+      <!-- 脸 -->
+      <ellipse cx="100" cy="64" rx="20" ry="22" fill="#FFE4C4" stroke="#3D2C35" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <!-- 腮红 -->
+      <ellipse cx="89" cy="72" rx="6" ry="3" fill="#FFB3B3" opacity="0.6"/>
+      <ellipse cx="111" cy="72" rx="6" ry="3" fill="#FFB3B3" opacity="0.6"/>
+      <!-- 眼睛 -->
+      <circle cx="92" cy="63" r="2.5" fill="#3D2C35"/>
+      <circle cx="108" cy="63" r="2.5" fill="#3D2C35"/>
+      <circle cx="92.5" cy="62" r="0.8" fill="white"/>
+      <circle cx="108.5" cy="62" r="0.8" fill="white"/>
+      <!-- 微笑 -->
+      <path d="M95 72 Q100 76 105 72" stroke="#3D2C35" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <!-- 身体 - 连衣裙 -->
+      <path d="M78 86 Q76 100 73 145 L127 145 Q124 100 122 86 Z" fill="#E8734A" stroke="#3D2C35" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <!-- 领口 -->
+      <path d="M88 86 Q100 96 112 86" fill="none" stroke="#3D2C35" stroke-width="1.2" stroke-dasharray="2,2"/>
+      <!-- 左臂 - 伸向中间 -->
+      <path d="M80 92 Q60 100 55 115 Q50 130 65 145" stroke="#FFE4C4" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <path d="M80 92 Q60 100 55 115 Q50 130 65 145" stroke="#3D2C35" stroke-width="1" fill="none" stroke-dasharray="2,2"/>
+      <!-- 右臂 -->
+      <path d="M120 92 Q135 110 130 138" stroke="#FFE4C4" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <path d="M120 92 Q135 110 130 138" stroke="#3D2C35" stroke-width="1" fill="none" stroke-dasharray="2,2"/>
+      <!-- 腿 -->
+      <line x1="88" y1="145" x2="84" y2="180" stroke="#FFE4C4" stroke-width="8" stroke-linecap="round"/>
+      <line x1="112" y1="145" x2="116" y2="180" stroke="#FFE4C4" stroke-width="8" stroke-linecap="round"/>
+      <!-- 鞋子 -->
+      <ellipse cx="80" cy="183" rx="10" ry="5" fill="#3D2C35"/>
+      <ellipse cx="120" cy="183" rx="10" ry="5" fill="#3D2C35"/>
+      <!-- 发饰 -->
+      <circle cx="78" cy="50" r="5" fill="#FF6B88"/>
+      <circle cx="79" cy="48" r="2" fill="#FFB3C8"/>
+    </g>
+    
+    <!-- 右边女孩 -->
+    <g>
+      <ellipse cx="200" cy="60" rx="35" ry="38" fill="#3D2C35"/>
+      <ellipse cx="208" cy="55" rx="24" ry="30" fill="#2D2D2D"/>
+      <!-- 长发 -->
+      <rect x="170" y="55" width="18" height="38" rx="9" fill="#2D2D2D"/>
+      <rect x="212" y="55" width="18" height="38" rx="9" fill="#2D2D2D"/>
+      <!-- 刘海 -->
+      <ellipse cx="200" cy="42" rx="26" ry="14" fill="#1A1A1A"/>
+      <!-- 脸 -->
+      <ellipse cx="200" cy="64" rx="20" ry="22" fill="#FFE4C4" stroke="#3D2C35" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <ellipse cx="189" cy="72" rx="6" ry="3" fill="#FFB3B3" opacity="0.6"/>
+      <ellipse cx="211" cy="72" rx="6" ry="3" fill="#FFB3B3" opacity="0.6"/>
+      <circle cx="192" cy="63" r="2.5" fill="#3D2C35"/>
+      <circle cx="208" cy="63" r="2.5" fill="#3D2C35"/>
+      <circle cx="192.5" cy="62" r="0.8" fill="white"/>
+      <circle cx="208.5" cy="62" r="0.8" fill="white"/>
+      <path d="M195 72 Q200 76 205 72" stroke="#3D2C35" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <!-- 身体 - 卫衣 -->
+      <path d="M178 86 Q176 100 173 145 L227 145 Q224 100 222 86 Z" fill="#5B8C5A" stroke="#3D2C35" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <path d="M188 86 Q200 96 212 86" fill="none" stroke="#3D2C35" stroke-width="1.2" stroke-dasharray="2,2"/>
+      <!-- 右臂 -->
+      <path d="M220 92 Q240 100 245 115 Q250 130 235 145" stroke="#FFE4C4" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <path d="M220 92 Q240 100 245 115 Q250 130 235 145" stroke="#3D2C35" stroke-width="1" fill="none" stroke-dasharray="2,2"/>
+      <!-- 左臂 -->
+      <path d="M180 92 Q165 110 170 138" stroke="#FFE4C4" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <path d="M180 92 Q165 110 170 138" stroke="#3D2C35" stroke-width="1" fill="none" stroke-dasharray="2,2"/>
+      <line x1="188" y1="145" x2="184" y2="180" stroke="#FFE4C4" stroke-width="8" stroke-linecap="round"/>
+      <line x1="212" y1="145" x2="216" y2="180" stroke="#FFE4C4" stroke-width="8" stroke-linecap="round"/>
+      <ellipse cx="180" cy="183" rx="10" ry="5" fill="#3D2C35"/>
+      <ellipse cx="220" cy="183" rx="10" ry="5" fill="#3D2C35"/>
+    </g>
+    
+    <!-- 中间爱心 -->
+    <g>
+      <path d="M140 130 Q145 120 152 124 Q159 120 160 130 Q160 140 150 152 Q140 140 140 130 Z" fill="#E0709F" stroke="#3D2C35" stroke-width="1.5"/>
+      <circle cx="146" cy="132" r="2" fill="white" opacity="0.6"/>
+    </g>
+    
+    <!-- 地面 -->
+    <ellipse cx="150" cy="200" rx="80" ry="6" fill="#E5C8D0" opacity="0.4"/>
+  </svg>
 </div>
+
+<div class="english-label anim d2">BE MY DATE?</div>
+<h1 class="chinese-title anim d2">约会邀请</h1>
+<p class="chinese-sub anim d2">为特别的人，准备一份心意</p>
+
+<a class="btn anim d3" href="create.html">开始制作 →</a>
+<p class="footer-text anim d3">一段小邀请，一次甜甜的见面 💖</p>
 
 </body>
 </html>

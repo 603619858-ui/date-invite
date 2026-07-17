@@ -4,264 +4,459 @@
 <meta charset="UTF-8">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>💖 邀请函</title>
+<title>💖 给你的小邀请</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
 body{
   font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  background:linear-gradient(180deg,#FFF5F7,#FFE8EC,#FFF0F3);
-  color:#5C3D4E;min-height:100vh;min-height:100dvh;
+  background:linear-gradient(180deg,#FFF8F5 0%,#FFEDE8 50%,#FFEBF2 100%);
+  min-height:100vh;min-height:100dvh;color:#3D2C35;overflow:hidden;
   -webkit-font-smoothing:antialiased;
 }
-body.t-noir{background:#3D2C35;color:#E8C8D0}
-body.t-nature{background:#F5FFF5;color:#4A6E4A}
 
-/* 封面 */
-.cover{
-  position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;z-index:100;padding:40px 24px;transition:opacity .6s,transform .6s;
-  background:linear-gradient(180deg,#FFF0F5,#FFE4EC,#FFF5F7);
+/* 顶部进度条 */
+.progress-bar{
+  position:fixed;top:0;left:0;right:0;display:flex;
+  justify-content:flex-end;gap:6px;padding:16px 20px;z-index:50;
 }
-body.t-noir .cover{background:#3D2C35}
-body.t-nature .cover{background:#F0FFF0}
-.cover.hide{opacity:0;pointer-events:none;transform:translateY(-20px)}
-
-.cover .c-icon{font-size:56px;margin-bottom:24px;animation:heartBeat 1.5s ease infinite}
-@keyframes heartBeat{0%,100%{transform:scale(1)}15%{transform:scale(1.15)}30%{transform:scale(1)}45%{transform:scale(1.1)}60%{transform:scale(1)}}
-@keyframes fU{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-
-.cover h1{font-family:'ZCOOL KuaiLe',cursive;font-size:24px;font-weight:400;letter-spacing:.06em;margin-bottom:16px;text-align:center;color:#FF6B88}
-body.t-noir .cover h1{color:#FFB6C1}
-body.t-nature .cover h1{color:#F06292}
-.cover .csub{font-size:14px;color:#F0A0B0;letter-spacing:.06em;margin-bottom:40px}
-.cbtn{
-  padding:16px 44px;border:none;border-radius:50px;
-  background:linear-gradient(135deg,#FF8FAB,#FF6B88);
-  color:#fff;font-size:16px;font-weight:600;letter-spacing:.06em;
-  cursor:pointer;font-family:inherit;
-  box-shadow:0 6px 20px rgba(255,107,136,.3);
-  transition:all .3s;
+.progress-dot{
+  height:4px;border-radius:2px;background:#E5D0D5;
+  transition:all .4s ease;
+  min-width:24px;
 }
-.cbtn:active{transform:scale(.95)}
-.ca{animation:fU .8s ease forwards;opacity:0}
-.ca.d1{animation-delay:.2s}.ca.d2{animation-delay:.5s}.ca.d3{animation-delay:.8s}
+.progress-dot.active{background:#E0709F;min-width:32px}
+.progress-dot.done{background:#F0A8C0}
 
-/* 主内容 */
-.main{max-width:420px;margin:0 auto;padding:0 20px 50px;opacity:0;transition:opacity .6s}
-.main.show{opacity:1}
-
-.himg{width:calc(100% + 40px);margin-left:-20px;margin-right:-20px;aspect-ratio:3/4;object-fit:cover;display:block;margin-bottom:32px}
-.hph{
-  width:calc(100% + 40px);margin-left:-20px;margin-right:-20px;aspect-ratio:3/4;
-  background:linear-gradient(135deg,#FFD4DE,#FFE8EC);
-  display:flex;align-items:center;justify-content:center;margin-bottom:32px;
-  font-size:14px;color:#F0A0B0;border-radius:0 0 24px 24px;
+/* 步骤容器 */
+.step{
+  position:absolute;top:0;left:0;width:100%;min-height:100vh;min-height:100dvh;
+  display:flex;flex-direction:column;align-items:center;
+  padding:60px 28px 40px;opacity:0;
+  pointer-events:none;transition:opacity .5s,transform .5s;
+  transform:translateX(40px);
 }
-body.t-noir .hph{background:#4A3A42}
-body.t-nature .hph{background:#D4ECD4}
+.step.show{opacity:1;pointer-events:auto;transform:translateX(0)}
+.step.prev{transform:translateX(-40px)}
 
-.d-icon{text-align:center;font-size:32px;margin-bottom:16px}
-
-.nn{text-align:center;font-size:14px;color:#F0A0B0;letter-spacing:.06em;margin-bottom:6px;font-weight:600}
-.tt{text-align:center;font-family:'ZCOOL KuaiLe',cursive;font-size:26px;font-weight:400;color:#FF6B88;margin-bottom:12px}
-body.t-noir .tt{color:#FFB6C1}
-body.t-nature .tt{color:#F06292}
-.msg{text-align:center;font-size:14px;color:#D4A0B0;letter-spacing:.04em;margin-bottom:32px;font-weight:500;line-height:1.8}
-
-/* 关键信息 */
-.ki{
-  text-align:center;margin-bottom:36px;padding:28px 20px;
-  background:#fff;border-radius:20px;
-  box-shadow:0 4px 20px rgba(255,182,193,.15);
-  border:2px solid #FFD4DE;
+/* 内容 */
+.step-content{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;width:100%;max-width:400px;text-align:center;
 }
-body.t-noir .ki{background:#4A3A42;border-color:#5C3D4E}
-body.t-nature .ki{background:#fff;border-color:#C8E6C9}
-
-.ki .ki-icon{font-size:28px;margin-bottom:12px}
-.kd{font-size:30px;font-weight:700;color:#FF6B88;margin-bottom:8px;letter-spacing:.04em}
-body.t-noir .kd{color:#FFB6C1}
-body.t-nature .kd{color:#F06292}
-.kt{font-size:18px;font-weight:600;color:#D4A0B0;margin-bottom:4px}
-.kl{font-size:16px;font-weight:600;color:#C490A0}
-
-/* 详情 */
-.ds{margin-bottom:28px;padding:16px 20px;background:#fff;border-radius:16px;border:2px solid #FFE0E8}
-body.t-noir .ds{background:#4A3A42;border-color:#5C3D4E}
-body.t-nature .ds{background:#fff;border-color:#D4ECD4}
-.il{font-size:11px;font-weight:700;color:#FF8FAB;margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em}
-.iv{font-size:14px;color:#5C3D4E;line-height:1.7}
-
-.sl{list-style:none;padding:0}
-.si{display:flex;gap:10px;padding:10px 0;border-bottom:1px dashed #FFE0E8;align-items:baseline}
-.si:last-child{border-bottom:none}
-.st{font-size:14px;font-weight:700;color:#FF6B88;min-width:52px}
-.sd{color:#F0A0B0;font-size:14px}
-.se{font-size:14px;color:#5C3D4E}
-
-/* 回应 */
-.rs{
-  margin-top:40px;padding:28px 20px;background:#fff;border-radius:20px;
-  border:2px solid #FFD4DE;box-shadow:0 4px 20px rgba(255,182,193,.15);
+.english-label{
+  font-size:11px;color:#B098A3;letter-spacing:.18em;margin-bottom:16px;
+  text-transform:uppercase;font-weight:600;
 }
-body.t-noir .rs{background:#4A3A42;border-color:#5C3D4E}
-body.t-nature .rs{background:#fff;border-color:#C8E6C9}
-.rs h3{font-size:17px;font-weight:700;color:#FF6B88;text-align:center;margin-bottom:20px}
-.rb{display:flex;flex-direction:column;gap:10px}
-.rbtn{
-  width:100%;padding:16px;font-size:15px;font-weight:600;letter-spacing:.04em;
-  cursor:pointer;font-family:inherit;border-radius:50px;transition:all .3s;
+.chinese-title{
+  font-size:32px;font-weight:800;color:#3D2C35;line-height:1.3;
+  margin-bottom:8px;letter-spacing:.01em;
 }
-.rbtn.pri{
-  border:none;background:linear-gradient(135deg,#FF8FAB,#FF6B88);
-  color:#fff;box-shadow:0 4px 16px rgba(255,107,136,.3);
+.chinese-sub{
+  font-size:15px;color:#9B8893;letter-spacing:.04em;margin-bottom:40px;
 }
-.rbtn.sec{
-  border:2px solid #FFD4DE;background:#fff;color:#F0A0B0;
-}
-.rbtn:active{transform:scale(.97)}
 
-/* 已回应 */
-.rsd{text-align:center;padding:24px 0}
-.rsd .ric{font-size:48px;margin-bottom:12px;animation:heartBeat 2s ease infinite}
-.rsd .rtx{font-size:18px;font-weight:700;color:#FF6B88;letter-spacing:.04em}
-.rsd .rtm{font-size:13px;color:#D4A0B0;margin-top:8px}
+/* 像素心形SVG容器 */
+.pixel-art{
+  width:280px;height:240px;margin:20px auto 30px;position:relative;
+  display:flex;align-items:center;justify-content:center;
+}
+.pixel-art svg{width:100%;height:100%}
+
+/* 装饰小图标 */
+.decor-icons{position:absolute;pointer-events:none;z-index:1}
+.decor-icons span{position:absolute;animation:twinkle 3s ease-in-out infinite}
+@keyframes twinkle{
+  0%,100%{opacity:.5;transform:scale(1)}
+  50%{opacity:1;transform:scale(1.2)}
+}
+
+/* 选项卡片 */
+.options{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;
+  margin-bottom:24px;
+}
+.option{
+  background:#fff;border-radius:20px;padding:18px 12px;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  cursor:pointer;transition:all .3s;border:2px solid transparent;
+  box-shadow:0 2px 12px rgba(225,200,210,.2);
+}
+.option:active{transform:scale(.96)}
+.option.selected{border-color:#E0709F;background:#FFF0F5}
+.option .opt-emoji{font-size:38px;line-height:1}
+.option .opt-label{font-size:14px;font-weight:600;color:#3D2C35}
+
+/* 翻页按钮 */
+.nav-buttons{
+  display:flex;justify-content:center;gap:12px;width:100%;
+  margin-top:auto;padding-top:20px;
+}
+.btn{
+  padding:16px 36px;border-radius:30px;font-size:15px;font-weight:600;
+  cursor:pointer;font-family:inherit;border:none;transition:all .3s;
+  display:inline-flex;align-items:center;gap:6px;letter-spacing:.04em;
+}
+.btn-primary{
+  background:linear-gradient(135deg,#E89BB8,#E0709F);
+  color:#fff;box-shadow:0 6px 20px rgba(224,112,159,.3);
+}
+.btn-primary:active{transform:scale(.96)}
+.btn-ghost{
+  background:transparent;border:1px solid #DDD;color:#9B8893;
+}
+.btn-ghost:active{transform:scale(.96)}
+
+/* 第3步 - 时间段选择 */
+.time-options{
+  display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;
+  margin-bottom:30px;
+}
+.time-card{
+  background:#fff;border-radius:20px;padding:24px 12px;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  cursor:pointer;transition:all .3s;border:2px solid transparent;
+  position:relative;
+  box-shadow:0 2px 12px rgba(225,200,210,.15);
+}
+.time-card.selected{border-color:#E0709F;background:#FFF0F5}
+.time-card .check{
+  position:absolute;top:10px;right:10px;width:24px;height:24px;
+  border-radius:50%;background:#E0709F;display:none;
+  align-items:center;justify-content:center;color:#fff;font-size:12px;
+}
+.time-card.selected .check{display:flex}
+.time-card .t-emoji{font-size:32px}
+.time-card .t-label{font-size:15px;font-weight:700;color:#3D2C35}
+
+/* 留言 */
+.msg-area{
+  width:100%;background:#fff;border-radius:18px;padding:14px 18px;
+  margin-bottom:12px;min-height:60px;
+  box-shadow:0 2px 12px rgba(225,200,210,.15);
+}
+.msg-area:focus{outline:none}
+.msg-suggestions{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.suggestion{
+  padding:7px 14px;background:#fff;border-radius:18px;font-size:13px;
+  color:#9B8893;cursor:pointer;border:1px solid #F0E0E5;
+  transition:all .2s;
+}
+.suggestion:active{background:#FFE8F0;color:#E0709F}
 
 /* 庆祝 */
-.cel{
-  position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;
-  align-items:center;justify-content:center;z-index:200;opacity:0;pointer-events:none;
-  transition:opacity .5s;
+.celebrate{
+  position:fixed;inset:0;background:rgba(0,0,0,.5);
+  display:flex;align-items:center;justify-content:center;z-index:200;
+  opacity:0;pointer-events:none;transition:opacity .5s;
 }
-.cel.show{opacity:1}
-.celc{text-align:center;color:#fff}
-.celc .ce{font-size:64px;display:block;animation:cb .6s ease}
-.celc .ct{font-size:24px;font-weight:700;letter-spacing:.06em;margin-top:16px;animation:fU .6s ease .3s both}
-@keyframes cb{0%{transform:scale(0) rotate(-10deg)}50%{transform:scale(1.2) rotate(5deg)}100%{transform:scale(1) rotate(0)}}
-
-/* 改期弹窗 */
-.rm{
-  position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;
-  align-items:flex-end;justify-content:center;z-index:200;opacity:0;pointer-events:none;
-  transition:opacity .3s;
-}
-.rm.show{opacity:1;pointer-events:auto}
-.rmc{
-  background:#fff;width:100%;max-width:420px;padding:32px 24px;
-  border-radius:24px 24px 0 0;max-height:80vh;overflow-y:auto;
-}
-.rmc h3{font-size:18px;font-weight:700;color:#FF6B88;margin-bottom:24px;text-align:center}
-.rmc .fg{margin-bottom:18px}
-.rmc label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:#7A5C6E}
-.rmc input,.rmc textarea{
-  width:100%;padding:12px 16px;border:2px solid #FFD4DE;border-radius:12px;
-  background:#fff;font-size:15px;font-family:inherit;outline:none;
-}
-.rmc textarea{resize:none;min-height:60px}
-.rmc .mbt{display:flex;gap:10px;margin-top:24px}
-.rmc .mbt button{flex:1;padding:14px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;border-radius:50px;transition:all .3s}
-.rmc .sbtn{border:none;background:linear-gradient(135deg,#FF8FAB,#FF6B88);color:#fff}
-.rmc .cbtn2{border:2px solid #FFD4DE;background:#fff;color:#F0A0B0}
+.celebrate.show{opacity:1}
+.celebrate-inner{text-align:center;color:#fff;padding:20px}
+.celebrate-inner .c-emoji{font-size:72px;display:block;animation:pop .6s ease}
+.celebrate-inner .c-text{font-size:22px;font-weight:700;margin-top:16px;letter-spacing:.04em}
+.celebrate-inner .c-sub{font-size:14px;margin-top:8px;opacity:.85}
+@keyframes pop{0%{transform:scale(0)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
 
 /* 错误 */
-.err{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 24px;text-align:center}
-.err.show{display:flex}
-.err .e-icon{font-size:48px;margin-bottom:16px}
-.err h2{font-size:18px;font-weight:700;color:#FF6B88;margin-bottom:8px}
-.err p{font-size:14px;color:#D4A0B0;margin-bottom:24px}
-.err a{
-  padding:12px 32px;border:none;border-radius:50px;background:linear-gradient(135deg,#FF8FAB,#FF6B88);
-  color:#fff;font-size:14px;font-weight:600;text-decoration:none;
-}
-
-@media(max-width:390px){
-  .main{padding:0 16px 50px}
-  .himg,.hph{width:calc(100% + 32px);margin-left:-16px;margin-right:-16px}
-}
+.err-page{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 24px;text-align:center}
+.err-page h2{font-size:18px;margin-bottom:8px;color:#3D2C35}
+.err-page p{font-size:14px;color:#9B8893;margin-bottom:24px}
+.err-page a{padding:12px 32px;background:#3D2C35;color:#fff;border-radius:25px;text-decoration:none;font-size:14px}
 </style>
 </head>
-<body id="body">
+<body>
 
-<div class="cover" id="cover">
-  <div class="c-icon ca d1">💖</div>
-  <h1 class="ca d2">有一封甜甜的邀请<br>想请你亲自打开</h1>
-  <p class="csub ca d3">♡ SWEET INVITATION ♡</p>
-  <button class="cbtn ca d3" id="openBtn">💗 打开邀请</button>
+<!-- 进度条 -->
+<div class="progress-bar" id="progBar">
+  <span class="progress-dot active"></span>
+  <span class="progress-dot"></span>
+  <span class="progress-dot"></span>
+  <span class="progress-dot"></span>
 </div>
 
-<div class="main" id="main">
-  <div id="hero"></div>
-  <div class="d-icon">💕</div>
-  <div class="nn" id="dnn"></div>
-  <h1 class="tt" id="dtt"></h1>
-  <div class="msg" id="dmsg"></div>
-
-  <div class="ki">
-    <div class="ki-icon">📅</div>
-    <div class="kd" id="ddt"></div>
-    <div class="kt" id="dtm"></div>
-    <div class="kl" id="dlo"></div>
+<!-- 步骤1: 开场 -->
+<div class="step show" data-step="0">
+  <div class="step-content">
+    <div class="english-label">A LITTLE SOMETHING</div>
+    <div class="chinese-title" id="st1Title">想给你一个<br>甜甜的邀约</div>
+    <div class="chinese-sub" id="st1Sub">你准备好接收了吗？</div>
+    <div class="pixel-art">
+      <span class="decor-icons"><span style="top:5%;left:5%;color:#FFD700;font-size:14px">✦</span><span style="top:5%;right:8%;color:#E0709F;font-size:12px">♥</span><span style="bottom:8%;left:5%;color:#FFA0C0;font-size:10px">✧</span></span>
+      <!-- 像素信封 -->
+      <svg viewBox="0 0 220 180" fill="none">
+        <!-- 信封主体 -->
+        <g>
+          <rect x="20" y="60" width="180" height="100" fill="#FFE0D8" stroke="#C08890" stroke-width="2"/>
+          <rect x="20" y="60" width="180" height="100" fill="none" stroke="#3D2C35" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <!-- 信封三角 -->
+          <path d="M20 60 L110 130 L200 60" fill="#FFD4C8" stroke="#3D2C35" stroke-width="2"/>
+          <path d="M20 60 L110 130 L200 60" stroke="#C08890" stroke-width="1.5" fill="none" stroke-dasharray="2,2"/>
+          <!-- 像素心形 -->
+          <g transform="translate(70, 95)">
+            <rect x="0" y="10" width="10" height="10" fill="#FF6B88"/>
+            <rect x="10" y="0" width="10" height="10" fill="#FF6B88"/>
+            <rect x="20" y="0" width="10" height="10" fill="#FF6B88"/>
+            <rect x="30" y="0" width="10" height="10" fill="#FF6B88"/>
+            <rect x="40" y="10" width="10" height="10" fill="#FF6B88"/>
+            <rect x="0" y="20" width="10" height="10" fill="#FF6B88"/>
+            <rect x="10" y="10" width="10" height="10" fill="#FF8FAB"/>
+            <rect x="20" y="10" width="10" height="10" fill="#FF8FAB"/>
+            <rect x="30" y="10" width="10" height="10" fill="#FF8FAB"/>
+            <rect x="40" y="20" width="10" height="10" fill="#FF6B88"/>
+            <rect x="0" y="30" width="10" height="10" fill="#FF6B88"/>
+            <rect x="10" y="20" width="10" height="10" fill="#FF8FAB"/>
+            <rect x="20" y="20" width="10" height="10" fill="#FFB3C8"/>
+            <rect x="30" y="20" width="10" height="10" fill="#FF8FAB"/>
+            <rect x="40" y="30" width="10" height="10" fill="#FF6B88"/>
+            <rect x="0" y="40" width="10" height="10" fill="#FF6B88"/>
+            <rect x="10" y="30" width="10" height="10" fill="#FF6B88"/>
+            <rect x="20" y="30" width="10" height="10" fill="#FF6B88"/>
+            <rect x="30" y="30" width="10" height="10" fill="#FF6B88"/>
+            <rect x="40" y="40" width="10" height="10" fill="#FF6B88"/>
+            <rect x="10" y="40" width="10" height="10" fill="#FF6B88"/>
+            <rect x="20" y="40" width="10" height="10" fill="#FF6B88"/>
+            <rect x="30" y="40" width="10" height="10" fill="#FF6B88"/>
+          </g>
+        </g>
+      </svg>
+    </div>
   </div>
-
-  <div class="ds" id="sAddr" style="display:none"><div class="il">📍 详细地址</div><div class="iv" id="dad"></div></div>
-  <div class="ds" id="sSch" style="display:none"><div class="il">🗺️ 约会行程</div><ul class="sl" id="dsc"></ul></div>
-  <div class="ds" id="sDr" style="display:none"><div class="il">👗 穿搭提示</div><div class="iv" id="ddr"></div></div>
-  <div class="ds" id="sNt" style="display:none"><div class="il">💬 备注</div><div class="iv" id="dnt"></div></div>
-
-  <div class="rs"><h3>💭 你的回应</h3><div id="resp"></div></div>
+  <div class="nav-buttons">
+    <button class="btn btn-primary" onclick="nextStep()">轻触打开 →</button>
+  </div>
 </div>
 
-<div class="cel" id="cel"><div class="celc"><span class="ce">💖</span><div class="ct">那就说好了！</div></div></div>
+<!-- 步骤2: 问候 -->
+<div class="step" data-step="1">
+  <div class="step-content">
+    <div class="english-label">A LITTLE SOMETHING</div>
+    <div class="chinese-title">来自一个<br><span style="color:#E0709F">很在意你的人。</span></div>
+    <div class="chinese-sub" id="st2Sub">TA 想认真约你一次 🌸</div>
+    <div class="pixel-art">
+      <span class="decor-icons"><span style="top:5%;left:5%;font-size:14px">💌</span><span style="top:10%;right:8%;font-size:18px">🦋</span><span style="bottom:5%;left:10%;font-size:12px">✨</span></span>
+      <svg viewBox="0 0 220 200" fill="none">
+        <!-- 对话框 -->
+        <g>
+          <path d="M30 50 Q30 30 50 30 L170 30 Q190 30 190 50 L190 130 Q190 150 170 150 L80 150 L60 175 L65 150 L50 150 Q30 150 30 130 Z" fill="#FFE8E0" stroke="#3D2C35" stroke-width="2"/>
+          <path d="M30 50 Q30 30 50 30 L170 30 Q190 30 190 50 L190 130 Q190 150 170 150 L80 150 L60 175 L65 150 L50 150 Q30 150 30 130 Z" stroke="#C08890" stroke-width="1" fill="none" stroke-dasharray="3,2"/>
+          <!-- 内部像素心 -->
+          <g transform="translate(70, 65)">
+            <rect x="0" y="10" width="10" height="10" fill="#FF8FAB"/>
+            <rect x="10" y="0" width="10" height="10" fill="#FF8FAB"/>
+            <rect x="20" y="0" width="10" height="10" fill="#FF8FAB"/>
+            <rect x="30" y="0" width="10" height="10" fill="#FF8FAB"/>
+            <rect x="40" y="10" width="10" height="10" fill="#FF8FAB"/>
+            <rect x="0" y="20" width="10" height="10" fill="#FF8FAB"/>
+            <rect x="10" y="10" width="10" height="10" fill="#FFB3C8"/>
+            <rect x="20" y="10" width="10" height="10" fill="#FFB3C8"/>
+            <rect x="30" y="10" width="10" height="10" fill="#FFB3C8"/>
+            <rect x="40" y="20" width="10" height="10" fill="#FF8FAB"/>
+            <rect x="10" y="20" width="10" height="10" fill="#FFB3C8"/>
+            <rect x="20" y="20" width="10" height="10" fill="#FFD4DE"/>
+            <rect x="30" y="20" width="10" height="10" fill="#FFB3C8"/>
+            <rect x="10" y="30" width="10" height="10" fill="#FF8FAB"/>
+            <rect x="20" y="30" width="10" height="10" fill="#FF8FAB"/>
+            <rect x="30" y="30" width="10" height="10" fill="#FF8FAB"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+  </div>
+  <div class="nav-buttons">
+    <button class="btn btn-primary" onclick="nextStep()">继续 →</button>
+  </div>
+</div>
 
-<div class="rm" id="rm"><div class="rmc">
-  <h3>🕐 想换个时间</h3>
-  <div class="fg"><label>建议的新日期</label><input type="date" id="rd"></div>
-  <div class="fg"><label>一句话留言</label><textarea id="rmsg" placeholder="说说你想换时间的理由..." maxlength="200"></textarea></div>
-  <div class="mbt"><button class="cbtn2" id="cR">取消</button><button class="sbtn" id="sR">提交</button></div>
-</div></div>
+<!-- 步骤3: 邀请详情 -->
+<div class="step" data-step="2">
+  <div class="step-content">
+    <div class="english-label">A LITTLE INVITATION</div>
+    <div class="chinese-title" id="st3Title">一起吃顿<br>好吃的吧？</div>
+    <div class="chinese-sub" id="st3Sub">这是为你准备的小心意</div>
+    <div style="width:100%;background:#fff;border-radius:20px;padding:20px;margin-bottom:16px;box-shadow:0 4px 20px rgba(225,200,210,.2)">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+        <span style="font-size:20px">📅</span>
+        <span style="font-size:15px;font-weight:700" id="dDate">2025-08-20</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+        <span style="font-size:20px">⏰</span>
+        <span style="font-size:15px;font-weight:700" id="dTime">18:00</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:20px">📍</span>
+        <span style="font-size:15px;font-weight:700" id="dLocation">山谷图书馆</span>
+      </div>
+    </div>
+    <div id="dMessage" style="font-size:13px;color:#9B8893;font-style:italic;line-height:1.6;max-width:280px"></div>
+  </div>
+  <div class="nav-buttons">
+    <button class="btn btn-ghost" onclick="prevStep()">←</button>
+    <button class="btn btn-primary" onclick="nextStep()">看看详情 →</button>
+  </div>
+</div>
 
-<div class="err" id="err"><div class="e-icon">😢</div><h2 id="eT">邀请不存在</h2><p id="eM">这个邀请链接可能已经失效</p><a href="index.html">返回首页</a></div>
+<!-- 步骤4: 选择时间 -->
+<div class="step" data-step="3">
+  <div class="step-content">
+    <div class="chinese-title" style="font-size:28px">什么时候最合适？</div>
+    <div class="chinese-sub" id="st4Sub">挑一个时间吧～</div>
+    <div class="time-options">
+      <div class="time-card" data-time="保持原定时间" onclick="selectTime(this)">
+        <div class="check">✓</div>
+        <div class="t-emoji">🌙</div>
+        <div class="t-label" id="tOpt1">原定时间</div>
+      </div>
+      <div class="time-card" data-time="明天" onclick="selectTime(this)">
+        <div class="check">✓</div>
+        <div class="t-emoji">🌅</div>
+        <div class="t-label">明天</div>
+      </div>
+      <div class="time-card" data-time="这周末" onclick="selectTime(this)">
+        <div class="check">✓</div>
+        <div class="t-emoji">📅</div>
+        <div class="t-label">这周末</div>
+      </div>
+      <div class="time-card" data-time="下周" onclick="selectTime(this)">
+        <div class="check">✓</div>
+        <div class="t-emoji">🗓️</div>
+        <div class="t-label">下周</div>
+      </div>
+    </div>
+  </div>
+  <div class="nav-buttons">
+    <button class="btn btn-ghost" onclick="prevStep()">←</button>
+    <button class="btn btn-primary" onclick="nextStep()" id="goStep5">送出回应 →</button>
+  </div>
+</div>
+
+<!-- 步骤5: 留言并提交 -->
+<div class="step" data-step="4">
+  <div class="step-content">
+    <div class="chinese-title" style="font-size:26px">想对TA说点什么？</div>
+    <div class="chinese-sub" id="st5Sub">（可选）</div>
+    <textarea class="msg-area" id="userMsg" placeholder="写下你的心意..." maxlength="200"></textarea>
+    <div class="msg-suggestions">
+      <span class="suggestion" onclick="useSug(this)">好呀！期待</span>
+      <span class="suggestion" onclick="useSug(this)">等我！</span>
+      <span class="suggestion" onclick="useSug(this)">必须答应</span>
+      <span class="suggestion" onclick="useSug(this)">让我看看时间</span>
+    </div>
+  </div>
+  <div class="nav-buttons">
+    <button class="btn btn-ghost" onclick="prevStep()">←</button>
+    <button class="btn btn-primary" onclick="submit()" id="finalBtn">确认回应 →</button>
+  </div>
+</div>
+
+<!-- 庆祝 -->
+<div class="celebrate" id="cel">
+  <div class="celebrate-inner">
+    <span class="c-emoji">💖</span>
+    <div class="c-text">那就说好了！</div>
+    <div class="c-sub" id="celSub">回应已发送给TA啦</div>
+  </div>
+</div>
+
+<!-- 错误页 -->
+<div class="err-page" id="err" style="display:none">
+  <h2>😢 邀请不存在</h2>
+  <p>这个邀请链接可能已经失效</p>
+  <a href="index.html">返回首页</a>
+</div>
 
 <script>
+var currentStep=0;
+var selectedTime='';
+var userMsg='';
+var inv=null;
+
 function E(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
+
+// 初始化
 var id=(new URLSearchParams(window.location.search)).get('id');
-if(!id){document.getElementById('err').classList.add('show');document.getElementById('cover').style.display='none'}
+if(!id){document.getElementById('err').style.display='flex';document.body.style.overflow='hidden'}
 var db=JSON.parse(localStorage.getItem('di_db')||'{}');
-var inv=db[id];
-if(!inv){document.getElementById('err').classList.add('show');document.getElementById('cover').style.display='none'}else{
+inv=db[id];
+if(!inv){document.getElementById('err').style.display='flex';document.body.style.overflow='hidden'}else{
   if(!inv.openedAt){inv.openedAt=new Date().toLocaleString('zh-CN');inv.status='opened';localStorage.setItem('di_db',JSON.stringify(db))}
-  document.body.className='t-'+(inv.style||'cream');
-  if(inv.img)document.getElementById('hero').innerHTML='<img src="'+inv.img+'" class="himg" onerror="this.parentElement.innerHTML=\'<div class=hph>💕 COVER</div>\'">';
-  else document.getElementById('hero').innerHTML='<div class="hph">💕 COVER</div>';
-  document.getElementById('dnn').textContent='致 💖 '+inv.nickname;
-  document.getElementById('dtt').textContent=inv.title;
-  document.getElementById('dmsg').textContent=inv.message||'';
-  document.getElementById('ddt').textContent=inv.date;
-  document.getElementById('dtm').textContent=inv.time;
-  document.getElementById('dlo').textContent=inv.location;
-  if(inv.address){document.getElementById('sAddr').style.display='block';document.getElementById('dad').textContent=inv.address}
-  if(inv.sch&&inv.sch.length){document.getElementById('sSch').style.display='block';document.getElementById('dsc').innerHTML=inv.sch.map(function(s){return'<li class="si"><span class="st">'+E(s.time)+'</span><span class="sd">｜</span><span class="se">'+E(s.event)+'</span></li>'}).join('')}
-  if(inv.dressCode){document.getElementById('sDr').style.display='block';document.getElementById('ddr').textContent=inv.dressCode}
-  if(inv.notes){document.getElementById('sNt').style.display='block';document.getElementById('dnt').textContent=inv.notes}
-  var rc=document.getElementById('resp');
-  if(inv.respType){
-    var icon=inv.respType==='accept'?'💖':'🕐',txt=inv.respType==='accept'?'已接受邀请 — 那就说好了！':'已申请改期';
-    rc.innerHTML='<div class="rsd"><div class="ric">'+icon+'</div><div class="rtx">'+txt+'</div>'+(inv.rsDate?'<div class="rtm">建议日期：'+inv.rsDate+'</div>':'')+(inv.rsMsg?'<div class="rtm">留言：'+E(inv.rsMsg)+'</div>':'')+'<div class="rtm">回应于 '+(inv.respondedAt||'')+'</div></div>';
-  }else{
-    rc.innerHTML='<div class="rb"><button class="rbtn pri" id="accBtn">💗 好呀，见面</button><button class="rbtn sec" id="rsBtn">🕐 我想换个时间</button></div>';
-    document.getElementById('accBtn').onclick=function(){inv.respType='accept';inv.status='accepted';inv.respondedAt=new Date().toLocaleString('zh-CN');localStorage.setItem('di_db',JSON.stringify(db));document.getElementById('cel').classList.add('show');setTimeout(function(){document.getElementById('cel').classList.remove('show');location.reload()},2000)};
-    document.getElementById('rsBtn').onclick=function(){document.getElementById('rm').classList.add('show');var t=new Date();t.setDate(t.getDate()+2);document.getElementById('rd').value=t.toISOString().split('T')[0]};
-  }
-  document.getElementById('openBtn').onclick=function(){document.getElementById('cover').classList.add('hide');setTimeout(function(){document.getElementById('main').classList.add('show');window.scrollTo(0,0)},100)};
+  
+  // 填充数据
+  document.getElementById('dDate').textContent=inv.date;
+  document.getElementById('dTime').textContent=inv.time;
+  document.getElementById('dLocation').textContent=inv.location;
+  if(inv.message)document.getElementById('dMessage').textContent='"'+inv.message+'"';
+  if(inv.title)document.getElementById('st3Title').innerHTML=inv.title.replace(/\n/g,'<br>');
+  if(inv.nickname)document.getElementById('st2Sub').textContent='TA 想认真邀请 '+inv.nickname+' 🌸';
+  document.getElementById('tOpt1').textContent=inv.date+' '+inv.time;
 }
-document.getElementById('cR').onclick=function(){document.getElementById('rm').classList.remove('show')};
-document.getElementById('sR').onclick=function(){
-  var d=document.getElementById('rd').value,m=document.getElementById('rmsg').value.trim();
-  if(!d)return alert('请选择建议的新日期');
-  inv.respType='reschedule';inv.status='reschedule';inv.respondedAt=new Date().toLocaleString('zh-CN');inv.rsDate=d;inv.rsMsg=m;
-  localStorage.setItem('di_db',JSON.stringify(db));document.getElementById('rm').classList.remove('show');location.reload();
-};
+
+function showStep(n){
+  if(inv&&inv.respType){
+    // 已经回应过
+    if(inv.respType==='accept'){
+      showCel('💖', '已经说好了！', '你之前已接受邀请');
+    } else {
+      showCel('🕐', '已申请改期', '你之前已申请改期');
+    }
+    return;
+  }
+  
+  var steps=document.querySelectorAll('.step');
+  steps.forEach(function(s,i){
+    s.classList.remove('show','prev');
+    if(i===n)s.classList.add('show');
+    else if(i<n)s.classList.add('prev');
+  });
+  
+  // 更新进度
+  var dots=document.querySelectorAll('.progress-dot');
+  dots.forEach(function(d,i){
+    d.classList.remove('active','done');
+    if(i===n)d.classList.add('active');
+    else if(i<n)d.classList.add('done');
+  });
+  
+  currentStep=n;
+}
+
+function nextStep(){
+  if(currentStep<4)showStep(currentStep+1);
+}
+function prevStep(){
+  if(currentStep>0)showStep(currentStep-1);
+}
+
+function selectTime(el){
+  document.querySelectorAll('.time-card').forEach(function(c){c.classList.remove('selected')});
+  el.classList.add('selected');
+  selectedTime=el.dataset.time;
+}
+
+function useSug(el){
+  document.getElementById('userMsg').value=el.textContent;
+}
+
+function submit(){
+  userMsg=document.getElementById('userMsg').value.trim();
+  if(!selectedTime){alert('请选择一个时间');return}
+  
+  inv.respType='accept';
+  inv.status='accepted';
+  inv.respondedAt=new Date().toLocaleString('zh-CN');
+  inv.userTime=selectedTime;
+  inv.userMsg=userMsg;
+  localStorage.setItem('di_db',JSON.stringify(db));
+  
+  showCel('💖','那就说好了！','TA 收到你的回应啦');
+}
+
+function showCel(emoji,text,sub){
+  document.querySelector('.c-emoji').textContent=emoji;
+  document.querySelector('.c-text').textContent=text;
+  document.getElementById('celSub').textContent=sub;
+  document.getElementById('cel').classList.add('show');
+}
+
+showStep(0);
 </script>
 </body>
 </html>
