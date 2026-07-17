@@ -35,16 +35,26 @@ body{
 }
 
 .btn{
-  display:inline-flex;align-items:center;gap:6px;
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
   padding:16px 52px;border-radius:30px;
-  background:linear-gradient(135deg,#E89BB8,#E0709F);
-  color:#fff;font-size:16px;font-weight:600;letter-spacing:.04em;
+  font-size:16px;font-weight:600;letter-spacing:.04em;
   cursor:pointer;text-decoration:none;border:none;
-  box-shadow:0 6px 20px rgba(224,112,159,.3);
   transition:all .3s;font-family:inherit;
 }
 .btn:active{transform:scale(.96)}
-.btn:hover{box-shadow:0 8px 24px rgba(224,112,159,.4)}
+
+.btn-accept{
+  background:linear-gradient(135deg,#E89BB8,#E0709F);
+  color:#fff;box-shadow:0 6px 20px rgba(224,112,159,.3);
+}
+.btn-accept:hover{box-shadow:0 8px 24px rgba(224,112,159,.4)}
+
+.btn-decline{
+  background:transparent;color:#B098A3;font-size:14px;
+  padding:12px;font-weight:400;letter-spacing:.04em;
+  transition:all .3s;
+}
+.btn-decline:hover{color:#9B8893}
 
 .footer-text{margin-top:30px;font-size:12px;color:#B098A3;letter-spacing:.06em}
 
@@ -155,10 +165,10 @@ body{
 
 <div class="english-label anim d2">BE MY DATE?</div>
 <h1 class="chinese-title anim d2">约会邀请</h1>
-<p class="chinese-sub anim d2">为特别的人，准备一份心意</p>
 
-<a class="btn anim d3" href="create.html">开始制作 →</a>
-<p class="footer-text anim d3">一段小邀请，一次甜甜的见面 💖</p>
-
+<div class="nav-buttons anim d3" style="display:flex;flex-direction:column;gap:12px;margin-top:36px">
+  <a class="btn btn-accept" href="create.html">邀请和你约会</a>
+  <a class="btn btn-decline" href="javascript:void(0)" onclick="document.querySelector('.btn-decline').textContent='没关系，下次见 👋';this.style.opacity='0.5';this.style.pointerEvents='none'">不用了谢谢</a>
+</div>
 </body>
 </html>
