@@ -4,237 +4,263 @@
 <meta charset="UTF-8">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>邀请函</title>
+<title>💌 邀请函</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
 body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  background:#FAF7F2;color:#1A1A1A;min-height:100vh;min-height:100dvh;
+  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:linear-gradient(180deg,#FFF5F7,#FFE8EC,#FFF0F3);
+  color:#5C3D4E;min-height:100vh;min-height:100dvh;
   -webkit-font-smoothing:antialiased;
 }
-body.t-noir{background:#1A1A1A;color:#D4C9B8}
-body.t-nature{background:#F5F4F0;color:#2C2C2C}
+body.t-noir{background:#3D2C35;color:#E8C8D0}
+body.t-nature{background:#F5FFF5;color:#4A6E4A}
 
-.cover{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;padding:40px 24px;transition:opacity .6s,transform .6s;background:inherit}
+/* 封面 */
+.cover{
+  position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;z-index:100;padding:40px 24px;transition:opacity .6s,transform .6s;
+  background:linear-gradient(180deg,#FFF0F5,#FFE4EC,#FFF5F7);
+}
+body.t-noir .cover{background:#3D2C35}
+body.t-nature .cover{background:#F0FFF0}
 .cover.hide{opacity:0;pointer-events:none;transform:translateY(-20px)}
-.cline{width:1px;height:80px;background:#1A1A1A;margin-bottom:40px;opacity:.5}
-body.t-noir .cline{background:#C4A35A}
-body.t-nature .cline{background:#6B7F5D}
-.cover h1{font-size:26px;font-weight:300;letter-spacing:.1em;margin-bottom:20px;text-align:center}
-.cover .csub{font-size:13px;color:#8B7E74;letter-spacing:.06em;margin-bottom:48px}
-.cbtn{padding:14px 40px;border:1px solid #1A1A1A;background:transparent;color:#1A1A1A;font-size:15px;letter-spacing:.08em;cursor:pointer;font-family:inherit}
-.cbtn:active{transform:scale(.97)}
-body.t-noir .cbtn{border-color:#C4A35A;color:#C4A35A}
-body.t-nature .cbtn{border-color:#6B7F5D;color:#6B7F5D}
 
+.cover .c-icon{font-size:56px;margin-bottom:24px;animation:heartBeat 1.5s ease infinite}
+@keyframes heartBeat{0%,100%{transform:scale(1)}15%{transform:scale(1.15)}30%{transform:scale(1)}45%{transform:scale(1.1)}60%{transform:scale(1)}}
 @keyframes fU{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+.cover h1{font-family:'ZCOOL KuaiLe',cursive;font-size:24px;font-weight:400;letter-spacing:.06em;margin-bottom:16px;text-align:center;color:#FF6B88}
+body.t-noir .cover h1{color:#FFB6C1}
+body.t-nature .cover h1{color:#F06292}
+.cover .csub{font-size:14px;color:#F0A0B0;letter-spacing:.06em;margin-bottom:40px}
+.cbtn{
+  padding:16px 44px;border:none;border-radius:50px;
+  background:linear-gradient(135deg,#FF8FAB,#FF6B88);
+  color:#fff;font-size:16px;font-weight:600;letter-spacing:.06em;
+  cursor:pointer;font-family:inherit;
+  box-shadow:0 6px 20px rgba(255,107,136,.3);
+  transition:all .3s;
+}
+.cbtn:active{transform:scale(.95)}
 .ca{animation:fU .8s ease forwards;opacity:0}
 .ca.d1{animation-delay:.2s}.ca.d2{animation-delay:.5s}.ca.d3{animation-delay:.8s}
 
-.main{max-width:390px;margin:0 auto;padding:0 24px 40px;opacity:0;transition:opacity .6s}
+/* 主内容 */
+.main{max-width:420px;margin:0 auto;padding:0 20px 50px;opacity:0;transition:opacity .6s}
 .main.show{opacity:1}
 
-.himg{width:calc(100% + 48px);margin-left:-24px;margin-right:-24px;aspect-ratio:3/4;object-fit:cover;display:block;margin-bottom:40px}
-.hph{width:calc(100% + 48px);margin-left:-24px;margin-right:-24px;aspect-ratio:3/4;background:#E8E3DC;display:flex;align-items:center;justify-content:center;margin-bottom:40px;font-size:13px;color:#8B7E74;letter-spacing:.06em}
-body.t-noir .hph{background:#2A2A2A}
-body.t-nature .hph{background:#E0E5D8}
+.himg{width:calc(100% + 40px);margin-left:-20px;margin-right:-20px;aspect-ratio:3/4;object-fit:cover;display:block;margin-bottom:32px}
+.hph{
+  width:calc(100% + 40px);margin-left:-20px;margin-right:-20px;aspect-ratio:3/4;
+  background:linear-gradient(135deg,#FFD4DE,#FFE8EC);
+  display:flex;align-items:center;justify-content:center;margin-bottom:32px;
+  font-size:14px;color:#F0A0B0;border-radius:0 0 24px 24px;
+}
+body.t-noir .hph{background:#4A3A42}
+body.t-nature .hph{background:#D4ECD4}
 
-.al{width:1px;height:40px;background:#1A1A1A;margin:0 auto 32px;opacity:.3}
-body.t-noir .al{background:#C4A35A}
-body.t-nature .al{background:#6B7F5D}
+.d-icon{text-align:center;font-size:32px;margin-bottom:16px}
 
-.nn{text-align:center;font-size:14px;color:#8B7E74;letter-spacing:.08em;margin-bottom:8px;font-weight:300}
-.tt{text-align:center;font-size:24px;font-weight:300;letter-spacing:.08em;margin-bottom:16px}
-.msg{text-align:center;font-size:14px;color:#8B7E74;letter-spacing:.04em;margin-bottom:40px;font-weight:300;line-height:1.8}
+.nn{text-align:center;font-size:14px;color:#F0A0B0;letter-spacing:.06em;margin-bottom:6px;font-weight:600}
+.tt{text-align:center;font-family:'ZCOOL KuaiLe',cursive;font-size:26px;font-weight:400;color:#FF6B88;margin-bottom:12px}
+body.t-noir .tt{color:#FFB6C1}
+body.t-nature .tt{color:#F06292}
+.msg{text-align:center;font-size:14px;color:#D4A0B0;letter-spacing:.04em;margin-bottom:32px;font-weight:500;line-height:1.8}
 
-.ki{text-align:center;margin-bottom:40px;padding:28px 0;border-top:1px solid #E8E3DC;border-bottom:1px solid #E8E3DC}
-body.t-noir .ki{border-color:#333}
-body.t-nature .ki{border-color:#D5DBCF}
-.kd{font-size:32px;font-weight:300;letter-spacing:.06em;margin-bottom:8px}
-.kt{font-size:18px;font-weight:300;letter-spacing:.08em;margin-bottom:4px;color:#8B7E74}
-.kl{font-size:16px;font-weight:300;letter-spacing:.06em}
+/* 关键信息 */
+.ki{
+  text-align:center;margin-bottom:36px;padding:28px 20px;
+  background:#fff;border-radius:20px;
+  box-shadow:0 4px 20px rgba(255,182,193,.15);
+  border:2px solid #FFD4DE;
+}
+body.t-noir .ki{background:#4A3A42;border-color:#5C3D4E}
+body.t-nature .ki{background:#fff;border-color:#C8E6C9}
 
-.ds{margin-bottom:32px}
-.il{font-size:10px;letter-spacing:.12em;color:#8B7E74;margin-bottom:8px;text-transform:uppercase}
-.iv{font-size:14px;letter-spacing:.04em;line-height:1.7}
+.ki .ki-icon{font-size:28px;margin-bottom:12px}
+.kd{font-size:30px;font-weight:700;color:#FF6B88;margin-bottom:8px;letter-spacing:.04em}
+body.t-noir .kd{color:#FFB6C1}
+body.t-nature .kd{color:#F06292}
+.kt{font-size:18px;font-weight:600;color:#D4A0B0;margin-bottom:4px}
+.kl{font-size:16px;font-weight:600;color:#C490A0}
+
+/* 详情 */
+.ds{margin-bottom:28px;padding:16px 20px;background:#fff;border-radius:16px;border:2px solid #FFE0E8}
+body.t-noir .ds{background:#4A3A42;border-color:#5C3D4E}
+body.t-nature .ds{background:#fff;border-color:#D4ECD4}
+.il{font-size:11px;font-weight:700;color:#FF8FAB;margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em}
+.iv{font-size:14px;color:#5C3D4E;line-height:1.7}
 
 .sl{list-style:none;padding:0}
-.si{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #E8E3DC;align-items:baseline}
-body.t-noir .si{border-bottom-color:#2A2A2A}
-body.t-nature .si{border-bottom-color:#E0E5D8}
+.si{display:flex;gap:10px;padding:10px 0;border-bottom:1px dashed #FFE0E8;align-items:baseline}
 .si:last-child{border-bottom:none}
-.st{font-size:14px;font-weight:400;letter-spacing:.04em;min-width:50px}
-.sd{color:#8B7E74;font-size:14px}
-.se{font-size:14px;letter-spacing:.04em}
+.st{font-size:14px;font-weight:700;color:#FF6B88;min-width:52px}
+.sd{color:#F0A0B0;font-size:14px}
+.se{font-size:14px;color:#5C3D4E}
 
-.rs{margin-top:48px;padding-top:32px;border-top:1px solid #E8E3DC}
-body.t-noir .rs{border-top-color:#333}
-body.t-nature .rs{border-top-color:#D5DBCF}
-.rs h3{font-size:16px;font-weight:400;letter-spacing:.06em;text-align:center;margin-bottom:24px}
-.rb{display:flex;flex-direction:column;gap:12px}
-.rbtn{width:100%;padding:16px;font-size:15px;letter-spacing:.06em;cursor:pointer;font-family:inherit;background:transparent}
-.rbtn.pri{border:1px solid #1A1A1A;color:#1A1A1A}
-.rbtn.sec{border:1px solid #E8E3DC;color:#8B7E74}
-body.t-noir .rbtn.pri{border-color:#C4A35A;color:#C4A35A}
-body.t-nature .rbtn.pri{border-color:#6B7F5D;color:#6B7F5D}
-.rbtn:active{transform:scale(.98)}
+/* 回应 */
+.rs{
+  margin-top:40px;padding:28px 20px;background:#fff;border-radius:20px;
+  border:2px solid #FFD4DE;box-shadow:0 4px 20px rgba(255,182,193,.15);
+}
+body.t-noir .rs{background:#4A3A42;border-color:#5C3D4E}
+body.t-nature .rs{background:#fff;border-color:#C8E6C9}
+.rs h3{font-size:17px;font-weight:700;color:#FF6B88;text-align:center;margin-bottom:20px}
+.rb{display:flex;flex-direction:column;gap:10px}
+.rbtn{
+  width:100%;padding:16px;font-size:15px;font-weight:600;letter-spacing:.04em;
+  cursor:pointer;font-family:inherit;border-radius:50px;transition:all .3s;
+}
+.rbtn.pri{
+  border:none;background:linear-gradient(135deg,#FF8FAB,#FF6B88);
+  color:#fff;box-shadow:0 4px 16px rgba(255,107,136,.3);
+}
+.rbtn.sec{
+  border:2px solid #FFD4DE;background:#fff;color:#F0A0B0;
+}
+.rbtn:active{transform:scale(.97)}
 
-.rsd{text-align:center;padding:32px 0}
-.rsd .ric{font-size:40px;margin-bottom:12px}
-.rsd .rtx{font-size:18px;letter-spacing:.06em;font-weight:300}
-.rsd .rtm{font-size:12px;color:#8B7E74;margin-top:8px}
+/* 已回应 */
+.rsd{text-align:center;padding:24px 0}
+.rsd .ric{font-size:48px;margin-bottom:12px;animation:heartBeat 2s ease infinite}
+.rsd .rtx{font-size:18px;font-weight:700;color:#FF6B88;letter-spacing:.04em}
+.rsd .rtm{font-size:13px;color:#D4A0B0;margin-top:8px}
 
-.cel{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:200;opacity:0;pointer-events:none;transition:opacity .5s}
+/* 庆祝 */
+.cel{
+  position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;
+  align-items:center;justify-content:center;z-index:200;opacity:0;pointer-events:none;
+  transition:opacity .5s;
+}
 .cel.show{opacity:1}
-.celc{text-align:center;color:#FAF7F2}
-.celc .ce{font-size:56px;display:block;animation:cb .6s ease}
-.celc .ct{font-size:22px;letter-spacing:.08em;margin-top:16px;font-weight:300;animation:fU .6s ease .3s both}
-@keyframes cb{0%{transform:scale(0)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
+.celc{text-align:center;color:#fff}
+.celc .ce{font-size:64px;display:block;animation:cb .6s ease}
+.celc .ct{font-size:24px;font-weight:700;letter-spacing:.06em;margin-top:16px;animation:fU .6s ease .3s both}
+@keyframes cb{0%{transform:scale(0) rotate(-10deg)}50%{transform:scale(1.2) rotate(5deg)}100%{transform:scale(1) rotate(0)}}
 
-.rm{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center;z-index:200;opacity:0;pointer-events:none;transition:opacity .3s}
+/* 改期弹窗 */
+.rm{
+  position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;
+  align-items:flex-end;justify-content:center;z-index:200;opacity:0;pointer-events:none;
+  transition:opacity .3s;
+}
 .rm.show{opacity:1;pointer-events:auto}
-.rmc{background:#fff;width:100%;max-width:390px;padding:32px 24px;max-height:80vh;overflow-y:auto}
-body.t-noir .rmc{background:#1A1A1A}
-.rmc h3{font-size:18px;font-weight:400;letter-spacing:.06em;margin-bottom:24px}
-.rmc .fg{margin-bottom:20px}
-.rmc label{display:block;font-size:12px;letter-spacing:.06em;margin-bottom:8px;color:#8B7E74}
-.rmc input,.rmc textarea{width:100%;padding:12px 0;border:none;border-bottom:1px solid #E8E3DC;background:transparent;font-size:15px;font-family:inherit;outline:none}
-body.t-noir .rmc input,body.t-noir .rmc textarea{color:#D4C9B8;border-bottom-color:#333}
+.rmc{
+  background:#fff;width:100%;max-width:420px;padding:32px 24px;
+  border-radius:24px 24px 0 0;max-height:80vh;overflow-y:auto;
+}
+.rmc h3{font-size:18px;font-weight:700;color:#FF6B88;margin-bottom:24px;text-align:center}
+.rmc .fg{margin-bottom:18px}
+.rmc label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:#7A5C6E}
+.rmc input,.rmc textarea{
+  width:100%;padding:12px 16px;border:2px solid #FFD4DE;border-radius:12px;
+  background:#fff;font-size:15px;font-family:inherit;outline:none;
+}
 .rmc textarea{resize:none;min-height:60px}
-.rmc .mbt{display:flex;gap:12px;margin-top:24px}
-.rmc .mbt button{flex:1;padding:14px;font-size:14px;letter-spacing:.06em;cursor:pointer;font-family:inherit;background:transparent}
-.rmc .sbtn{border:1px solid #1A1A1A;color:#1A1A1A}
-.rmc .cbtn2{border:1px solid #E8E3DC;color:#8B7E74}
-body.t-noir .rmc .sbtn{border-color:#C4A35A;color:#C4A35A}
+.rmc .mbt{display:flex;gap:10px;margin-top:24px}
+.rmc .mbt button{flex:1;padding:14px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;border-radius:50px;transition:all .3s}
+.rmc .sbtn{border:none;background:linear-gradient(135deg,#FF8FAB,#FF6B88);color:#fff}
+.rmc .cbtn2{border:2px solid #FFD4DE;background:#fff;color:#F0A0B0}
 
+/* 错误 */
 .err{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 24px;text-align:center}
 .err.show{display:flex}
-.err h2{font-size:18px;font-weight:400;margin-bottom:8px}
-.err p{font-size:13px;color:#8B7E74;margin-bottom:24px}
-.err a{color:#1A1A1A;font-size:14px;text-decoration:none}
+.err .e-icon{font-size:48px;margin-bottom:16px}
+.err h2{font-size:18px;font-weight:700;color:#FF6B88;margin-bottom:8px}
+.err p{font-size:14px;color:#D4A0B0;margin-bottom:24px}
+.err a{
+  padding:12px 32px;border:none;border-radius:50px;background:linear-gradient(135deg,#FF8FAB,#FF6B88);
+  color:#fff;font-size:14px;font-weight:600;text-decoration:none;
+}
 
 @media(max-width:390px){
-  .main{padding:0 16px 40px}
+  .main{padding:0 16px 50px}
   .himg,.hph{width:calc(100% + 32px);margin-left:-16px;margin-right:-16px}
-  .kd{font-size:28px}
 }
 </style>
 </head>
 <body id="body">
 
 <div class="cover" id="cover">
-  <div class="cline ca d1"></div>
-  <h1 class="ca d2">有一封邀请<br>想请你亲自打开</h1>
-  <p class="csub ca d3">DIGITAL INVITATION</p>
-  <button class="cbtn ca d3" id="openBtn">打开邀请</button>
+  <div class="c-icon ca d1">💌</div>
+  <h1 class="ca d2">有一封甜甜的邀请<br>想请你亲自打开</h1>
+  <p class="csub ca d3">♡ SWEET INVITATION ♡</p>
+  <button class="cbtn ca d3" id="openBtn">💗 打开邀请</button>
 </div>
 
 <div class="main" id="main">
   <div id="hero"></div>
-  <div class="al"></div>
+  <div class="d-icon">💕</div>
   <div class="nn" id="dnn"></div>
   <h1 class="tt" id="dtt"></h1>
   <div class="msg" id="dmsg"></div>
+
   <div class="ki">
+    <div class="ki-icon">📅</div>
     <div class="kd" id="ddt"></div>
     <div class="kt" id="dtm"></div>
     <div class="kl" id="dlo"></div>
   </div>
-  <div class="ds" id="sAddr" style="display:none"><div class="il">详细地址</div><div class="iv" id="dad"></div></div>
-  <div class="ds" id="sSch" style="display:none"><div class="il">约会行程</div><ul class="sl" id="dsc"></ul></div>
-  <div class="ds" id="sDr" style="display:none"><div class="il">穿搭提示</div><div class="iv" id="ddr"></div></div>
-  <div class="ds" id="sNt" style="display:none"><div class="il">备注</div><div class="iv" id="dnt"></div></div>
-  <div class="rs"><h3>你的回应</h3><div id="resp"></div></div>
+
+  <div class="ds" id="sAddr" style="display:none"><div class="il">📍 详细地址</div><div class="iv" id="dad"></div></div>
+  <div class="ds" id="sSch" style="display:none"><div class="il">🗺️ 约会行程</div><ul class="sl" id="dsc"></ul></div>
+  <div class="ds" id="sDr" style="display:none"><div class="il">👗 穿搭提示</div><div class="iv" id="ddr"></div></div>
+  <div class="ds" id="sNt" style="display:none"><div class="il">💬 备注</div><div class="iv" id="dnt"></div></div>
+
+  <div class="rs"><h3>💭 你的回应</h3><div id="resp"></div></div>
 </div>
 
-<div class="cel" id="cel"><div class="celc"><span class="ce">✦</span><div class="ct">那就说好了</div></div></div>
+<div class="cel" id="cel"><div class="celc"><span class="ce">💖</span><div class="ct">那就说好了！</div></div></div>
 
 <div class="rm" id="rm"><div class="rmc">
-  <h3>想换个时间</h3>
+  <h3>🕐 想换个时间</h3>
   <div class="fg"><label>建议的新日期</label><input type="date" id="rd"></div>
   <div class="fg"><label>一句话留言</label><textarea id="rmsg" placeholder="说说你想换时间的理由..." maxlength="200"></textarea></div>
-  <div class="mbt">
-    <button class="cbtn2" id="cR">取消</button>
-    <button class="sbtn" id="sR">提交</button>
-  </div>
+  <div class="mbt"><button class="cbtn2" id="cR">取消</button><button class="sbtn" id="sR">提交</button></div>
 </div></div>
 
-<div class="err" id="err"><h2 id="eT">邀请不存在</h2><p id="eM">这个邀请链接可能已经失效</p><a href="index.html">返回首页</a></div>
+<div class="err" id="err"><div class="e-icon">😢</div><h2 id="eT">邀请不存在</h2><p id="eM">这个邀请链接可能已经失效</p><a href="index.html">返回首页</a></div>
 
 <script>
 function E(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
-
 var id=(new URLSearchParams(window.location.search)).get('id');
 if(!id){document.getElementById('err').classList.add('show');document.getElementById('cover').style.display='none'}
-
 var db=JSON.parse(localStorage.getItem('di_db')||'{}');
 var inv=db[id];
-
-if(!inv){
-  document.getElementById('err').classList.add('show');
-  document.getElementById('cover').style.display='none';
-} else {
-  // 首次打开
+if(!inv){document.getElementById('err').classList.add('show');document.getElementById('cover').style.display='none'}else{
   if(!inv.openedAt){inv.openedAt=new Date().toLocaleString('zh-CN');inv.status='opened';localStorage.setItem('di_db',JSON.stringify(db))}
-
   document.body.className='t-'+(inv.style||'cream');
-
-  // 封面
-  if(inv.img)document.getElementById('hero').innerHTML='<img src="'+inv.img+'" class="himg" onerror="this.parentElement.innerHTML=\'<div class=hph>COVER</div>\'">';
-  else document.getElementById('hero').innerHTML='<div class="hph">COVER</div>';
-
-  document.getElementById('dnn').textContent='致 '+inv.nickname;
+  if(inv.img)document.getElementById('hero').innerHTML='<img src="'+inv.img+'" class="himg" onerror="this.parentElement.innerHTML=\'<div class=hph>💕 COVER</div>\'">';
+  else document.getElementById('hero').innerHTML='<div class="hph">💕 COVER</div>';
+  document.getElementById('dnn').textContent='致 💌 '+inv.nickname;
   document.getElementById('dtt').textContent=inv.title;
   document.getElementById('dmsg').textContent=inv.message||'';
   document.getElementById('ddt').textContent=inv.date;
   document.getElementById('dtm').textContent=inv.time;
   document.getElementById('dlo').textContent=inv.location;
-
   if(inv.address){document.getElementById('sAddr').style.display='block';document.getElementById('dad').textContent=inv.address}
   if(inv.sch&&inv.sch.length){document.getElementById('sSch').style.display='block';document.getElementById('dsc').innerHTML=inv.sch.map(function(s){return'<li class="si"><span class="st">'+E(s.time)+'</span><span class="sd">｜</span><span class="se">'+E(s.event)+'</span></li>'}).join('')}
   if(inv.dressCode){document.getElementById('sDr').style.display='block';document.getElementById('ddr').textContent=inv.dressCode}
   if(inv.notes){document.getElementById('sNt').style.display='block';document.getElementById('dnt').textContent=inv.notes}
-
-  // 回应
   var rc=document.getElementById('resp');
   if(inv.respType){
-    var icon=inv.respType==='accept'?'✦':'↗';
-    var txt=inv.respType==='accept'?'已接受邀请 — 那就说好了':'已申请改期';
-    rc.innerHTML='<div class="rsd"><div class="ric">'+icon+'</div><div class="rtx">'+txt+'</div>'+
-      (inv.rsDate?'<div class="rtm">建议日期：'+inv.rsDate+'</div>':'')+
-      (inv.rsMsg?'<div class="rtm">留言：'+E(inv.rsMsg)+'</div>':'')+
-      '<div class="rtm">回应于 '+(inv.respondedAt||'')+'</div></div>';
-  } else {
-    rc.innerHTML='<div class="rb"><button class="rbtn pri" id="accBtn">好呀，见面</button><button class="rbtn sec" id="rsBtn">我想换个时间</button></div>';
-    document.getElementById('accBtn').onclick=function(){
-      inv.respType='accept';inv.status='accepted';inv.respondedAt=new Date().toLocaleString('zh-CN');
-      localStorage.setItem('di_db',JSON.stringify(db));
-      document.getElementById('cel').classList.add('show');
-      setTimeout(function(){document.getElementById('cel').classList.remove('show');location.reload()},2000);
-    };
-    document.getElementById('rsBtn').onclick=function(){
-      document.getElementById('rm').classList.add('show');
-      var t=new Date();t.setDate(t.getDate()+2);
-      document.getElementById('rd').value=t.toISOString().split('T')[0];
-    };
+    var icon=inv.respType==='accept'?'💖':'🕐',txt=inv.respType==='accept'?'已接受邀请 — 那就说好了！':'已申请改期';
+    rc.innerHTML='<div class="rsd"><div class="ric">'+icon+'</div><div class="rtx">'+txt+'</div>'+(inv.rsDate?'<div class="rtm">建议日期：'+inv.rsDate+'</div>':'')+(inv.rsMsg?'<div class="rtm">留言：'+E(inv.rsMsg)+'</div>':'')+'<div class="rtm">回应于 '+(inv.respondedAt||'')+'</div></div>';
+  }else{
+    rc.innerHTML='<div class="rb"><button class="rbtn pri" id="accBtn">💗 好呀，见面</button><button class="rbtn sec" id="rsBtn">🕐 我想换个时间</button></div>';
+    document.getElementById('accBtn').onclick=function(){inv.respType='accept';inv.status='accepted';inv.respondedAt=new Date().toLocaleString('zh-CN');localStorage.setItem('di_db',JSON.stringify(db));document.getElementById('cel').classList.add('show');setTimeout(function(){document.getElementById('cel').classList.remove('show');location.reload()},2000)};
+    document.getElementById('rsBtn').onclick=function(){document.getElementById('rm').classList.add('show');var t=new Date();t.setDate(t.getDate()+2);document.getElementById('rd').value=t.toISOString().split('T')[0]};
   }
-
-  document.getElementById('openBtn').onclick=function(){
-    document.getElementById('cover').classList.add('hide');
-    setTimeout(function(){document.getElementById('main').classList.add('show');window.scrollTo(0,0)},100);
-  };
+  document.getElementById('openBtn').onclick=function(){document.getElementById('cover').classList.add('hide');setTimeout(function(){document.getElementById('main').classList.add('show');window.scrollTo(0,0)},100)};
 }
-
 document.getElementById('cR').onclick=function(){document.getElementById('rm').classList.remove('show')};
 document.getElementById('sR').onclick=function(){
-  var d=document.getElementById('rd').value;
-  var m=document.getElementById('rmsg').value.trim();
+  var d=document.getElementById('rd').value,m=document.getElementById('rmsg').value.trim();
   if(!d)return alert('请选择建议的新日期');
-  inv.respType='reschedule';inv.status='reschedule';inv.respondedAt=new Date().toLocaleString('zh-CN');
-  inv.rsDate=d;inv.rsMsg=m;
-  localStorage.setItem('di_db',JSON.stringify(db));
-  document.getElementById('rm').classList.remove('show');
-  location.reload();
+  inv.respType='reschedule';inv.status='reschedule';inv.respondedAt=new Date().toLocaleString('zh-CN');inv.rsDate=d;inv.rsMsg=m;
+  localStorage.setItem('di_db',JSON.stringify(db));document.getElementById('rm').classList.remove('show');location.reload();
 };
 </script>
 </body>

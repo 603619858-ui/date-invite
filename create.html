@@ -4,150 +4,236 @@
 <meta charset="UTF-8">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>创建邀请</title>
+<title>💕 创建邀请</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
 body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  background:#FAF7F2;color:#1A1A1A;min-height:100vh;min-height:100dvh;
+  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:linear-gradient(180deg,#FFF5F7 0%,#FFE8EC 50%,#FFF0F3 100%);
+  color:#5C3D4E;min-height:100vh;min-height:100dvh;
 }
-.page{max-width:390px;margin:0 auto;padding:0 24px 40px}
-.header{padding:20px 0;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #E8E3DC;margin-bottom:32px}
-.header h1{font-size:18px;font-weight:400;letter-spacing:.06em}
-.header a{font-size:13px;color:#8B7E74;text-decoration:none;letter-spacing:.04em}
+.page{max-width:420px;margin:0 auto;padding:0 20px 50px}
 
-.style-selector{display:flex;gap:8px;margin-bottom:24px;overflow-x:auto}
-.style-opt{flex:0 0 auto;padding:10px 16px;border:1px solid #E8E3DC;background:transparent;font-size:13px;letter-spacing:.04em;cursor:pointer;color:#8B7E74;font-family:inherit}
-.style-opt.active{border-color:#1A1A1A;color:#1A1A1A;background:rgba(0,0,0,.03)}
+/* Header */
+.header{
+  padding:18px 0;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:2px dashed #FFD4DE;margin-bottom:24px;
+}
+.header h1{font-family:'ZCOOL KuaiLe',cursive;font-size:20px;color:#FF6B88;letter-spacing:.04em}
+.header a{font-size:14px;color:#F0A0B0;text-decoration:none;font-weight:500}
 
-.preview{padding:20px;margin-bottom:28px;border:1px solid #E8E3DC;min-height:100px}
-.preview .pl{font-size:10px;letter-spacing:.1em;color:#8B7E74;margin-bottom:12px;text-transform:uppercase}
-.preview h3{font-size:18px;font-weight:400;margin-bottom:4px}
-.preview .ps{font-size:13px;color:#8B7E74;margin-bottom:8px}
-.preview .pi{font-size:13px}
-.preview.cream{background:#FAF7F2}
-.preview.noir{background:#1A1A1A;color:#D4C9B8;border-color:#333}
-.preview.noir h3{color:#D4C9B8}
-.preview.noir .ps{color:#8B7E74}
-.preview.noir .pi{color:#C4A35A}
-.preview.nature{background:#F5F4F0;border-color:#C5CFBE}
+/* 风格选择 */
+.fs{margin-bottom:24px}
+.fsl{font-size:13px;font-weight:700;color:#FF8FAB;margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.fsl::before{content:'🎨'}
+.style-sel{display:flex;gap:8px;overflow-x:auto}
+.so{
+  flex:0 0 auto;padding:10px 18px;border:2px solid #FFD4DE;border-radius:25px;
+  background:#fff;font-size:13px;cursor:pointer;color:#F0A0B0;
+  font-family:inherit;font-weight:600;transition:all .3s;
+}
+.so.active{border-color:#FF6B88;color:#FF6B88;background:#FFF0F3;box-shadow:0 2px 12px rgba(255,107,136,.15)}
 
-.fs{margin-bottom:28px}
-.fsl{font-size:11px;letter-spacing:.1em;color:#8B7E74;margin-bottom:16px;text-transform:uppercase;padding-bottom:8px;border-bottom:1px solid #E8E3DC}
-.fg{margin-bottom:20px}
-.fg label{display:block;font-size:13px;letter-spacing:.04em;margin-bottom:8px}
-.fg label .rq{color:#8B3A3A;margin-left:2px}
+/* 预览 */
+.preview{
+  padding:20px;border-radius:16px;margin-bottom:24px;min-height:90px;
+  border:2px solid #FFD4DE;background:#fff;box-shadow:0 4px 16px rgba(255,182,193,.15);
+}
+.preview .pl{font-size:10px;letter-spacing:.1em;color:#F0A0B0;margin-bottom:10px;text-transform:uppercase}
+.preview h3{font-size:18px;font-weight:700;color:#FF6B88;margin-bottom:4px}
+.preview .ps{font-size:13px;color:#D4A0B0;margin-bottom:6px}
+.preview .pi{font-size:13px;color:#C490A0}
+
+.preview.cream{background:#FFF8FA}
+.preview.noir{background:#3D2C35;border-color:#5C3D4E}
+.preview.noir h3{color:#FFB6C1}
+.preview.noir .ps{color:#C490A0}
+.preview.noir .pi{color:#E8B4C0}
+.preview.nature{background:#F8FFF8;border-color:#C8E6C9}
+.preview.nature h3{color:#F06292}
+.preview.nature .ps{color:#A5D6A7}
+
+/* 表单 */
+.fs2{margin-bottom:24px}
+.fs2 .fsl2{
+  font-size:13px;font-weight:700;color:#FF8FAB;margin-bottom:16px;
+  padding-bottom:8px;border-bottom:2px dashed #FFD4DE;
+  display:flex;align-items:center;gap:6px;
+}
+.fg{margin-bottom:18px}
+.fg label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:#7A5C6E}
+.fg label .rq{color:#FF6B88;margin-left:2px}
 
 input[type=text],input[type=date],input[type=time],textarea{
-  width:100%;padding:12px 0;border:none;border-bottom:1px solid #E8E3DC;
-  background:transparent;font-size:15px;color:#1A1A1A;font-family:inherit;
-  outline:none;-webkit-appearance:none;border-radius:0
+  width:100%;padding:12px 16px;border:2px solid #FFD4DE;border-radius:12px;
+  background:#fff;font-size:15px;color:#5C3D4E;font-family:inherit;
+  outline:none;transition:all .3s;-webkit-appearance:none;
 }
-input:focus,textarea:focus{border-bottom-color:#1A1A1A}
+input:focus,textarea:focus{border-color:#FF8FAB;box-shadow:0 0 0 3px rgba(255,143,171,.1)}
 textarea{resize:none;min-height:60px;line-height:1.6}
-::placeholder{color:#C4BFB6;font-size:14px}
+::placeholder{color:#E0C0D0;font-size:14px}
 
-.up-area{border:1px dashed #E8E3DC;padding:32px 20px;text-align:center;cursor:pointer;position:relative}
-.up-area.has-img{border-style:solid;padding:0}
+/* 图片上传 */
+.up-area{
+  border:2px dashed #FFD4DE;border-radius:16px;padding:36px 20px;
+  text-align:center;cursor:pointer;transition:all .3s;position:relative;
+  background:#fff;
+}
+.up-area:hover{border-color:#FF8FAB;background:#FFF8FA}
+.up-area.has-img{border-style:solid;padding:0;border-radius:16px;overflow:hidden}
 .up-area img{width:100%;display:block;max-height:200px;object-fit:cover}
-.up-area .up-text{font-size:13px;color:#8B7E74;letter-spacing:.04em}
-.up-area .rm-img{position:absolute;top:8px;right:8px;width:24px;height:24px;background:rgba(0,0,0,.6);color:#fff;border:none;border-radius:50%;cursor:pointer;font-size:14px;display:none;align-items:center;justify-content:center}
+.up-area .up-text{font-size:14px;color:#F0A0B0;font-weight:500}
+.up-area .up-text::before{content:'📸 '}
+.up-area .rm-img{
+  position:absolute;top:10px;right:10px;width:30px;height:30px;
+  background:rgba(255,107,136,.85);color:#fff;border:none;border-radius:50%;
+  cursor:pointer;font-size:16px;display:none;align-items:center;justify-content:center;
+}
 .up-area.has-img .rm-img{display:flex}
 
-.sch-editor{border:1px solid #E8E3DC;padding:12px}
-.sch-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #E8E3DC}
+/* 行程 */
+.sch-editor{border:2px solid #FFD4DE;border-radius:16px;padding:12px 16px;background:#fff}
+.sch-row{
+  display:flex;align-items:center;gap:8px;padding:12px 0;
+  border-bottom:1px dashed #FFE0E8;
+}
 .sch-row:last-child{border-bottom:none}
-.sch-row input{width:auto;padding:6px 0;border:none;border-bottom:1px solid transparent;background:transparent;font-size:14px;font-family:inherit;outline:none}
-.sch-row input:focus{border-bottom-color:#1A1A1A}
-.sch-row .ti{width:70px}
+.sch-row input{
+  padding:8px 12px;border:2px solid #FFE0E8;border-radius:10px;
+  background:#FFF8FA;font-size:14px;font-family:inherit;outline:none;
+}
+.sch-row input:focus{border-color:#FF8FAB}
+.sch-row .ti{width:72px;text-align:center}
 .sch-row .ei{flex:1}
 .sch-act{display:flex;gap:4px}
-.sch-act button{width:28px;height:28px;border:1px solid #E8E3DC;background:transparent;cursor:pointer;font-size:14px;color:#8B7E74;display:flex;align-items:center;justify-content:center}
-.add-sch{width:100%;padding:12px;border:1px dashed #E8E3DC;background:transparent;font-size:13px;color:#8B7E74;cursor:pointer;letter-spacing:.04em;margin-top:8px;font-family:inherit}
+.sch-act button{
+  width:30px;height:30px;border:2px solid #FFD4DE;border-radius:10px;
+  background:#fff;cursor:pointer;font-size:14px;color:#F0A0B0;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;
+}
+.sch-act button:active{background:#FF6B88;color:#fff;border-color:#FF6B88}
 
-.btn{display:inline-block;padding:14px 40px;border:1px solid #1A1A1A;background:transparent;color:#1A1A1A;font-size:15px;letter-spacing:.08em;cursor:pointer;text-decoration:none;transition:all .3s;font-family:inherit;text-align:center}
-.btn:active{transform:scale(.97)}
+.add-sch{
+  width:100%;padding:12px;border:2px dashed #FFD4DE;border-radius:12px;
+  background:transparent;font-size:14px;color:#F0A0B0;cursor:pointer;
+  font-family:inherit;font-weight:600;margin-top:10px;transition:all .3s;
+}
+.add-sch:hover{background:#FFF8FA;border-color:#FF8FAB}
+
+/* 按钮 */
+.btn{
+  display:inline-block;padding:14px 40px;border-radius:50px;
+  font-size:15px;letter-spacing:.06em;cursor:pointer;text-decoration:none;
+  transition:all .3s;font-family:inherit;text-align:center;font-weight:600;
+}
 .btn-full{width:100%}
-.btn-dark{background:#1A1A1A;color:#FAF7F2}
+.btn-main{
+  background:linear-gradient(135deg,#FF8FAB,#FF6B88);
+  color:#fff;border:none;
+  box-shadow:0 6px 20px rgba(255,107,136,.3);
+}
+.btn-main:active{transform:scale(.97);box-shadow:0 3px 12px rgba(255,107,136,.2)}
+.btn-outline{border:2px solid #FFD4DE;color:#F0A0B0;background:transparent}
 
-.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1A1A1A;color:#FAF7F2;padding:12px 24px;font-size:14px;letter-spacing:.04em;z-index:1000;opacity:0;transition:opacity .3s;pointer-events:none;max-width:90vw;text-align:center}
+/* Toast */
+.toast{
+  position:fixed;top:20px;left:50%;transform:translateX(-50%);
+  background:#FF6B88;color:#fff;padding:12px 28px;border-radius:25px;
+  font-size:14px;font-weight:600;z-index:1000;opacity:0;transition:opacity .3s;
+  pointer-events:none;max-width:90vw;text-align:center;
+  box-shadow:0 4px 16px rgba(255,107,136,.3);
+}
 .toast.show{opacity:1}
-.toast.err{background:#8B3A3A}
+.toast.err{background:#FF5252}
 
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:999;display:none}
+/* 成功弹窗 */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;
+  align-items:center;justify-content:center;z-index:999;display:none;
+}
 .modal-overlay.show{display:flex}
-.modal{background:#fff;padding:40px 28px;width:90vw;max-width:340px;text-align:center}
-.modal h2{font-size:20px;font-weight:400;margin-bottom:8px;letter-spacing:.06em}
-.modal p{font-size:13px;color:#8B7E74;margin-bottom:24px}
-.modal .link-box{border:1px solid #E8E3DC;padding:14px;font-size:13px;word-break:break-all;margin-bottom:16px;background:#FAF7F2}
-.modal .btns{display:flex;flex-direction:column;gap:10px}
+.modal{
+  background:#fff;padding:36px 24px;width:90vw;max-width:350px;
+  text-align:center;border-radius:24px;box-shadow:0 12px 40px rgba(0,0,0,.1);
+}
+.modal .m-icon{font-size:48px;margin-bottom:12px}
+.modal h2{font-size:20px;font-weight:700;color:#FF6B88;margin-bottom:8px}
+.modal p{font-size:14px;color:#C490A0;margin-bottom:20px}
+.modal .link-box{
+  border:2px solid #FFD4DE;border-radius:12px;padding:14px;font-size:13px;
+  word-break:break-all;margin-bottom:16px;background:#FFF8FA;color:#5C3D4E;
+}
+.modal .btns{display:flex;flex-direction:column;gap:8px}
 .modal .btns .btn{width:100%}
 </style>
 </head>
 <body>
 <div class="page">
-  <div class="header"><h1>创建邀请</h1><a href="index.html">返回</a></div>
+  <div class="header"><h1>💕 创建邀请</h1><a href="index.html">← 返回</a></div>
 
   <div class="fs">
     <div class="fsl">选择风格</div>
-    <div class="style-selector" id="styleSel">
-      <button class="style-opt active" data-s="cream">奶油极简</button>
-      <button class="style-opt" data-s="noir">黑金电影感</button>
-      <button class="style-opt" data-s="nature">清透自然感</button>
+    <div class="style-sel" id="styleSel">
+      <button class="so active" data-s="cream">🍰 奶油极简</button>
+      <button class="so" data-s="noir">🌙 黑金电影感</button>
+      <button class="so" data-s="nature">🌿 清透自然感</button>
     </div>
-    <div class="preview cream" id="preview">
-      <div class="pl" id="pl">奶油极简 · CREAM</div>
-      <h3 id="pt">邀请标题</h3>
-      <div class="ps" id="pn">致：昵称</div>
-      <div class="pi" id="pdt">日期 · 时间</div>
+    <div style="margin-top:12px">
+      <div class="preview cream" id="preview">
+        <div class="pl" id="pl">奶油极简 · CREAM</div>
+        <h3 id="pt">邀请标题</h3>
+        <div class="ps" id="pn">致：昵称</div>
+        <div class="pi" id="pdt">日期 · 时间</div>
+      </div>
     </div>
   </div>
 
-  <div class="fs">
-    <div class="fsl">基本信息</div>
+  <div class="fs2">
+    <div class="fsl2">💌 基本信息</div>
     <div class="fg"><label>对方昵称 <span class="rq">*</span></label><input type="text" id="nickname" placeholder="对方的名字或昵称" maxlength="30"></div>
-    <div class="fg"><label>邀请标题 <span class="rq">*</span></label><input type="text" id="title" placeholder="例如：一个安静的周末午后" maxlength="50"></div>
-    <div class="fg"><label>一句话邀请文案</label><input type="text" id="message" placeholder="写一句想对TA说的话" maxlength="100"></div>
+    <div class="fg"><label>邀请标题 <span class="rq">*</span></label><input type="text" id="title" placeholder="例如：一个甜甜的周末午后 💕" maxlength="50"></div>
+    <div class="fg"><label>一句话邀请文案</label><input type="text" id="message" placeholder="写一句想对TA说的话..." maxlength="100"></div>
     <div class="fg"><label>封面图片</label>
       <div class="up-area" id="upArea"><span class="up-text">点击上传封面图片</span><button class="rm-img" id="rmImg" type="button">&times;</button><input type="file" accept="image/*" id="fileInp" style="display:none"></div>
     </div>
   </div>
 
-  <div class="fs">
-    <div class="fsl">约会信息</div>
+  <div class="fs2">
+    <div class="fsl2">📅 约会信息</div>
     <div class="fg"><label>约会日期 <span class="rq">*</span></label><input type="date" id="date"></div>
     <div class="fg"><label>约会时间 <span class="rq">*</span></label><input type="time" id="time"></div>
     <div class="fg"><label>约会地点 <span class="rq">*</span></label><input type="text" id="location" placeholder="例如：山谷图书馆" maxlength="50"></div>
     <div class="fg"><label>详细地址</label><input type="text" id="address" placeholder="详细地址，方便对方导航" maxlength="200"></div>
   </div>
 
-  <div class="fs">
-    <div class="fsl">约会行程</div>
+  <div class="fs2">
+    <div class="fsl2">🗺️ 约会行程</div>
     <div class="sch-editor" id="schEditor"></div>
     <button class="add-sch" id="addSch">+ 添加行程节点</button>
   </div>
 
-  <div class="fs">
-    <div class="fsl">更多信息</div>
+  <div class="fs2">
+    <div class="fsl2">✨ 更多信息</div>
     <div class="fg"><label>穿搭提示</label><input type="text" id="dressCode" placeholder="例如：浅色系，适合散步的鞋子" maxlength="100"></div>
     <div class="fg"><label>备注</label><textarea id="notes" placeholder="任何想补充的内容..." maxlength="300"></textarea></div>
   </div>
 
-  <button class="btn btn-dark btn-full" id="submitBtn">生成邀请</button>
-  <div style="height:40px"></div>
+  <button class="btn btn-main btn-full" id="submitBtn">💗 生成邀请</button>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <div class="modal-overlay" id="okModal">
   <div class="modal">
-    <h2>邀请已生成</h2>
-    <p>复制链接发送给TA</p>
+    <div class="m-icon">💌</div>
+    <h2>邀请已生成 ٩(◕‿◕)۶</h2>
+    <p>复制链接发送给TA吧~</p>
     <div class="link-box" id="invLink"></div>
     <div class="btns">
-      <button class="btn" id="copyBtn">复制链接</button>
-      <a class="btn" id="mgLink" href="#" style="display:block">查看管理页面</a>
-      <button class="btn" id="closeModal" style="border-color:#E8E3DC;color:#8B7E74">关闭</button>
+      <button class="btn btn-main" id="copyBtn">📋 复制链接</button>
+      <a class="btn btn-outline" id="mgLink" href="#" style="display:block">👀 查看管理页面</a>
+      <button class="btn btn-outline" id="closeModal">关闭</button>
     </div>
   </div>
 </div>
@@ -156,7 +242,6 @@ textarea{resize:none;min-height:60px;line-height:1.6}
 var st={style:'cream',img:'',sch:[{time:'17:30',event:'见面'},{time:'18:00',event:'一起吃饭'},{time:'20:00',event:'散步或看电影'}]};
 
 function T(m,t){var e=document.getElementById('toast');e.textContent=m;e.className='toast'+(t?' err':'')+' show';clearTimeout(e._t);e._t=setTimeout(function(){e.className='toast'},2500)}
-
 function E(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
 
 function UP(){
@@ -169,9 +254,9 @@ function UP(){
   document.getElementById('pdt').textContent=(document.getElementById('date').value||'日期')+' · '+(document.getElementById('time').value||'时间');
 }
 
-document.querySelectorAll('#styleSel .style-opt').forEach(function(b){
+document.querySelectorAll('#styleSel .so').forEach(function(b){
   b.onclick=function(){
-    document.querySelectorAll('#styleSel .style-opt').forEach(function(x){x.classList.remove('active')});
+    document.querySelectorAll('#styleSel .so').forEach(function(x){x.classList.remove('active')});
     b.classList.add('active');st.style=b.dataset.s;UP();
   }
 });
@@ -186,28 +271,27 @@ fi.onchange=function(e){
   var f=e.target.files[0];if(!f)return;
   if(f.size>10*1024*1024)return T('图片大小不能超过10MB',1);
   var r=new FileReader();
-  r.onload=function(ev){st.img=ev.target.result;showImg(ev.target.result)};
+  r.onload=function(ev){st.img=ev.target.result;sI(ev.target.result)};
   r.readAsDataURL(f);
 };
-document.getElementById('rmImg').onclick=function(e){e.stopPropagation();st.img='';ua.classList.remove('has-img');ua.innerHTML='<span class="up-text">点击上传封面图片</span><button class="rm-img" id="rmImg2" type="button">&times;</button><input type="file" accept="image/*" id="fileInp2" style="display:none">';rebindUp()};
-function showImg(url){
+document.getElementById('rmImg').onclick=function(e){e.stopPropagation();st.img='';ua.classList.remove('has-img');ua.innerHTML='<span class="up-text">点击上传封面图片</span><button class="rm-img" id="rmImg2" type="button">&times;</button><input type="file" accept="image/*" id="fileInp2" style="display:none">';rU()};
+function sI(u){
   ua.classList.add('has-img');
-  ua.innerHTML='<img src="'+url+'" alt=""><button class="rm-img" id="rmImg2" type="button">&times;</button><input type="file" accept="image/*" id="fileInp2" style="display:none">';
-  rebindUp();
+  ua.innerHTML='<img src="'+u+'" alt=""><button class="rm-img" id="rmImg2" type="button">&times;</button><input type="file" accept="image/*" id="fileInp2" style="display:none">';rU();
 }
-function rebindUp(){
-  document.getElementById('rmImg2').onclick=function(e){e.stopPropagation();st.img='';ua.classList.remove('has-img');ua.innerHTML='<span class="up-text">点击上传封面图片</span><button class="rm-img" id="rmImg3" type="button">&times;</button><input type="file" accept="image/*" id="fileInp3" style="display:none">';rebindUp()};
+function rU(){
+  document.getElementById('rmImg2').onclick=function(e){e.stopPropagation();st.img='';ua.classList.remove('has-img');ua.innerHTML='<span class="up-text">点击上传封面图片</span><button class="rm-img" id="rmImg3" type="button">&times;</button><input type="file" accept="image/*" id="fileInp3" style="display:none">';rU()};
   document.getElementById('fileInp2').onchange=fi.onchange;
   ua.onclick=function(e){if(e.target.id!=='rmImg2')document.getElementById('fileInp2').click()};
 }
 
 // 行程
-function renderSch(){
+function rS(){
   var ed=document.getElementById('schEditor');
   ed.innerHTML=st.sch.map(function(item,i){
-    return '<div class="sch-row"><input class="ti" value="'+E(item.time)+'" placeholder="时间" data-i="'+i+'" data-f="time"><span style="color:#8B7E74">｜</span><input class="ei" value="'+E(item.event)+'" placeholder="事项" data-i="'+i+'" data-f="event"><div class="sch-act">'+
-      (i>0?'<button data-a="up" data-i="'+i+'">↑</button>':'<span style="width:28px"></span>')+
-      (i<st.sch.length-1?'<button data-a="down" data-i="'+i+'">↓</button>':'<span style="width:28px"></span>')+
+    return '<div class="sch-row"><input class="ti" value="'+E(item.time)+'" placeholder="时间" data-i="'+i+'" data-f="time"><span style="color:#F0A0B0">｜</span><input class="ei" value="'+E(item.event)+'" placeholder="事项" data-i="'+i+'" data-f="event"><div class="sch-act">'+
+      (i>0?'<button data-a="up" data-i="'+i+'">↑</button>':'<span style="width:30px"></span>')+
+      (i<st.sch.length-1?'<button data-a="down" data-i="'+i+'">↓</button>':'<span style="width:30px"></span>')+
       '<button data-a="del" data-i="'+i+'">×</button></div></div>';
   }).join('');
   ed.querySelectorAll('input').forEach(function(inp){
@@ -219,14 +303,13 @@ function renderSch(){
       if(a==='del')st.sch.splice(i,1);
       else if(a==='up'&&i>0){var t=st.sch[i];st.sch[i]=st.sch[i-1];st.sch[i-1]=t}
       else if(a==='down'&&i<st.sch.length-1){var t=st.sch[i];st.sch[i]=st.sch[i+1];st.sch[i+1]=t}
-      renderSch();
+      rS();
     };
   });
 }
-renderSch();
-document.getElementById('addSch').onclick=function(){st.sch.push({time:'',event:''});renderSch()};
+rS();
+document.getElementById('addSch').onclick=function(){st.sch.push({time:'',event:''});rS()};
 
-// 默认日期
 var t=new Date();t.setDate(t.getDate()+1);
 document.getElementById('date').value=t.toISOString().split('T')[0];
 document.getElementById('time').value='18:00';
@@ -247,24 +330,19 @@ document.getElementById('submitBtn').onclick=function(){
 
   var id=Date.now().toString(36)+Math.random().toString(36).substring(2,6);
   var token=Date.now().toString(36)+Math.random().toString(36).substring(2,8);
-
   var invite={
-    id:id,token:token,
-    nickname:nn,title:ti,
+    id:id,token:token,nickname:nn,title:ti,
     message:document.getElementById('message').value.trim(),
     date:dt,time:tm,location:lo,
     address:document.getElementById('address').value.trim(),
     dressCode:document.getElementById('dressCode').value.trim(),
     notes:document.getElementById('notes').value.trim(),
     img:st.img,sch:st.sch.filter(function(s){return s.time||s.event}),
-    style:st.style,
-    status:'waiting',openedAt:null,respondedAt:null,
+    style:st.style,status:'waiting',openedAt:null,respondedAt:null,
     respType:'',rsDate:'',rsMsg:'',createdAt:new Date().toLocaleString('zh-CN')
   };
-
   var db=JSON.parse(localStorage.getItem('di_db')||'{}');
-  db[id]=invite;
-  localStorage.setItem('di_db',JSON.stringify(db));
+  db[id]=invite;localStorage.setItem('di_db',JSON.stringify(db));
 
   var base=window.location.href.replace('create.html','');
   var invUrl=base+'invite.html?id='+id;
@@ -273,13 +351,10 @@ document.getElementById('submitBtn').onclick=function(){
   document.getElementById('invLink').textContent=invUrl;
   document.getElementById('mgLink').href=mgUrl;
   document.getElementById('okModal').classList.add('show');
-
   document.getElementById('copyBtn').onclick=function(){
     navigator.clipboard.writeText(invUrl).then(function(){T('链接已复制')}).catch(function(){T('复制失败，请手动复制',1)});
   };
-  document.getElementById('closeModal').onclick=function(){
-    document.getElementById('okModal').classList.remove('show');
-  };
+  document.getElementById('closeModal').onclick=function(){document.getElementById('okModal').classList.remove('show')};
 };
 </script>
 </body>
