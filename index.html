@@ -291,7 +291,7 @@ body.theme-noir .link-box { background: #2A2A2A; border-color: #333; }
   <div class="line"></div>
   <h1>约会邀请</h1>
   <p class="subtitle">DIGITAL INVITATION</p>
-  <button class="btn" onclick="navigate('create')">创建邀请</button>
+  <button class="btn" id="homeCreateBtn">创建邀请</button>
   <p class="footer-text">为特别的人，制作一份特别的邀请</p>
 </div>
 
@@ -448,7 +448,7 @@ let isNavigating = false;
 let currentPage = 'home';
 
 function showPage(page) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
   document.getElementById('errorPage').classList.remove('active');
   const el = document.getElementById('page-' + page);
   if (el) {
@@ -968,6 +968,22 @@ function showManage(params) {
 }
 
 // ==================== 启动 ====================
+// 绑定首页按钮
+document.getElementById('homeCreateBtn').addEventListener('click', function() {
+  navigate('create');
+});
+
+// 绑定返回按钮
+document.querySelectorAll('.page a[onclick]').forEach(function(a) {
+  var fn = a.getAttribute('onclick');
+  a.removeAttribute('onclick');
+  a.style.cursor = 'pointer';
+  a.addEventListener('click', function() {
+    var fnStr = fn;
+    if (fnStr.includes("navigate('home')")) navigate('home');
+  });
+});
+
 parseHash();
 </script>
 </body>
