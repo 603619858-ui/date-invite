@@ -4,119 +4,177 @@
 <meta charset="UTF-8">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>💕 约会邀请</title>
+<title>约会邀请</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
 body{
   font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  background:linear-gradient(135deg,#FFF0F5 0%,#FFE4E1 30%,#FFF5EE 60%,#FFE4F0 100%);
-  min-height:100vh;min-height:100dvh;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:40px 24px;text-align:center;
-  position:relative;overflow:hidden;
+  background:#FFFBF7;color:#3D3D3D;min-height:100vh;min-height:100dvh;
+  display:flex;flex-direction:column;align-items:center;
+  padding:0;text-align:center;overflow-x:hidden;
 }
 
-/* 浮动装饰 */
-body::before{
-  content:'🌸';
-  position:absolute;top:10%;left:8%;font-size:28px;
-  animation:float 3s ease-in-out infinite;opacity:.6;
+/* 顶部插画区 */
+.hero-illustration{
+  width:100%;max-width:420px;padding:40px 20px 20px;
+  display:flex;align-items:flex-end;justify-content:center;
+  position:relative;
 }
-body::after{
-  content:'💫';
-  position:absolute;top:15%;right:10%;font-size:24px;
-  animation:float 3.5s ease-in-out .5s infinite;opacity:.5;
-}
-.floating{position:absolute;pointer-events:none;z-index:0}
-.floating:nth-child(1){top:20%;left:5%;font-size:20px;animation:float 4s ease-in-out 1s infinite}
-.floating:nth-child(2){top:25%;right:8%;font-size:18px;animation:float 3.8s ease-in-out .3s infinite}
-.floating:nth-child(3){top:70%;left:10%;font-size:22px;animation:float 4.2s ease-in-out .7s infinite}
-.floating:nth-child(4){top:75%;right:6%;font-size:16px;animation:float 3.3s ease-in-out 1.2s infinite}
-.floating:nth-child(5){top:50%;left:3%;font-size:14px;animation:float 3.6s ease-in-out .9s infinite}
+.hero-illustration svg{width:100%;max-width:340px;height:auto}
 
-@keyframes float{
-  0%,100%{transform:translateY(0) rotate(0deg)}
-  50%{transform:translateY(-15px) rotate(5deg)}
+/* 主内容 */
+.container{
+  width:100%;max-width:420px;padding:0 28px 50px;
+  position:relative;z-index:1;
 }
 
-@keyframes heartBeat{
-  0%,100%{transform:scale(1)}
-  15%{transform:scale(1.15)}
-  30%{transform:scale(1)}
-  45%{transform:scale(1.1)}
-  60%{transform:scale(1)}
+/* 手写标题 */
+.scribble-title{
+  font-size:36px;font-weight:900;color:#2D2D2D;
+  letter-spacing:-.02em;margin-bottom:4px;line-height:1.1;
+}
+.scribble-sub{
+  font-size:14px;color:#999;letter-spacing:.12em;margin-bottom:36px;
+  font-weight:500;
 }
 
-.container{position:relative;z-index:1}
-
-.heart-icon{font-size:48px;margin-bottom:24px;animation:heartBeat 1.5s ease infinite;display:inline-block}
-
-h1{
-  font-family:'ZCOOL KuaiLe',"PingFang SC",cursive;
-  font-size:32px;color:#FF6B88;margin-bottom:8px;
-  text-shadow:0 2px 8px rgba(255,107,136,.2);
-  letter-spacing:.04em;
+/* 分割线 */
+.divider{
+  display:flex;align-items:center;gap:10px;margin-bottom:36px;
 }
-.subtitle{
-  font-size:14px;color:#F0A0B0;letter-spacing:.08em;margin-bottom:12px;font-weight:500;
+.divider::before,.divider::after{
+  content:'';flex:1;height:1px;background:#E5E0D8;
 }
-.deco-line{
-  width:60px;height:2px;background:linear-gradient(90deg,transparent,#FFB6C1,transparent);
-  margin:0 auto 36px;
-}
+.divider span{color:#C4B8A8;font-size:12px}
 
+/* 按钮 */
 .btn{
-  display:inline-block;padding:16px 48px;
-  background:linear-gradient(135deg,#FF8FAB,#FF6B88);
-  color:#fff;font-size:17px;letter-spacing:.06em;
-  cursor:pointer;text-decoration:none;
-  border-radius:50px;font-weight:600;
-  box-shadow:0 6px 20px rgba(255,107,136,.35);
-  transition:all .3s;font-family:inherit;
-  position:relative;overflow:hidden;
+  display:inline-block;padding:16px 52px;
+  background:#2D2D2D;color:#FFFBF7;font-size:16px;
+  letter-spacing:.04em;cursor:pointer;text-decoration:none;
+  border-radius:30px;font-weight:600;transition:all .3s;
+  border:none;font-family:inherit;
 }
-.btn::after{
-  content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
-  background:linear-gradient(45deg,transparent,rgba(255,255,255,.3),transparent);
-  transform:rotate(45deg);transition:all .5s;
-}
-.btn:active{transform:scale(.95);box-shadow:0 3px 12px rgba(255,107,136,.3)}
-.btn:hover{box-shadow:0 8px 28px rgba(255,107,136,.45)}
+.btn:active{transform:scale(.96);background:#1A1A1A}
+.btn:hover{background:#3D3D3D}
 
-.footer-text{margin-top:40px;font-size:12px;color:#E8A0B0;letter-spacing:.06em}
+.footer-text{margin-top:32px;font-size:12px;color:#BBB;letter-spacing:.06em}
 
-/* 星星装饰 */
-.stars{position:absolute;width:100%;height:100%;top:0;left:0;pointer-events:none;z-index:0}
-.star{position:absolute;color:#FFD700;font-size:12px;animation:twinkle 2s ease-in-out infinite}
-.star:nth-child(1){top:8%;left:15%;animation-delay:0s}
-.star:nth-child(2){top:12%;right:20%;animation-delay:.5s}
-.star:nth-child(3){top:30%;left:25%;animation-delay:1s}
-.star:nth-child(4){top:45%;right:15%;animation-delay:1.5s}
-.star:nth-child(5){top:60%;left:20%;animation-delay:.3s}
-.star:nth-child(6){top:80%;right:25%;animation-delay:.8s}
-.star:nth-child(7){top:88%;left:12%;animation-delay:1.3s}
-.star:nth-child(8){top:5%;left:50%;animation-delay:1.8s}
-@keyframes twinkle{
-  0%,100%{opacity:.3;transform:scale(.8)}
-  50%{opacity:1;transform:scale(1.2)}
+/* 底部装饰 */
+.bottom-dots{
+  display:flex;justify-content:center;gap:6px;margin-top:40px;
 }
+.bottom-dots span{width:4px;height:4px;border-radius:50%;background:#DDD}
+
+/* 简单入场动画 */
+@keyframes riseIn{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.anim{animation:riseIn .7s ease forwards;opacity:0}
+.anim.d1{animation-delay:.1s}.anim.d2{animation-delay:.3s}.anim.d3{animation-delay:.5s}
 </style>
 </head>
 <body>
-<div class="stars">
-  <span class="star">✦</span><span class="star">✧</span><span class="star">✦</span><span class="star">✧</span>
-  <span class="star">✦</span><span class="star">✧</span><span class="star">✦</span><span class="star">✧</span>
-</div>
-<div class="floating">💕</div><div class="floating">🎀</div><div class="floating">💝</div><div class="floating">✨</div><div class="floating">🩷</div>
 
-<div class="container">
-  <div class="heart-icon">💖</div>
-  <h1>约会邀请</h1>
-  <p class="subtitle">♡ SWEET INVITATION ♡</p>
-  <div class="deco-line"></div>
-  <a class="btn" href="create.html">💗 创建邀请</a>
-  <p class="footer-text">为特别的人，制作一份甜甜的邀请 ٩(◕‿◕)۶</p>
+<!-- 手拉手女孩插画 -->
+<div class="hero-illustration anim d1">
+<svg viewBox="0 0 340 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 左边女孩 -->
+  <!-- 头发（棕色短发） -->
+  <ellipse cx="95" cy="65" rx="52" ry="48" fill="#8B6914"/>
+  <ellipse cx="85" cy="60" rx="35" ry="42" fill="#A0782C"/>
+  <!-- 刘海 -->
+  <ellipse cx="95" cy="42" rx="38" ry="20" fill="#6B4F10"/>
+  <!-- 脸 -->
+  <ellipse cx="95" cy="72" rx="28" ry="30" fill="#FFE4C4"/>
+  <!-- 腮红 -->
+  <ellipse cx="80" cy="82" rx="8" ry="5" fill="#FFB3B3" opacity="0.5"/>
+  <ellipse cx="110" cy="82" rx="8" ry="5" fill="#FFB3B3" opacity="0.5"/>
+  <!-- 眼睛 -->
+  <circle cx="84" cy="70" r="3.5" fill="#3D3D3D"/>
+  <circle cx="106" cy="70" r="3.5" fill="#3D3D3D"/>
+  <circle cx="85" cy="69" r="1.2" fill="white"/>
+  <circle cx="107" cy="69" r="1.2" fill="white"/>
+  <!-- 微笑 -->
+  <path d="M89 82 Q95 88 101 82" stroke="#3D3D3D" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <!-- 身体（连衣裙） -->
+  <path d="M68 102 Q65 130 62 175 L128 175 Q125 130 122 102 Z" fill="#E8734A"/>
+  <!-- 领口 -->
+  <path d="M80 102 Q95 115 110 102" stroke="#D4603A" stroke-width="2" fill="none"/>
+  <!-- 左臂（伸向中间） -->
+  <path d="M70 115 Q55 120 50 130 Q45 140 55 150" stroke="#FFE4C4" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <!-- 右臂（自然下垂） -->
+  <path d="M120 115 Q135 135 130 160" stroke="#FFE4C4" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <!-- 腿 -->
+  <line x1="82" y1="175" x2="78" y2="215" stroke="#FFE4C4" stroke-width="9" stroke-linecap="round"/>
+  <line x1="108" y1="175" x2="112" y2="215" stroke="#FFE4C4" stroke-width="9" stroke-linecap="round"/>
+  <!-- 鞋子 -->
+  <ellipse cx="74" cy="218" rx="12" ry="6" fill="#3D3D3D"/>
+  <ellipse cx="116" cy="218" rx="12" ry="6" fill="#3D3D3D"/>
+  <!-- 发饰 -->
+  <circle cx="70" cy="50" r="6" fill="#FF6B6B"/>
+  <circle cx="72" cy="48" r="2.5" fill="#FF9999"/>
+
+  <!-- 右边女孩 -->
+  <!-- 头发（黑色长发） -->
+  <ellipse cx="245" cy="65" rx="52" ry="48" fill="#2D2D2D"/>
+  <ellipse cx="255" cy="60" rx="35" ry="42" fill="#3D3D3D"/>
+  <!-- 长发垂落 -->
+  <rect x="208" y="55" width="25" height="50" rx="12" fill="#2D2D2D"/>
+  <rect x="262" y="55" width="25" height="50" rx="12" fill="#2D2D2D"/>
+  <!-- 脸 -->
+  <ellipse cx="245" cy="72" rx="28" ry="30" fill="#FFE4C4"/>
+  <!-- 腮红 -->
+  <ellipse cx="230" cy="82" rx="8" ry="5" fill="#FFB3B3" opacity="0.5"/>
+  <ellipse cx="260" cy="82" rx="8" ry="5" fill="#FFB3B3" opacity="0.5"/>
+  <!-- 眼睛 -->
+  <circle cx="234" cy="70" r="3.5" fill="#3D3D3D"/>
+  <circle cx="256" cy="70" r="3.5" fill="#3D3D3D"/>
+  <circle cx="235" cy="69" r="1.2" fill="white"/>
+  <circle cx="257" cy="69" r="1.2" fill="white"/>
+  <!-- 微笑 -->
+  <path d="M239 82 Q245 88 251 82" stroke="#3D3D3D" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <!-- 身体（卫衣+裙子） -->
+  <path d="M218 102 Q215 130 212 175 L278 175 Q275 130 272 102 Z" fill="#5B8C5A"/>
+  <!-- 领口 -->
+  <path d="M230 102 Q245 115 260 102" stroke="#4A7A49" stroke-width="2" fill="none"/>
+  <!-- 右臂（伸向中间，和左边女孩手拉手） -->
+  <path d="M270 115 Q285 120 290 130 Q295 140 285 150" stroke="#FFE4C4" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <!-- 左臂（自然下垂） -->
+  <path d="M220 115 Q205 135 210 160" stroke="#FFE4C4" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <!-- 腿 -->
+  <line x1="232" y1="175" x2="228" y2="215" stroke="#FFE4C4" stroke-width="9" stroke-linecap="round"/>
+  <line x1="258" y1="175" x2="262" y2="215" stroke="#FFE4C4" stroke-width="9" stroke-linecap="round"/>
+  <!-- 鞋子 -->
+  <ellipse cx="224" cy="218" rx="12" ry="6" fill="#3D3D3D"/>
+  <ellipse cx="266" cy="218" rx="12" ry="6" fill="#3D3D3D"/>
+
+  <!-- 手拉手连接处 - 小心形 -->
+  <circle cx="170" cy="145" r="10" fill="#FF6B6B" opacity="0.3"/>
+  <text x="170" y="149" text-anchor="middle" font-size="12" fill="#FF6B6B">♥</text>
+
+  <!-- 地面装饰 -->
+  <ellipse cx="170" cy="230" rx="80" ry="8" fill="#E8E0D5" opacity="0.5"/>
+  
+  <!-- 小星星 -->
+  <text x="40" y="35" font-size="12" fill="#FFB347" opacity="0.6">✦</text>
+  <text x="300" y="30" font-size="10" fill="#FFB347" opacity="0.6">✧</text>
+  <text x="155" y="20" font-size="14" fill="#FF6B6B" opacity="0.4">✦</text>
+</svg>
 </div>
+
+<!-- 内容 -->
+<div class="container">
+  <h1 class="scribble-title anim d2">约会邀请</h1>
+  <p class="scribble-sub anim d2">BE MY DATE?</p>
+  <div class="divider anim d2"><span>✦</span></div>
+  <a class="btn anim d3" href="create.html">创建邀请</a>
+  <p class="footer-text anim d3">为特别的人，制作一份特别的邀请</p>
+  <div class="bottom-dots anim d3">
+    <span></span><span></span><span></span>
+  </div>
+</div>
+
 </body>
 </html>
