@@ -277,6 +277,15 @@ body{
 </div>
 
 <script>
+var API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:8765'
+  : 'https://603619858-ui.github.io/date-invite';
+
+function getInviteId(){
+  var p = new URLSearchParams(window.location.search);
+  return p.get('id');
+}
+
 var selectedFood=null;
 
 function T(m){
@@ -296,7 +305,14 @@ function selectFood(el){
 document.getElementById('confirmBtn').onclick=function(){
   if(!selectedFood)return T('请先选择想吃的');
   localStorage.setItem('di_selected_food',selectedFood);
-  // 显示完成弹窗
+  // 同步到后端
+  var inviteId=getInviteId();
+  if(inviteId){
+    fetch(API_BASE+'/api/pick-food',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({id:inviteId,food:selectedFood})
+    }).catch(function(){});
+  }
   document.getElementById('cel').classList.add('show');
 };
 </script>

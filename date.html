@@ -202,6 +202,17 @@ body{
 <div class="toast" id="toast"></div>
 
 <script>
+// API地址（自动检测）
+var API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:8765'
+  : 'https://603619858-ui.github.io/date-invite';
+
+// 从URL获取邀请ID
+function getInviteId(){
+  var p = new URLSearchParams(window.location.search);
+  return p.get('id');
+}
+
 function T(m){
   var e=document.getElementById('toast');
   e.textContent=m;e.className='toast show';
@@ -275,6 +286,14 @@ function nextMonth(){
 document.getElementById('confirmBtn').onclick=function(){
   if(!selectedDay){alert('请先选择一个日期');return;}
   localStorage.setItem('di_selected_date',selectedDay);
+  // 同步到后端
+  var inviteId=getInviteId();
+  if(inviteId){
+    fetch(API_BASE+'/api/pick-date',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({id:inviteId,date:selectedDay})
+    }).catch(function(){});
+  }
   window.location.href='food.html?v=2';
 };
 
