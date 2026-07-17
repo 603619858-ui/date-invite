@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>约会邀请</title>
+<style>
+:root {
+  --cream: #FAF7F2;
+  --warm-gray: #E8E3DC;
+  --dark: #1A1A1A;
+  --taupe: #8B7E74;
+  --red: #8B3A3A;
+  --olive: #6B7F5D;
+  --gold: #C4A35A;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: var(--cream);
+  color: var(--dark);
+  min-height: 100vh;
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+}
+.page { max-width: 390px; margin: 0 auto; padding: 0 24px 40px; display: none; }
+.page.active { display: block; }
+
+/* ========== 主题 ========== */
+.theme-cream { background: #FAF7F2; color: #1A1A1A; }
+.theme-noir { background: #1A1A1A; color: #D4C9B8; }
+.theme-nature { background: #F5F4F0; color: #2C2C2C; }
+.theme-noir .accent-line { background: #C4A35A; }
+.theme-noir .info-label { color: #8B7E74; }
+.theme-noir .schedule-time { color: #C4A35A; }
+.theme-noir .key-info, .theme-noir .response-section, .theme-noir .detail-section { border-color: #333 !important; }
+.theme-noir .schedule-item { border-bottom-color: #2A2A2A !important; }
+.theme-noir .action-bar { border-color: #333 !important; }
+.theme-nature .accent-line { background: #6B7F5D; }
+.theme-nature .info-label { color: #7A8B6F; }
+.theme-nature .schedule-time { color: #6B7F5D; }
+
+/* ========== 通用 ========== */
+.btn {
+  display: inline-block; padding: 14px 40px; border: 1px solid var(--dark);
+  background: transparent; color: var(--dark); font-size: 15px;
+  letter-spacing: 0.08em; cursor: pointer; text-decoration: none;
+  transition: all 0.3s ease; font-family: inherit; text-align: center;
+}
+.btn:active { transform: scale(0.97); }
+.btn-full { width: 100%; }
+.btn-dark { background: var(--dark); color: var(--cream); }
+.btn-dark:hover { opacity: 0.9; }
+.btn-outline { border: 1px solid var(--warm-gray); color: var(--taupe); }
+.btn-outline:hover { border-color: var(--dark); color: var(--dark); }
+.btn-danger { border: 1px solid var(--red); color: var(--red); }
+.btn-danger:hover { background: var(--red); color: white; }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.accent-line { width: 1px; height: 40px; background: var(--dark); margin: 0 auto 32px; opacity: 0.3; }
+
+.toast {
+  position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+  background: var(--dark); color: var(--cream); padding: 12px 24px;
+  font-size: 14px; letter-spacing: 0.04em; z-index: 1000; opacity: 0;
+  transition: opacity 0.3s; pointer-events: none; max-width: 90vw; text-align: center;
+}
+.toast.show { opacity: 1; }
+.toast.error { background: var(--red); }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ========== 首页 ========== */
+#page-home { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; min-height: 100dvh; text-align: center; }
+#page-home .line { width: 1px; height: 60px; background: var(--dark); margin-bottom: 40px; opacity: 0.4; }
+#page-home h1 { font-size: 28px; font-weight: 300; letter-spacing: 0.08em; margin-bottom: 16px; }
+#page-home .subtitle { font-size: 14px; color: var(--taupe); letter-spacing: 0.06em; margin-bottom: 48px; font-weight: 300; }
+#page-home .footer-text { margin-top: 60px; font-size: 11px; color: var(--taupe); letter-spacing: 0.04em; }
+
+/* ========== 创建页 ========== */
+.header { padding: 20px 0; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--warm-gray); margin-bottom: 32px; }
+.header h1 { font-size: 18px; font-weight: 400; letter-spacing: 0.06em; }
+.header a { font-size: 13px; color: var(--taupe); text-decoration: none; letter-spacing: 0.04em; cursor: pointer; }
+
+.style-selector { display: flex; gap: 8px; margin-bottom: 24px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.style-option { flex: 0 0 auto; padding: 10px 16px; border: 1px solid var(--warm-gray); background: transparent; font-size: 13px; letter-spacing: 0.04em; cursor: pointer; transition: all 0.3s; color: var(--taupe); font-family: inherit; }
+.style-option.active { border-color: var(--dark); color: var(--dark); background: rgba(0,0,0,0.03); }
+
+.preview-card { padding: 20px; margin-bottom: 28px; min-height: 100px; transition: all 0.4s; border: 1px solid var(--warm-gray); }
+.preview-card .style-label { font-size: 10px; letter-spacing: 0.1em; color: var(--taupe); margin-bottom: 12px; text-transform: uppercase; }
+.preview-card h3 { font-size: 18px; font-weight: 400; margin-bottom: 4px; }
+.preview-card .preview-sub { font-size: 13px; color: var(--taupe); margin-bottom: 8px; }
+.preview-card .preview-info { font-size: 13px; }
+.preview-card.style-cream { background: #FAF7F2; border-color: #E8E3DC; }
+.preview-card.style-noir { background: #1A1A1A; color: #D4C9B8; border-color: #333; }
+.preview-card.style-noir h3 { color: #D4C9B8; }
+.preview-card.style-noir .preview-sub { color: #8B7E74; }
+.preview-card.style-noir .preview-info { color: #C4A35A; }
+.preview-card.style-nature { background: #F5F4F0; border-color: #C5CFBE; }
+
+.form-section { margin-bottom: 28px; }
+.form-section-label { font-size: 11px; letter-spacing: 0.1em; color: var(--taupe); margin-bottom: 16px; text-transform: uppercase; padding-bottom: 8px; border-bottom: 1px solid var(--warm-gray); }
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; font-size: 13px; letter-spacing: 0.04em; margin-bottom: 8px; }
+.form-group label .required { color: var(--red); margin-left: 2px; }
+
+input[type="text"], input[type="date"], input[type="time"], textarea {
+  width: 100%; padding: 12px 0; border: none; border-bottom: 1px solid var(--warm-gray);
+  background: transparent; font-size: 15px; color: inherit; font-family: inherit;
+  outline: none; transition: border-color 0.3s; -webkit-appearance: none; border-radius: 0;
+}
+input:focus, textarea:focus { border-bottom-color: var(--dark); }
+textarea { resize: none; min-height: 60px; line-height: 1.6; }
+::placeholder { color: #C4BFB6; font-size: 14px; }
+
+/* 图片上传 */
+.upload-area { border: 1px dashed var(--warm-gray); padding: 32px 20px; text-align: center; cursor: pointer; transition: all 0.3s; position: relative; }
+.upload-area.has-image { border-style: solid; padding: 0; }
+.upload-area img { width: 100%; display: block; max-height: 200px; object-fit: cover; }
+.upload-area .upload-text { font-size: 13px; color: var(--taupe); letter-spacing: 0.04em; }
+.upload-area .remove-img { position: absolute; top: 8px; right: 8px; width: 24px; height: 24px; background: rgba(0,0,0,0.6); color: white; border: none; border-radius: 50%; cursor: pointer; font-size: 14px; display: none; align-items: center; justify-content: center; }
+.upload-area.has-image .remove-img { display: flex; }
+
+/* 行程 */
+.schedule-editor { border: 1px solid var(--warm-gray); padding: 12px; }
+.schedule-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--warm-gray); }
+.schedule-row:last-child { border-bottom: none; }
+.schedule-row input { width: auto; padding: 6px 0; border: none; border-bottom: 1px solid transparent; background: transparent; font-size: 14px; font-family: inherit; outline: none; }
+.schedule-row input:focus { border-bottom-color: var(--dark); }
+.schedule-row .time-input { width: 70px; }
+.schedule-row .event-input { flex: 1; }
+.schedule-actions { display: flex; gap: 4px; }
+.schedule-actions button { width: 28px; height: 28px; border: 1px solid var(--warm-gray); background: transparent; cursor: pointer; font-size: 14px; color: var(--taupe); display: flex; align-items: center; justify-content: center; }
+.schedule-actions button:active { background: var(--dark); color: var(--cream); }
+.add-schedule { width: 100%; padding: 12px; border: 1px dashed var(--warm-gray); background: transparent; font-size: 13px; color: var(--taupe); cursor: pointer; letter-spacing: 0.04em; margin-top: 8px; font-family: inherit; }
+
+/* 成功弹窗 */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 999; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.modal-overlay.show { opacity: 1; pointer-events: auto; }
+.modal { background: white; padding: 40px 28px; width: 90vw; max-width: 340px; text-align: center; }
+.modal h2 { font-size: 20px; font-weight: 400; margin-bottom: 8px; letter-spacing: 0.06em; }
+.modal p { font-size: 13px; color: var(--taupe); margin-bottom: 24px; }
+.modal .link-box { border: 1px solid var(--warm-gray); padding: 14px; font-size: 13px; word-break: break-all; margin-bottom: 16px; background: var(--cream); }
+.modal .btn-group { display: flex; flex-direction: column; gap: 10px; }
+.modal .btn-group .btn { width: 100%; }
+
+/* ========== 邀请展示页 ========== */
+.cover-page { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; padding: 40px 24px; transition: opacity 0.6s, transform 0.6s; }
+.cover-page.hidden { opacity: 0; pointer-events: none; transform: translateY(-20px); }
+.cover-line { width: 1px; height: 80px; background: var(--dark); margin-bottom: 40px; opacity: 0.5; }
+body.theme-noir .cover-line { background: #C4A35A; }
+body.theme-nature .cover-line { background: #6B7F5D; }
+.cover-page h1 { font-size: 26px; font-weight: 300; letter-spacing: 0.1em; margin-bottom: 20px; text-align: center; }
+.cover-page .cover-sub { font-size: 13px; color: var(--taupe); letter-spacing: 0.06em; margin-bottom: 48px; }
+.cover-btn { padding: 14px 40px; border: 1px solid var(--dark); background: transparent; color: var(--dark); font-size: 15px; letter-spacing: 0.08em; cursor: pointer; font-family: inherit; transition: all 0.3s; }
+.cover-btn:active { transform: scale(0.97); }
+body.theme-noir .cover-btn { border-color: #C4A35A; color: #C4A35A; }
+body.theme-nature .cover-btn { border-color: #6B7F5D; color: #6B7F5D; }
+.cover-anim { animation: fadeUp 0.8s ease forwards; opacity: 0; }
+.cover-anim.d1 { animation-delay: 0.2s; }
+.cover-anim.d2 { animation-delay: 0.5s; }
+.cover-anim.d3 { animation-delay: 0.8s; }
+
+.invite-main { opacity: 0; transition: opacity 0.6s; }
+.invite-main.visible { opacity: 1; }
+
+.hero-image { width: calc(100% + 48px); margin-left: -24px; margin-right: -24px; aspect-ratio: 3/4; object-fit: cover; display: block; margin-bottom: 40px; }
+.hero-placeholder { width: calc(100% + 48px); margin-left: -24px; margin-right: -24px; aspect-ratio: 3/4; background: var(--warm-gray); display: flex; align-items: center; justify-content: center; margin-bottom: 40px; font-size: 13px; color: var(--taupe); letter-spacing: 0.06em; }
+body.theme-noir .hero-placeholder { background: #2A2A2A; }
+body.theme-nature .hero-placeholder { background: #E0E5D8; }
+
+.nickname-display { text-align: center; font-size: 14px; color: var(--taupe); letter-spacing: 0.08em; margin-bottom: 8px; font-weight: 300; }
+.title-display { text-align: center; font-size: 24px; font-weight: 300; letter-spacing: 0.08em; margin-bottom: 16px; }
+.message-display { text-align: center; font-size: 14px; color: var(--taupe); letter-spacing: 0.04em; margin-bottom: 40px; font-weight: 300; line-height: 1.8; }
+
+.key-info { text-align: center; margin-bottom: 40px; padding: 28px 0; border-top: 1px solid var(--warm-gray); border-bottom: 1px solid var(--warm-gray); }
+.key-date { font-size: 32px; font-weight: 300; letter-spacing: 0.06em; margin-bottom: 8px; }
+.key-time { font-size: 18px; font-weight: 300; letter-spacing: 0.08em; margin-bottom: 4px; color: var(--taupe); }
+.key-location { font-size: 16px; font-weight: 300; letter-spacing: 0.06em; }
+
+.detail-section { margin-bottom: 32px; }
+.info-label { font-size: 10px; letter-spacing: 0.12em; color: var(--taupe); margin-bottom: 8px; text-transform: uppercase; }
+.info-value { font-size: 14px; letter-spacing: 0.04em; line-height: 1.7; }
+
+.schedule-list { list-style: none; padding: 0; }
+.schedule-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--warm-gray); align-items: baseline; }
+.schedule-item:last-child { border-bottom: none; }
+.schedule-time { font-size: 14px; font-weight: 400; letter-spacing: 0.04em; min-width: 50px; }
+.schedule-divider { color: var(--taupe); font-size: 14px; }
+.schedule-event { font-size: 14px; letter-spacing: 0.04em; }
+
+.response-section { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--warm-gray); }
+.response-section h3 { font-size: 16px; font-weight: 400; letter-spacing: 0.06em; text-align: center; margin-bottom: 24px; }
+.response-buttons { display: flex; flex-direction: column; gap: 12px; }
+
+.resp-btn { width: 100%; padding: 16px; font-size: 15px; letter-spacing: 0.06em; cursor: pointer; font-family: inherit; transition: all 0.3s; background: transparent; }
+.resp-btn.primary { border: 1px solid var(--dark); color: var(--dark); }
+.resp-btn.primary:hover { background: var(--dark); color: var(--cream); }
+.resp-btn.secondary { border: 1px solid var(--warm-gray); color: var(--taupe); }
+.resp-btn.secondary:hover { border-color: var(--dark); color: var(--dark); }
+.resp-btn:active { transform: scale(0.98); }
+
+body.theme-noir .resp-btn.primary { border-color: #C4A35A; color: #C4A35A; }
+body.theme-noir .resp-btn.primary:hover { background: #C4A35A; color: #1A1A1A; }
+body.theme-nature .resp-btn.primary { border-color: #6B7F5D; color: #6B7F5D; }
+body.theme-nature .resp-btn.primary:hover { background: #6B7F5D; color: #F5F4F0; }
+
+.responded-status { text-align: center; padding: 32px 0; }
+.responded-status .status-icon { font-size: 40px; margin-bottom: 12px; }
+.responded-status .status-text { font-size: 18px; letter-spacing: 0.06em; font-weight: 300; }
+.responded-status .status-time { font-size: 12px; color: var(--taupe); margin-top: 8px; }
+
+/* 庆祝 */
+.celebrate-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.5s; }
+.celebrate-overlay.show { opacity: 1; }
+.celebrate-content { text-align: center; color: var(--cream); }
+.celebrate-content .celebrate-emoji { font-size: 56px; display: block; animation: celebBounce 0.6s ease; }
+.celebrate-content .celebrate-text { font-size: 22px; letter-spacing: 0.08em; margin-top: 16px; font-weight: 300; animation: fadeUp 0.6s ease 0.3s both; }
+@keyframes celebBounce { 0% { transform: scale(0); } 50% { transform: scale(1.3); } 100% { transform: scale(1); } }
+
+/* 改期弹窗 */
+.rs-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: flex-end; justify-content: center; z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.rs-modal.show { opacity: 1; pointer-events: auto; }
+.rs-content { background: white; width: 100%; max-width: 390px; padding: 32px 24px; max-height: 80vh; overflow-y: auto; }
+body.theme-noir .rs-content { background: #1A1A1A; }
+.rs-content h3 { font-size: 18px; font-weight: 400; letter-spacing: 0.06em; margin-bottom: 24px; }
+.rs-content .form-group { margin-bottom: 20px; }
+.rs-content label { display: block; font-size: 12px; letter-spacing: 0.06em; margin-bottom: 8px; color: var(--taupe); }
+.rs-content input, .rs-content textarea { width: 100%; padding: 12px 0; border: none; border-bottom: 1px solid var(--warm-gray); background: transparent; font-size: 15px; font-family: inherit; outline: none; }
+.rs-content textarea { resize: none; min-height: 60px; }
+body.theme-noir .rs-content input, body.theme-noir .rs-content textarea { color: #D4C9B8; border-bottom-color: #333; }
+.rs-content .modal-btns { display: flex; gap: 12px; margin-top: 24px; }
+.rs-content .modal-btns button { flex: 1; padding: 14px; font-size: 14px; letter-spacing: 0.06em; cursor: pointer; font-family: inherit; background: transparent; }
+.rs-content .submit-btn { border: 1px solid var(--dark); color: var(--dark); }
+.rs-content .cancel-btn { border: 1px solid var(--warm-gray); color: var(--taupe); }
+body.theme-noir .rs-content .submit-btn { border-color: #C4A35A; color: #C4A35A; }
+
+/* ========== 管理页 ========== */
+.status-badge { display: inline-block; padding: 6px 14px; font-size: 12px; letter-spacing: 0.06em; border: 1px solid; margin-bottom: 24px; }
+.status-waiting { border-color: var(--taupe); color: var(--taupe); }
+.status-opened { border-color: var(--olive); color: var(--olive); }
+.status-accepted { border-color: var(--gold); color: var(--gold); }
+.status-reschedule { border-color: var(--red); color: var(--red); }
+
+.info-block { margin-bottom: 28px; }
+.info-block .label { font-size: 10px; letter-spacing: 0.12em; color: var(--taupe); margin-bottom: 6px; text-transform: uppercase; }
+.info-block .value { font-size: 14px; letter-spacing: 0.04em; line-height: 1.7; }
+.info-block .value.big { font-size: 18px; font-weight: 300; }
+
+.link-box { border: 1px solid var(--warm-gray); padding: 14px; font-size: 13px; word-break: break-all; background: white; margin-bottom: 12px; line-height: 1.6; }
+body.theme-noir .link-box { background: #2A2A2A; border-color: #333; }
+
+.action-bar { display: flex; flex-direction: column; gap: 10px; margin-top: 36px; padding-top: 28px; border-top: 1px solid var(--warm-gray); }
+.action-bar .btn { width: 100%; }
+
+.edit-form { display: none; margin-top: 20px; }
+.edit-form.show { display: block; }
+.edit-form .form-group { margin-bottom: 16px; }
+.edit-form label { display: block; font-size: 12px; letter-spacing: 0.06em; margin-bottom: 6px; color: var(--taupe); }
+.edit-form input, .edit-form textarea { width: 100%; padding: 10px 0; border: none; border-bottom: 1px solid var(--warm-gray); background: transparent; font-size: 14px; font-family: inherit; outline: none; }
+.edit-form textarea { resize: none; min-height: 50px; }
+.edit-form .edit-btns { display: flex; gap: 10px; margin-top: 16px; }
+.edit-form .edit-btns button { flex: 1; padding: 12px; font-size: 13px; letter-spacing: 0.04em; cursor: pointer; font-family: inherit; background: transparent; }
+.edit-form .save-btn { border: 1px solid var(--dark); color: var(--dark); }
+
+.confirm-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.confirm-overlay.show { opacity: 1; pointer-events: auto; }
+.confirm-box { background: white; padding: 32px 24px; width: 90vw; max-width: 300px; text-align: center; }
+.confirm-box h3 { font-size: 16px; font-weight: 400; margin-bottom: 8px; letter-spacing: 0.06em; }
+.confirm-box p { font-size: 13px; color: var(--taupe); margin-bottom: 20px; }
+.confirm-box .btns { display: flex; gap: 10px; }
+.confirm-box .btns button { flex: 1; padding: 12px; font-size: 13px; letter-spacing: 0.04em; cursor: pointer; font-family: inherit; background: transparent; }
+
+/* 错误页 */
+.error-page { display: none; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 40px 24px; text-align: center; }
+.error-page.active { display: flex; }
+.error-page h2 { font-size: 18px; font-weight: 400; margin-bottom: 8px; }
+.error-page p { font-size: 13px; color: var(--taupe); margin-bottom: 24px; }
+
+@media screen and (max-width: 390px) {
+  .page { padding: 0 16px 40px; }
+  .hero-image, .hero-placeholder { width: calc(100% + 32px); margin-left: -16px; margin-right: -16px; }
+  .key-date { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== 首页 ==================== -->
+<div class="page active" id="page-home">
+  <div class="line"></div>
+  <h1>约会邀请</h1>
+  <p class="subtitle">DIGITAL INVITATION</p>
+  <button class="btn" onclick="navigate('create')">创建邀请</button>
+  <p class="footer-text">为特别的人，制作一份特别的邀请</p>
+</div>
+
+<!-- ==================== 创建页 ==================== -->
+<div class="page" id="page-create">
+  <div class="header"><h1>创建邀请</h1><a onclick="navigate('home')">返回</a></div>
+  
+  <div class="form-section">
+    <div class="form-section-label">选择风格</div>
+    <div class="style-selector" id="styleSelector">
+      <button class="style-option active" data-style="cream">奶油极简</button>
+      <button class="style-option" data-style="noir">黑金电影感</button>
+      <button class="style-option" data-style="nature">清透自然感</button>
+    </div>
+    <div class="preview-card style-cream" id="previewCard">
+      <div class="style-label" id="styleLabel">奶油极简 · CREAM</div>
+      <h3 id="prevTitle">邀请标题</h3>
+      <div class="preview-sub" id="prevNick">致：昵称</div>
+      <div class="preview-info" id="prevDateTime">日期 · 时间</div>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <div class="form-section-label">基本信息</div>
+    <div class="form-group"><label>对方昵称 <span class="required">*</span></label><input type="text" id="fNickname" placeholder="对方的名字或昵称" maxlength="30"></div>
+    <div class="form-group"><label>邀请标题 <span class="required">*</span></label><input type="text" id="fTitle" placeholder="例如：一个安静的周末午后" maxlength="50"></div>
+    <div class="form-group"><label>一句话邀请文案</label><input type="text" id="fMessage" placeholder="写一句想对TA说的话" maxlength="100"></div>
+    <div class="form-group"><label>封面图片</label><div class="upload-area" id="uploadArea"><span class="upload-text">点击上传封面图片</span><button class="remove-img" id="removeImg" type="button">&times;</button><input type="file" accept="image/*" id="fileInput" style="display:none"></div></div>
+  </div>
+
+  <div class="form-section">
+    <div class="form-section-label">约会信息</div>
+    <div class="form-group"><label>约会日期 <span class="required">*</span></label><input type="date" id="fDate"></div>
+    <div class="form-group"><label>约会时间 <span class="required">*</span></label><input type="time" id="fTime"></div>
+    <div class="form-group"><label>约会地点 <span class="required">*</span></label><input type="text" id="fLocation" placeholder="例如：山谷图书馆" maxlength="50"></div>
+    <div class="form-group"><label>详细地址</label><input type="text" id="fAddress" placeholder="详细地址，方便对方导航" maxlength="200"></div>
+  </div>
+
+  <div class="form-section">
+    <div class="form-section-label">约会行程</div>
+    <div class="schedule-editor" id="scheduleEditor"></div>
+    <button class="add-schedule" id="addSchedule">+ 添加行程节点</button>
+  </div>
+
+  <div class="form-section">
+    <div class="form-section-label">更多信息</div>
+    <div class="form-group"><label>穿搭提示</label><input type="text" id="fDressCode" placeholder="例如：浅色系，适合散步的鞋子" maxlength="100"></div>
+    <div class="form-group"><label>备注</label><textarea id="fNotes" placeholder="任何想补充的内容..." maxlength="300"></textarea></div>
+  </div>
+
+  <button class="btn btn-dark btn-full" id="submitBtn">生成邀请</button>
+  <div style="height:40px"></div>
+</div>
+
+<!-- ==================== 邀请展示页 ==================== -->
+<div class="page" id="page-invite">
+  <div class="cover-page" id="coverPage">
+    <div class="cover-line cover-anim d1"></div>
+    <h1 class="cover-anim d2">有一封邀请<br>想请你亲自打开</h1>
+    <p class="cover-sub cover-anim d3">DIGITAL INVITATION</p>
+    <button class="cover-btn cover-anim d3" id="openBtn">打开邀请</button>
+  </div>
+  <div class="invite-main" id="inviteMain">
+    <div id="heroArea"></div>
+    <div class="accent-line"></div>
+    <div class="nickname-display" id="dNickname"></div>
+    <h1 class="title-display" id="dTitle"></h1>
+    <div class="message-display" id="dMessage"></div>
+    <div class="key-info">
+      <div class="key-date" id="dDate"></div>
+      <div class="key-time" id="dTime"></div>
+      <div class="key-location" id="dLocation"></div>
+    </div>
+    <div class="detail-section" id="secAddress" style="display:none"><div class="info-label">详细地址</div><div class="info-value" id="dAddress"></div></div>
+    <div class="detail-section" id="secSchedule" style="display:none"><div class="info-label">约会行程</div><ul class="schedule-list" id="dSchedule"></ul></div>
+    <div class="detail-section" id="secDress" style="display:none"><div class="info-label">穿搭提示</div><div class="info-value" id="dDressCode"></div></div>
+    <div class="detail-section" id="secNotes" style="display:none"><div class="info-label">备注</div><div class="info-value" id="dNotes"></div></div>
+    <div class="response-section"><h3>你的回应</h3><div id="responseContent"></div></div>
+  </div>
+</div>
+
+<!-- ==================== 管理页 ==================== -->
+<div class="page" id="page-manage">
+  <div class="header"><h1>管理邀请</h1><a onclick="navigate('home')">返回首页</a></div>
+  <div id="manageContent"></div>
+</div>
+
+<!-- ==================== 全局组件 ==================== -->
+<div class="toast" id="toast"></div>
+
+<div class="modal-overlay" id="successModal">
+  <div class="modal">
+    <h2>邀请已生成</h2>
+    <p>复制链接发送给TA</p>
+    <div class="link-box" id="inviteLinkBox"></div>
+    <div class="btn-group">
+      <button class="btn" id="copyLinkBtn">复制链接</button>
+      <button class="btn" id="goManageBtn">查看管理页面</button>
+      <button class="btn btn-outline" id="closeModalBtn">关闭</button>
+    </div>
+  </div>
+</div>
+
+<div class="celebrate-overlay" id="celebrateOverlay">
+  <div class="celebrate-content"><span class="celebrate-emoji">✦</span><div class="celebrate-text">那就说好了</div></div>
+</div>
+
+<div class="rs-modal" id="rsModal">
+  <div class="rs-content">
+    <h3>想换个时间</h3>
+    <div class="form-group"><label>建议的新日期</label><input type="date" id="rsDate"></div>
+    <div class="form-group"><label>一句话留言</label><textarea id="rsMsg" placeholder="说说你想换时间的理由..." maxlength="200"></textarea></div>
+    <div class="modal-btns">
+      <button class="cancel-btn" id="cancelRS">取消</button>
+      <button class="submit-btn" id="submitRS">提交</button>
+    </div>
+  </div>
+</div>
+
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <h3>确认删除</h3>
+    <p>删除后邀请链接将失效，此操作不可恢复</p>
+    <div class="btns">
+      <button class="cancel-btn" id="cancelDelete">取消</button>
+      <button class="btn-danger" id="confirmDelete" style="padding:12px;font-size:13px;">确认删除</button>
+    </div>
+  </div>
+</div>
+
+<div class="error-page" id="errorPage">
+  <h2 id="errorTitle">邀请不存在</h2>
+  <p id="errorMsg">这个邀请链接可能已经失效</p>
+  <a onclick="navigate('home')" style="color:var(--dark);cursor:pointer;font-size:14px;">返回首页</a>
+</div>
+
+<script>
+// ==================== 数据层 ====================
+const DB_KEY = 'date_invite_data';
+
+function loadDB() {
+  try { return JSON.parse(localStorage.getItem(DB_KEY) || '{}'); } catch(e) { return {}; }
+}
+function saveDB(db) {
+  localStorage.setItem(DB_KEY, JSON.stringify(db));
+}
+
+function generateId() {
+  return Date.now().toString(36) + Math.random().toString(36).substring(2, 6);
+}
+
+// ==================== 路由 ====================
+function navigate(page, params) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('errorPage').classList.remove('active');
+  
+  const el = document.getElementById('page-' + page);
+  if (el) el.classList.add('active');
+  
+  window.scrollTo(0, 0);
+  
+  if (page === 'home') {
+    window.location.hash = '';
+  } else if (page === 'create') {
+    window.location.hash = '#create';
+    initCreatePage();
+  } else if (page === 'invite') {
+    showInvite(params);
+  } else if (page === 'manage') {
+    showManage(params);
+  }
+}
+
+function parseHash() {
+  const hash = window.location.hash.replace('#', '');
+  if (!hash) return navigate('home');
+  
+  if (hash === 'create') return navigate('create');
+  
+  if (hash.startsWith('invite/')) {
+    return navigate('invite', hash.replace('invite/', ''));
+  }
+  
+  if (hash.startsWith('manage/')) {
+    const parts = hash.replace('manage/', '').split('/');
+    return navigate('manage', { id: parts[0], token: parts[1] });
+  }
+  
+  navigate('home');
+}
+
+window.addEventListener('hashchange', parseHash);
+
+// ==================== Toast ====================
+function toast(msg, type) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast' + (type === 'error' ? ' error' : '') + ' show';
+  clearTimeout(t._tid);
+  t._tid = setTimeout(function(){ t.classList.remove('show'); }, 2500);
+}
+
+function escapeHtml(s) {
+  var d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+// ==================== 创建页 ====================
+var createState = { style: 'cream', coverImage: '', schedule: [{ time: '17:30', event: '见面' }, { time: '18:00', event: '一起吃饭' }, { time: '20:00', event: '散步或看电影' }] };
+
+function initCreatePage() {
+  // 风格选择
+  document.querySelectorAll('#styleSelector .style-option').forEach(function(b) {
+    b.onclick = function() {
+      document.querySelectorAll('#styleSelector .style-option').forEach(function(x){ x.classList.remove('active'); });
+      b.classList.add('active');
+      createState.style = b.dataset.style;
+      updatePreview();
+    };
+  });
+  
+  // 预览更新
+  ['fTitle','fNickname','fDate','fTime'].forEach(function(id) {
+    var el = document.getElementById(id);
+    el.oninput = updatePreview;
+  });
+  
+  // 默认日期
+  var t = new Date();
+  t.setDate(t.getDate() + 1);
+  document.getElementById('fDate').value = t.toISOString().split('T')[0];
+  document.getElementById('fTime').value = '18:00';
+  
+  // 图片上传
+  initImageUpload();
+  
+  // 行程
+  renderScheduleEditor();
+  document.getElementById('addSchedule').onclick = function() {
+    createState.schedule.push({ time: '', event: '' });
+    renderScheduleEditor();
+  };
+  
+  // 提交
+  document.getElementById('submitBtn').onclick = submitInvite;
+  
+  updatePreview();
+}
+
+function updatePreview() {
+  var card = document.getElementById('previewCard');
+  card.className = 'preview-card style-' + createState.style;
+  var labels = { cream: '奶油极简 · CREAM', noir: '黑金电影感 · NOIR', nature: '清透自然感 · NATURE' };
+  document.getElementById('styleLabel').textContent = labels[createState.style];
+  document.getElementById('prevTitle').textContent = document.getElementById('fTitle').value || '邀请标题';
+  document.getElementById('prevNick').textContent = '致：' + (document.getElementById('fNickname').value || '昵称');
+  document.getElementById('prevDateTime').textContent = (document.getElementById('fDate').value || '日期') + ' · ' + (document.getElementById('fTime').value || '时间');
+}
+
+function initImageUpload() {
+  var area = document.getElementById('uploadArea');
+  var fi = document.getElementById('fileInput');
+  
+  area.onclick = function(e) {
+    if (e.target.id !== 'removeImg') fi.click();
+  };
+  
+  fi.onchange = function(e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 10 * 1024 * 1024) return toast('图片大小不能超过10MB', 'error');
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      createState.coverImage = ev.target.result;
+      area.classList.add('has-image');
+      area.innerHTML = '<img src="' + ev.target.result + '" alt="封面"><button class="remove-img" id="removeImg2" type="button">&times;</button><input type="file" accept="image/*" id="fileInput2" style="display:none">';
+      document.getElementById('removeImg2').onclick = function(e2) { e2.stopPropagation(); removeImage(); };
+      document.getElementById('fileInput2').onchange = fi.onchange;
+      area.onclick = function(e2) { if (e2.target.id !== 'removeImg2') document.getElementById('fileInput2').click(); };
+    };
+    reader.readAsDataURL(file);
+  };
+}
+
+function removeImage() {
+  createState.coverImage = '';
+  var area = document.getElementById('uploadArea');
+  area.classList.remove('has-image');
+  area.innerHTML = '<span class="upload-text">点击上传封面图片</span><button class="remove-img" id="removeImg" type="button">&times;</button><input type="file" accept="image/*" id="fileInput" style="display:none">';
+  initImageUpload();
+}
+
+function renderScheduleEditor() {
+  var editor = document.getElementById('scheduleEditor');
+  editor.innerHTML = createState.schedule.map(function(item, i) {
+    return '<div class="schedule-row"><input type="text" class="time-input" value="' + escapeHtml(item.time) + '" placeholder="时间" data-idx="' + i + '" data-field="time"><span style="color:var(--taupe)">｜</span><input type="text" class="event-input" value="' + escapeHtml(item.event) + '" placeholder="事项" data-idx="' + i + '" data-field="event"><div class="schedule-actions">' +
+      (i > 0 ? '<button data-action="up" data-idx="' + i + '">↑</button>' : '<span style="width:28px"></span>') +
+      (i < createState.schedule.length - 1 ? '<button data-action="down" data-idx="' + i + '">↓</button>' : '<span style="width:28px"></span>') +
+      '<button data-action="delete" data-idx="' + i + '">×</button></div></div>';
+  }).join('');
+  
+  editor.querySelectorAll('input').forEach(function(inp) {
+    inp.oninput = function() {
+      var idx = parseInt(inp.dataset.idx);
+      createState.schedule[idx][inp.dataset.field] = inp.value;
+    };
+  });
+  
+  editor.querySelectorAll('button[data-action]').forEach(function(btn) {
+    btn.onclick = function() {
+      var idx = parseInt(btn.dataset.idx);
+      if (btn.dataset.action === 'delete') createState.schedule.splice(idx, 1);
+      else if (btn.dataset.action === 'up' && idx > 0) {
+        var tmp = createState.schedule[idx]; createState.schedule[idx] = createState.schedule[idx-1]; createState.schedule[idx-1] = tmp;
+      } else if (btn.dataset.action === 'down' && idx < createState.schedule.length - 1) {
+        var tmp = createState.schedule[idx]; createState.schedule[idx] = createState.schedule[idx+1]; createState.schedule[idx+1] = tmp;
+      }
+      renderScheduleEditor();
+    };
+  });
+}
+
+function submitInvite() {
+  var nn = document.getElementById('fNickname').value.trim();
+  var ti = document.getElementById('fTitle').value.trim();
+  var dt = document.getElementById('fDate').value;
+  var tm = document.getElementById('fTime').value;
+  var lo = document.getElementById('fLocation').value.trim();
+  
+  if (!nn) return toast('请填写对方昵称', 'error');
+  if (!ti) return toast('请填写邀请标题', 'error');
+  if (!dt) return toast('请选择约会日期', 'error');
+  if (!tm) return toast('请选择约会时间', 'error');
+  if (!lo) return toast('请填写约会地点', 'error');
+  
+  var id = generateId();
+  var token = generateId();
+  
+  var invite = {
+    id: id,
+    adminToken: token,
+    nickname: nn,
+    title: ti,
+    message: document.getElementById('fMessage').value.trim(),
+    date: dt,
+    time: tm,
+    location: lo,
+    address: document.getElementById('fAddress').value.trim(),
+    dressCode: document.getElementById('fDressCode').value.trim(),
+    notes: document.getElementById('fNotes').value.trim(),
+    coverImage: createState.coverImage,
+    schedule: createState.schedule.filter(function(s){ return s.time || s.event; }),
+    style: createState.style,
+    status: 'waiting',
+    openedAt: null,
+    respondedAt: null,
+    responseType: '',
+    rescheduleDate: '',
+    rescheduleMessage: '',
+    createdAt: new Date().toLocaleString('zh-CN')
+  };
+  
+  var db = loadDB();
+  db[id] = invite;
+  saveDB(db);
+  
+  var origin = window.location.origin + window.location.pathname;
+  var inviteUrl = origin + '#invite/' + id;
+  var manageUrl = origin + '#manage/' + id + '/' + token;
+  
+  document.getElementById('inviteLinkBox').textContent = inviteUrl;
+  document.getElementById('successModal').classList.add('show');
+  
+  document.getElementById('copyLinkBtn').onclick = function() {
+    navigator.clipboard.writeText(inviteUrl).then(function(){ toast('链接已复制'); }).catch(function(){ toast('复制失败，请手动复制', 'error'); });
+  };
+  
+  document.getElementById('goManageBtn').onclick = function() {
+    document.getElementById('successModal').classList.remove('show');
+    navigate('manage', { id: id, token: token });
+  };
+  
+  document.getElementById('closeModalBtn').onclick = function() {
+    document.getElementById('successModal').classList.remove('show');
+  };
+}
+
+// ==================== 邀请展示页 ====================
+var currentInvite = null;
+
+function showInvite(inviteId) {
+  var db = loadDB();
+  var invite = db[inviteId];
+  
+  if (!invite) {
+    document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+    document.getElementById('errorPage').classList.add('active');
+    document.getElementById('errorTitle').textContent = '邀请不存在';
+    document.getElementById('errorMsg').textContent = '这个邀请链接可能已经失效或地址有误';
+    return;
+  }
+  
+  currentInvite = invite;
+  
+  // 首次打开标记
+  if (!invite.openedAt) {
+    invite.openedAt = new Date().toLocaleString('zh-CN');
+    invite.status = 'opened';
+    saveDB(db);
+  }
+  
+  // 设置主题
+  document.body.className = 'theme-' + (invite.style || 'cream');
+  
+  // 重置页面
+  document.getElementById('coverPage').classList.remove('hidden');
+  document.getElementById('inviteMain').classList.remove('visible');
+  document.getElementById('errorPage').classList.remove('active');
+  
+  // 渲染邀请内容
+  renderInviteContent(invite);
+  
+  // 开场按钮
+  document.getElementById('openBtn').onclick = function() {
+    document.getElementById('coverPage').classList.add('hidden');
+    setTimeout(function() {
+      document.getElementById('inviteMain').classList.add('visible');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
+  };
+}
+
+function renderInviteContent(invite) {
+  // 封面图
+  var hero = document.getElementById('heroArea');
+  if (invite.coverImage) {
+    hero.innerHTML = '<img src="' + invite.coverImage + '" alt="" class="hero-image" onerror="this.parentElement.innerHTML=\'<div class=hero-placeholder>COVER</div>\'">';
+  } else {
+    hero.innerHTML = '<div class="hero-placeholder">COVER</div>';
+  }
+  
+  document.getElementById('dNickname').textContent = '致 ' + invite.nickname;
+  document.getElementById('dTitle').textContent = invite.title;
+  document.getElementById('dMessage').textContent = invite.message || '';
+  document.getElementById('dDate').textContent = invite.date;
+  document.getElementById('dTime').textContent = invite.time;
+  document.getElementById('dLocation').textContent = invite.location;
+  
+  if (invite.address) { document.getElementById('secAddress').style.display = 'block'; document.getElementById('dAddress').textContent = invite.address; }
+  else document.getElementById('secAddress').style.display = 'none';
+  
+  if (invite.schedule && invite.schedule.length > 0) {
+    document.getElementById('secSchedule').style.display = 'block';
+    document.getElementById('dSchedule').innerHTML = invite.schedule.map(function(s) {
+      return '<li class="schedule-item"><span class="schedule-time">' + escapeHtml(s.time) + '</span><span class="schedule-divider">｜</span><span class="schedule-event">' + escapeHtml(s.event) + '</span></li>';
+    }).join('');
+  } else document.getElementById('secSchedule').style.display = 'none';
+  
+  if (invite.dressCode) { document.getElementById('secDress').style.display = 'block'; document.getElementById('dDressCode').textContent = invite.dressCode; }
+  else document.getElementById('secDress').style.display = 'none';
+  
+  if (invite.notes) { document.getElementById('secNotes').style.display = 'block'; document.getElementById('dNotes').textContent = invite.notes; }
+  else document.getElementById('secNotes').style.display = 'none';
+  
+  // 回应区
+  var rc = document.getElementById('responseContent');
+  if (invite.responseType) {
+    var icon, text;
+    if (invite.responseType === 'accept') { icon = '✦'; text = '已接受邀请 — 那就说好了'; }
+    else { icon = '↗'; text = '已申请改期'; }
+    rc.innerHTML = '<div class="responded-status"><div class="status-icon">' + icon + '</div><div class="status-text">' + text + '</div>' +
+      (invite.rescheduleDate ? '<div class="status-time">建议日期：' + invite.rescheduleDate + '</div>' : '') +
+      (invite.rescheduleMessage ? '<div class="status-time">留言：' + escapeHtml(invite.rescheduleMessage) + '</div>' : '') +
+      '<div class="status-time">回应于 ' + (invite.respondedAt || '') + '</div></div>';
+  } else {
+    rc.innerHTML = '<div class="response-buttons"><button class="resp-btn primary" id="acceptBtn">好呀，见面</button><button class="resp-btn secondary" id="rescheduleBtn">我想换个时间</button></div>';
+    document.getElementById('acceptBtn').onclick = handleAccept;
+    document.getElementById('rescheduleBtn').onclick = function() {
+      document.getElementById('rsModal').classList.add('show');
+      var t = new Date(); t.setDate(t.getDate() + 2);
+      document.getElementById('rsDate').value = t.toISOString().split('T')[0];
+    };
+  }
+}
+
+function handleAccept() {
+  var db = loadDB();
+  var invite = db[currentInvite.id];
+  if (!invite || invite.responseType) return;
+  
+  invite.responseType = 'accept';
+  invite.status = 'accepted';
+  invite.respondedAt = new Date().toLocaleString('zh-CN');
+  saveDB(db);
+  
+  var overlay = document.getElementById('celebrateOverlay');
+  overlay.classList.add('show');
+  setTimeout(function() {
+    overlay.classList.remove('show');
+    currentInvite = invite;
+    renderInviteContent(invite);
+  }, 2000);
+}
+
+document.getElementById('cancelRS').onclick = function() {
+  document.getElementById('rsModal').classList.remove('show');
+};
+
+document.getElementById('submitRS').onclick = function() {
+  var date = document.getElementById('rsDate').value;
+  var msg = document.getElementById('rsMsg').value.trim();
+  if (!date) return toast('请选择建议的新日期', 'error');
+  
+  var db = loadDB();
+  var invite = db[currentInvite.id];
+  if (!invite || invite.responseType) return;
+  
+  invite.responseType = 'reschedule';
+  invite.status = 'reschedule';
+  invite.respondedAt = new Date().toLocaleString('zh-CN');
+  invite.rescheduleDate = date;
+  invite.rescheduleMessage = msg;
+  saveDB(db);
+  
+  document.getElementById('rsModal').classList.remove('show');
+  currentInvite = invite;
+  renderInviteContent(invite);
+  toast('已提交改期申请');
+};
+
+// ==================== 管理页 ====================
+function showManage(params) {
+  var db = loadDB();
+  var invite = db[params.id];
+  
+  if (!invite || invite.adminToken !== params.token) {
+    document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+    document.getElementById('errorPage').classList.add('active');
+    document.getElementById('errorTitle').textContent = '无权访问';
+    document.getElementById('errorMsg').textContent = '这个管理链接不正确或已失效';
+    return;
+  }
+  
+  currentInvite = invite;
+  document.body.className = '';
+  
+  var origin = window.location.origin + window.location.pathname;
+  var inviteUrl = origin + '#invite/' + invite.id;
+  
+  var statusLabels = { waiting: '等待打开', opened: '已打开', accepted: '已接受', reschedule: '希望改期' };
+  var statusClasses = { waiting: 'status-waiting', opened: 'status-opened', accepted: 'status-accepted', reschedule: 'status-reschedule' };
+  
+  var schedHtml = '';
+  if (invite.schedule && invite.schedule.length > 0) {
+    schedHtml = invite.schedule.map(function(s){ return '<div>' + escapeHtml(s.time) + ' ｜ ' + escapeHtml(s.event) + '</div>'; }).join('');
+  }
+  
+  var mc = document.getElementById('manageContent');
+  mc.innerHTML = 
+    '<div class="status-badge ' + (statusClasses[invite.status] || '') + '">' + (statusLabels[invite.status] || invite.status) + '</div>' +
+    '<div class="info-block"><div class="label">邀请标题</div><div class="value big">' + escapeHtml(invite.title) + '</div></div>' +
+    '<div class="info-block"><div class="label">致</div><div class="value">' + escapeHtml(invite.nickname) + '</div></div>' +
+    '<div class="info-block"><div class="label">邀请链接</div><div class="link-box">' + inviteUrl + '</div></div>' +
+    '<div class="info-block"><div class="label">日期 · 时间 · 地点</div><div class="value">' + escapeHtml(invite.date) + ' ' + escapeHtml(invite.time) + '<br>' + escapeHtml(invite.location) + '</div></div>' +
+    (invite.address ? '<div class="info-block"><div class="label">详细地址</div><div class="value">' + escapeHtml(invite.address) + '</div></div>' : '') +
+    (schedHtml ? '<div class="info-block"><div class="label">约会行程</div><div class="value">' + schedHtml + '</div></div>' : '') +
+    '<div class="info-block"><div class="label">状态详情</div><div class="value">是否打开：' + (invite.openedAt ? '是 (' + invite.openedAt + ')' : '否') + '<br>是否回应：' + (invite.respondedAt ? '是 (' + invite.respondedAt + ')' : '否') + '<br>' +
+    (invite.responseType === 'reschedule' ? '建议新日期：' + escapeHtml(invite.rescheduleDate) + '<br>' : '') +
+    (invite.rescheduleMessage ? '对方留言：' + escapeHtml(invite.rescheduleMessage) + '<br>' : '') +
+    '创建时间：' + invite.createdAt + '</div></div>' +
+    '<div class="action-bar">' +
+    '<button class="btn btn-dark" id="copyBtn">复制邀请链接</button>' +
+    '<button class="btn btn-outline" id="previewBtn">预览邀请</button>' +
+    '<button class="btn btn-outline" id="editBtn">编辑邀请</button>' +
+    '<button class="btn btn-danger" id="deleteBtn">删除邀请</button>' +
+    '</div>' +
+    '<div class="edit-form" id="editForm">' +
+    '<div class="form-group"><label>对方昵称</label><input type="text" id="eNickname" value="' + escapeHtml(invite.nickname) + '"></div>' +
+    '<div class="form-group"><label>邀请标题</label><input type="text" id="eTitle" value="' + escapeHtml(invite.title) + '"></div>' +
+    '<div class="form-group"><label>邀请文案</label><input type="text" id="eMessage" value="' + escapeHtml(invite.message || '') + '"></div>' +
+    '<div class="form-group"><label>日期</label><input type="date" id="eDate" value="' + invite.date + '"></div>' +
+    '<div class="form-group"><label>时间</label><input type="time" id="eTime" value="' + invite.time + '"></div>' +
+    '<div class="form-group"><label>地点</label><input type="text" id="eLocation" value="' + escapeHtml(invite.location) + '"></div>' +
+    '<div class="form-group"><label>详细地址</label><input type="text" id="eAddress" value="' + escapeHtml(invite.address || '') + '"></div>' +
+    '<div class="edit-btns"><button class="cancel-btn" id="cancelEdit">取消</button><button class="save-btn" id="saveEdit">保存</button></div>' +
+    '</div>';
+  
+  document.getElementById('copyBtn').onclick = function() {
+    navigator.clipboard.writeText(inviteUrl).then(function(){ toast('邀请链接已复制'); }).catch(function(){ toast('复制失败，请手动复制', 'error'); });
+  };
+  
+  document.getElementById('previewBtn').onclick = function() {
+    navigate('invite', invite.id);
+  };
+  
+  document.getElementById('editBtn').onclick = function() {
+    document.getElementById('editForm').classList.toggle('show');
+  };
+  
+  document.getElementById('cancelEdit').onclick = function() {
+    document.getElementById('editForm').classList.remove('show');
+  };
+  
+  document.getElementById('saveEdit').onclick = function() {
+    var nn = document.getElementById('eNickname').value.trim();
+    var ti = document.getElementById('eTitle').value.trim();
+    var dt = document.getElementById('eDate').value;
+    var tm = document.getElementById('eTime').value;
+    var lo = document.getElementById('eLocation').value.trim();
+    if (!nn || !ti || !dt || !tm || !lo) return toast('请填写所有必填字段', 'error');
+    
+    var db = loadDB();
+    var inv = db[invite.id];
+    inv.nickname = nn; inv.title = ti; inv.message = document.getElementById('eMessage').value.trim();
+    inv.date = dt; inv.time = tm; inv.location = lo; inv.address = document.getElementById('eAddress').value.trim();
+    saveDB(db);
+    toast('已保存');
+    document.getElementById('editForm').classList.remove('show');
+    currentInvite = inv;
+    showManage(params);
+  };
+  
+  document.getElementById('deleteBtn').onclick = function() {
+    document.getElementById('confirmOverlay').classList.add('show');
+    document.getElementById('confirmDelete').onclick = function() {
+      var db = loadDB();
+      delete db[invite.id];
+      saveDB(db);
+      document.getElementById('confirmOverlay').classList.remove('show');
+      mc.innerHTML = '<div style="text-align:center;padding:60px 0"><p style="font-size:18px;margin-bottom:8px">邀请已删除</p><a onclick="navigate(\'home\')" style="color:var(--taupe);cursor:pointer;font-size:14px;">返回首页</a></div>';
+    };
+  };
+  
+  document.getElementById('cancelDelete').onclick = function() {
+    document.getElementById('confirmOverlay').classList.remove('show');
+  };
+}
+
+// ==================== 启动 ====================
+parseHash();
+</script>
+</body>
+</html>
