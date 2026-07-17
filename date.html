@@ -273,9 +273,9 @@ function nextMonth(){
 }
 
 document.getElementById('confirmBtn').onclick=function(){
-  if(!selectedDay)return;
+  if(!selectedDay){alert('请先选择一个日期');return;}
   localStorage.setItem('di_selected_date',selectedDay);
-  window.location.href='food.html';
+  window.location.href='food.html?v=2';
 };
 
 renderCalendar();

@@ -93,6 +93,23 @@ body{
 }
 .toast.show{opacity:1}
 
+/* 庆祝弹窗 */
+.cel{
+  position:fixed;inset:0;background:rgba(0,0,0,.5);
+  display:flex;align-items:center;justify-content:center;
+  z-index:200;opacity:0;pointer-events:none;transition:opacity .5s;
+}
+.cel.show{opacity:1}
+.cel-inner{
+  text-align:center;color:#fff;padding:20px;
+  background:rgba(255,255,255,.1);border-radius:30px;
+  backdrop-filter:blur(10px);
+}
+.cel-inner .ce{font-size:72px;display:block;animation:pop .6s ease}
+.cel-inner .ct{font-size:24px;font-weight:700;margin-top:16px;letter-spacing:.04em}
+.cel-inner .cs{font-size:14px;margin-top:8px;opacity:.85}
+@keyframes pop{0%{transform:scale(0)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
+
 @keyframes riseIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 .anim{animation:riseIn .6s ease forwards;opacity:0}
 .anim.d1{animation-delay:.1s}.anim.d2{animation-delay:.2s}.anim.d3{animation-delay:.3s}.anim.d4{animation-delay:.4s}
@@ -250,6 +267,15 @@ body{
 
 <div class="toast" id="toast"></div>
 
+<!-- 庆祝弹窗 -->
+<div class="cel" id="cel">
+  <div class="cel-inner">
+    <span class="ce">💖</span>
+    <div class="ct">那就说好了！</div>
+    <div class="cs">日期和美食都选好啦～等你哦</div>
+  </div>
+</div>
+
 <script>
 var selectedFood=null;
 
@@ -269,8 +295,9 @@ function selectFood(el){
 
 document.getElementById('confirmBtn').onclick=function(){
   if(!selectedFood)return T('请先选择想吃的');
-  T('选择了：'+selectedFood+' 🎉');
-  // TODO: 进入下一步
+  localStorage.setItem('di_selected_food',selectedFood);
+  // 显示完成弹窗
+  document.getElementById('cel').classList.add('show');
 };
 </script>
 </body>
