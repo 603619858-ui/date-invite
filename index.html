@@ -972,12 +972,27 @@ function showManage(params) {
 
 // ==================== 启动 ====================
 // 等 DOM 加载完成后再初始化路由
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', function() {
-    parseHash();
-  });
-} else {
+function boot() {
   parseHash();
+  
+  // Fallback: 对于不支持 hashchange 的环境（如部分微信内置浏览器）
+  // 直接给所有 hash 链接绑定 click 事件
+  document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      var href = a.getAttribute('href');
+      if (!href || href === '#') return;
+      e.preventDefault();
+      window.location.hash = href.replace('#', '');
+      // 手动触发路由（有些环境下 hashchange 可能延迟或不触发）
+      setTimeout(function() { parseHash(); }, 10);
+    });
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', boot);
+} else {
+  boot();
 }
 </script>
 </body>
