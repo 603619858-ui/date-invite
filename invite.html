@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>邀请函</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:#FAF7F2;color:#1A1A1A;min-height:100vh;min-height:100dvh;
+  -webkit-font-smoothing:antialiased;
+}
+body.t-noir{background:#1A1A1A;color:#D4C9B8}
+body.t-nature{background:#F5F4F0;color:#2C2C2C}
+
+.cover{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;padding:40px 24px;transition:opacity .6s,transform .6s;background:inherit}
+.cover.hide{opacity:0;pointer-events:none;transform:translateY(-20px)}
+.cline{width:1px;height:80px;background:#1A1A1A;margin-bottom:40px;opacity:.5}
+body.t-noir .cline{background:#C4A35A}
+body.t-nature .cline{background:#6B7F5D}
+.cover h1{font-size:26px;font-weight:300;letter-spacing:.1em;margin-bottom:20px;text-align:center}
+.cover .csub{font-size:13px;color:#8B7E74;letter-spacing:.06em;margin-bottom:48px}
+.cbtn{padding:14px 40px;border:1px solid #1A1A1A;background:transparent;color:#1A1A1A;font-size:15px;letter-spacing:.08em;cursor:pointer;font-family:inherit}
+.cbtn:active{transform:scale(.97)}
+body.t-noir .cbtn{border-color:#C4A35A;color:#C4A35A}
+body.t-nature .cbtn{border-color:#6B7F5D;color:#6B7F5D}
+
+@keyframes fU{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.ca{animation:fU .8s ease forwards;opacity:0}
+.ca.d1{animation-delay:.2s}.ca.d2{animation-delay:.5s}.ca.d3{animation-delay:.8s}
+
+.main{max-width:390px;margin:0 auto;padding:0 24px 40px;opacity:0;transition:opacity .6s}
+.main.show{opacity:1}
+
+.himg{width:calc(100% + 48px);margin-left:-24px;margin-right:-24px;aspect-ratio:3/4;object-fit:cover;display:block;margin-bottom:40px}
+.hph{width:calc(100% + 48px);margin-left:-24px;margin-right:-24px;aspect-ratio:3/4;background:#E8E3DC;display:flex;align-items:center;justify-content:center;margin-bottom:40px;font-size:13px;color:#8B7E74;letter-spacing:.06em}
+body.t-noir .hph{background:#2A2A2A}
+body.t-nature .hph{background:#E0E5D8}
+
+.al{width:1px;height:40px;background:#1A1A1A;margin:0 auto 32px;opacity:.3}
+body.t-noir .al{background:#C4A35A}
+body.t-nature .al{background:#6B7F5D}
+
+.nn{text-align:center;font-size:14px;color:#8B7E74;letter-spacing:.08em;margin-bottom:8px;font-weight:300}
+.tt{text-align:center;font-size:24px;font-weight:300;letter-spacing:.08em;margin-bottom:16px}
+.msg{text-align:center;font-size:14px;color:#8B7E74;letter-spacing:.04em;margin-bottom:40px;font-weight:300;line-height:1.8}
+
+.ki{text-align:center;margin-bottom:40px;padding:28px 0;border-top:1px solid #E8E3DC;border-bottom:1px solid #E8E3DC}
+body.t-noir .ki{border-color:#333}
+body.t-nature .ki{border-color:#D5DBCF}
+.kd{font-size:32px;font-weight:300;letter-spacing:.06em;margin-bottom:8px}
+.kt{font-size:18px;font-weight:300;letter-spacing:.08em;margin-bottom:4px;color:#8B7E74}
+.kl{font-size:16px;font-weight:300;letter-spacing:.06em}
+
+.ds{margin-bottom:32px}
+.il{font-size:10px;letter-spacing:.12em;color:#8B7E74;margin-bottom:8px;text-transform:uppercase}
+.iv{font-size:14px;letter-spacing:.04em;line-height:1.7}
+
+.sl{list-style:none;padding:0}
+.si{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #E8E3DC;align-items:baseline}
+body.t-noir .si{border-bottom-color:#2A2A2A}
+body.t-nature .si{border-bottom-color:#E0E5D8}
+.si:last-child{border-bottom:none}
+.st{font-size:14px;font-weight:400;letter-spacing:.04em;min-width:50px}
+.sd{color:#8B7E74;font-size:14px}
+.se{font-size:14px;letter-spacing:.04em}
+
+.rs{margin-top:48px;padding-top:32px;border-top:1px solid #E8E3DC}
+body.t-noir .rs{border-top-color:#333}
+body.t-nature .rs{border-top-color:#D5DBCF}
+.rs h3{font-size:16px;font-weight:400;letter-spacing:.06em;text-align:center;margin-bottom:24px}
+.rb{display:flex;flex-direction:column;gap:12px}
+.rbtn{width:100%;padding:16px;font-size:15px;letter-spacing:.06em;cursor:pointer;font-family:inherit;background:transparent}
+.rbtn.pri{border:1px solid #1A1A1A;color:#1A1A1A}
+.rbtn.sec{border:1px solid #E8E3DC;color:#8B7E74}
+body.t-noir .rbtn.pri{border-color:#C4A35A;color:#C4A35A}
+body.t-nature .rbtn.pri{border-color:#6B7F5D;color:#6B7F5D}
+.rbtn:active{transform:scale(.98)}
+
+.rsd{text-align:center;padding:32px 0}
+.rsd .ric{font-size:40px;margin-bottom:12px}
+.rsd .rtx{font-size:18px;letter-spacing:.06em;font-weight:300}
+.rsd .rtm{font-size:12px;color:#8B7E74;margin-top:8px}
+
+.cel{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:200;opacity:0;pointer-events:none;transition:opacity .5s}
+.cel.show{opacity:1}
+.celc{text-align:center;color:#FAF7F2}
+.celc .ce{font-size:56px;display:block;animation:cb .6s ease}
+.celc .ct{font-size:22px;letter-spacing:.08em;margin-top:16px;font-weight:300;animation:fU .6s ease .3s both}
+@keyframes cb{0%{transform:scale(0)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
+
+.rm{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center;z-index:200;opacity:0;pointer-events:none;transition:opacity .3s}
+.rm.show{opacity:1;pointer-events:auto}
+.rmc{background:#fff;width:100%;max-width:390px;padding:32px 24px;max-height:80vh;overflow-y:auto}
+body.t-noir .rmc{background:#1A1A1A}
+.rmc h3{font-size:18px;font-weight:400;letter-spacing:.06em;margin-bottom:24px}
+.rmc .fg{margin-bottom:20px}
+.rmc label{display:block;font-size:12px;letter-spacing:.06em;margin-bottom:8px;color:#8B7E74}
+.rmc input,.rmc textarea{width:100%;padding:12px 0;border:none;border-bottom:1px solid #E8E3DC;background:transparent;font-size:15px;font-family:inherit;outline:none}
+body.t-noir .rmc input,body.t-noir .rmc textarea{color:#D4C9B8;border-bottom-color:#333}
+.rmc textarea{resize:none;min-height:60px}
+.rmc .mbt{display:flex;gap:12px;margin-top:24px}
+.rmc .mbt button{flex:1;padding:14px;font-size:14px;letter-spacing:.06em;cursor:pointer;font-family:inherit;background:transparent}
+.rmc .sbtn{border:1px solid #1A1A1A;color:#1A1A1A}
+.rmc .cbtn2{border:1px solid #E8E3DC;color:#8B7E74}
+body.t-noir .rmc .sbtn{border-color:#C4A35A;color:#C4A35A}
+
+.err{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 24px;text-align:center}
+.err.show{display:flex}
+.err h2{font-size:18px;font-weight:400;margin-bottom:8px}
+.err p{font-size:13px;color:#8B7E74;margin-bottom:24px}
+.err a{color:#1A1A1A;font-size:14px;text-decoration:none}
+
+@media(max-width:390px){
+  .main{padding:0 16px 40px}
+  .himg,.hph{width:calc(100% + 32px);margin-left:-16px;margin-right:-16px}
+  .kd{font-size:28px}
+}
+</style>
+</head>
+<body id="body">
+
+<div class="cover" id="cover">
+  <div class="cline ca d1"></div>
+  <h1 class="ca d2">有一封邀请<br>想请你亲自打开</h1>
+  <p class="csub ca d3">DIGITAL INVITATION</p>
+  <button class="cbtn ca d3" id="openBtn">打开邀请</button>
+</div>
+
+<div class="main" id="main">
+  <div id="hero"></div>
+  <div class="al"></div>
+  <div class="nn" id="dnn"></div>
+  <h1 class="tt" id="dtt"></h1>
+  <div class="msg" id="dmsg"></div>
+  <div class="ki">
+    <div class="kd" id="ddt"></div>
+    <div class="kt" id="dtm"></div>
+    <div class="kl" id="dlo"></div>
+  </div>
+  <div class="ds" id="sAddr" style="display:none"><div class="il">详细地址</div><div class="iv" id="dad"></div></div>
+  <div class="ds" id="sSch" style="display:none"><div class="il">约会行程</div><ul class="sl" id="dsc"></ul></div>
+  <div class="ds" id="sDr" style="display:none"><div class="il">穿搭提示</div><div class="iv" id="ddr"></div></div>
+  <div class="ds" id="sNt" style="display:none"><div class="il">备注</div><div class="iv" id="dnt"></div></div>
+  <div class="rs"><h3>你的回应</h3><div id="resp"></div></div>
+</div>
+
+<div class="cel" id="cel"><div class="celc"><span class="ce">✦</span><div class="ct">那就说好了</div></div></div>
+
+<div class="rm" id="rm"><div class="rmc">
+  <h3>想换个时间</h3>
+  <div class="fg"><label>建议的新日期</label><input type="date" id="rd"></div>
+  <div class="fg"><label>一句话留言</label><textarea id="rmsg" placeholder="说说你想换时间的理由..." maxlength="200"></textarea></div>
+  <div class="mbt">
+    <button class="cbtn2" id="cR">取消</button>
+    <button class="sbtn" id="sR">提交</button>
+  </div>
+</div></div>
+
+<div class="err" id="err"><h2 id="eT">邀请不存在</h2><p id="eM">这个邀请链接可能已经失效</p><a href="index.html">返回首页</a></div>
+
+<script>
+function E(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
+
+var id=(new URLSearchParams(window.location.search)).get('id');
+if(!id){document.getElementById('err').classList.add('show');document.getElementById('cover').style.display='none'}
+
+var db=JSON.parse(localStorage.getItem('di_db')||'{}');
+var inv=db[id];
+
+if(!inv){
+  document.getElementById('err').classList.add('show');
+  document.getElementById('cover').style.display='none';
+} else {
+  // 首次打开
+  if(!inv.openedAt){inv.openedAt=new Date().toLocaleString('zh-CN');inv.status='opened';localStorage.setItem('di_db',JSON.stringify(db))}
+
+  document.body.className='t-'+(inv.style||'cream');
+
+  // 封面
+  if(inv.img)document.getElementById('hero').innerHTML='<img src="'+inv.img+'" class="himg" onerror="this.parentElement.innerHTML=\'<div class=hph>COVER</div>\'">';
+  else document.getElementById('hero').innerHTML='<div class="hph">COVER</div>';
+
+  document.getElementById('dnn').textContent='致 '+inv.nickname;
+  document.getElementById('dtt').textContent=inv.title;
+  document.getElementById('dmsg').textContent=inv.message||'';
+  document.getElementById('ddt').textContent=inv.date;
+  document.getElementById('dtm').textContent=inv.time;
+  document.getElementById('dlo').textContent=inv.location;
+
+  if(inv.address){document.getElementById('sAddr').style.display='block';document.getElementById('dad').textContent=inv.address}
+  if(inv.sch&&inv.sch.length){document.getElementById('sSch').style.display='block';document.getElementById('dsc').innerHTML=inv.sch.map(function(s){return'<li class="si"><span class="st">'+E(s.time)+'</span><span class="sd">｜</span><span class="se">'+E(s.event)+'</span></li>'}).join('')}
+  if(inv.dressCode){document.getElementById('sDr').style.display='block';document.getElementById('ddr').textContent=inv.dressCode}
+  if(inv.notes){document.getElementById('sNt').style.display='block';document.getElementById('dnt').textContent=inv.notes}
+
+  // 回应
+  var rc=document.getElementById('resp');
+  if(inv.respType){
+    var icon=inv.respType==='accept'?'✦':'↗';
+    var txt=inv.respType==='accept'?'已接受邀请 — 那就说好了':'已申请改期';
+    rc.innerHTML='<div class="rsd"><div class="ric">'+icon+'</div><div class="rtx">'+txt+'</div>'+
+      (inv.rsDate?'<div class="rtm">建议日期：'+inv.rsDate+'</div>':'')+
+      (inv.rsMsg?'<div class="rtm">留言：'+E(inv.rsMsg)+'</div>':'')+
+      '<div class="rtm">回应于 '+(inv.respondedAt||'')+'</div></div>';
+  } else {
+    rc.innerHTML='<div class="rb"><button class="rbtn pri" id="accBtn">好呀，见面</button><button class="rbtn sec" id="rsBtn">我想换个时间</button></div>';
+    document.getElementById('accBtn').onclick=function(){
+      inv.respType='accept';inv.status='accepted';inv.respondedAt=new Date().toLocaleString('zh-CN');
+      localStorage.setItem('di_db',JSON.stringify(db));
+      document.getElementById('cel').classList.add('show');
+      setTimeout(function(){document.getElementById('cel').classList.remove('show');location.reload()},2000);
+    };
+    document.getElementById('rsBtn').onclick=function(){
+      document.getElementById('rm').classList.add('show');
+      var t=new Date();t.setDate(t.getDate()+2);
+      document.getElementById('rd').value=t.toISOString().split('T')[0];
+    };
+  }
+
+  document.getElementById('openBtn').onclick=function(){
+    document.getElementById('cover').classList.add('hide');
+    setTimeout(function(){document.getElementById('main').classList.add('show');window.scrollTo(0,0)},100);
+  };
+}
+
+document.getElementById('cR').onclick=function(){document.getElementById('rm').classList.remove('show')};
+document.getElementById('sR').onclick=function(){
+  var d=document.getElementById('rd').value;
+  var m=document.getElementById('rmsg').value.trim();
+  if(!d)return alert('请选择建议的新日期');
+  inv.respType='reschedule';inv.status='reschedule';inv.respondedAt=new Date().toLocaleString('zh-CN');
+  inv.rsDate=d;inv.rsMsg=m;
+  localStorage.setItem('di_db',JSON.stringify(db));
+  document.getElementById('rm').classList.remove('show');
+  location.reload();
+};
+</script>
+</body>
+</html>

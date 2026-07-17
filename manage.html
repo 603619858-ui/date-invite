@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>管理邀请</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:#FAF7F2;color:#1A1A1A;min-height:100vh;min-height:100dvh;
+}
+.page{max-width:390px;margin:0 auto;padding:0 24px 40px}
+.header{padding:20px 0;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #E8E3DC;margin-bottom:32px}
+.header h1{font-size:18px;font-weight:400;letter-spacing:.06em}
+.header a{font-size:13px;color:#8B7E74;text-decoration:none;letter-spacing:.04em}
+
+.sb{display:inline-block;padding:6px 14px;font-size:12px;letter-spacing:.06em;border:1px solid;margin-bottom:24px}
+.sb.w{border-color:#8B7E74;color:#8B7E74}
+.sb.o{border-color:#6B7F5D;color:#6B7F5D}
+.sb.a{border-color:#C4A35A;color:#C4A35A}
+.sb.r{border-color:#8B3A3A;color:#8B3A3A}
+
+.ib{margin-bottom:28px}
+.ib .lb{font-size:10px;letter-spacing:.12em;color:#8B7E74;margin-bottom:6px;text-transform:uppercase}
+.ib .vl{font-size:14px;letter-spacing:.04em;line-height:1.7}
+.ib .vl.big{font-size:18px;font-weight:300}
+
+.lb2{border:1px solid #E8E3DC;padding:14px;font-size:13px;word-break:break-all;background:#fff;margin-bottom:12px;line-height:1.6}
+
+.ab{display:flex;flex-direction:column;gap:10px;margin-top:36px;padding-top:28px;border-top:1px solid #E8E3DC}
+
+.btn{display:inline-block;width:100%;padding:14px;font-size:14px;letter-spacing:.06em;cursor:pointer;font-family:inherit;background:transparent;text-align:center;text-decoration:none}
+.btn-d{border:1px solid #1A1A1A;color:#1A1A1A}
+.btn-o{border:1px solid #E8E3DC;color:#8B7E74}
+.btn-r{border:1px solid #8B3A3A;color:#8B3A3A}
+.btn:active{transform:scale(.98)}
+
+.ef{display:none;margin-top:20px}
+.ef.show{display:block}
+.ef .fg{margin-bottom:16px}
+.ef label{display:block;font-size:12px;letter-spacing:.06em;margin-bottom:6px;color:#8B7E74}
+.ef input,.ef textarea{width:100%;padding:10px 0;border:none;border-bottom:1px solid #E8E3DC;background:transparent;font-size:14px;font-family:inherit;outline:none}
+.ef textarea{resize:none;min-height:50px}
+.ef .ebt{display:flex;gap:10px;margin-top:16px}
+.ef .ebt button{flex:1;padding:12px;font-size:13px;letter-spacing:.04em;cursor:pointer;font-family:inherit;background:transparent}
+.ef .sbtn{border:1px solid #1A1A1A;color:#1A1A1A}
+.ef .cbtn{border:1px solid #E8E3DC;color:#8B7E74}
+
+.co{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:200;display:none}
+.co.show{display:flex}
+.cb{background:#fff;padding:32px 24px;width:90vw;max-width:300px;text-align:center}
+.cb h3{font-size:16px;font-weight:400;margin-bottom:8px;letter-spacing:.06em}
+.cb p{font-size:13px;color:#8B7E74;margin-bottom:20px}
+.cb .btns{display:flex;gap:10px}
+.cb .btns button{flex:1;padding:12px;font-size:13px;letter-spacing:.04em;cursor:pointer;font-family:inherit;background:transparent}
+.cb .dbtn{border:1px solid #8B3A3A;color:#8B3A3A}
+.cb .cbtn{border:1px solid #E8E3DC;color:#8B7E74}
+
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1A1A1A;color:#FAF7F2;padding:12px 24px;font-size:14px;letter-spacing:.04em;z-index:1000;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+.toast.err{background:#8B3A3A}
+
+.err{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 24px;text-align:center}
+.err.show{display:flex}
+.err h2{font-size:18px;font-weight:400;margin-bottom:8px}
+.err p{font-size:13px;color:#8B7E74;margin-bottom:24px}
+.err a{color:#1A1A1A;font-size:14px;text-decoration:none}
+</style>
+</head>
+<body>
+
+<div class="page" id="app">
+  <div class="header"><h1>管理邀请</h1><a href="index.html">返回首页</a></div>
+  <div id="content"></div>
+</div>
+
+<div class="err" id="err"><h2>无权访问</h2><p>这个管理链接不正确或已失效</p><a href="index.html">返回首页</a></div>
+
+<div class="co" id="co"><div class="cb">
+  <h3>确认删除</h3><p>删除后邀请链接将失效，此操作不可恢复</p>
+  <div class="btns">
+    <button class="cbtn" id="cD">取消</button>
+    <button class="dbtn" id="okD">确认删除</button>
+  </div>
+</div></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+function E(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
+function T(m,t){var e=document.getElementById('toast');e.textContent=m;e.className='toast'+(t?' err':'')+' show';clearTimeout(e._t);e._t=setTimeout(function(){e.className='toast'},2500)}
+
+var p=new URLSearchParams(window.location.search);
+var id=p.get('id'),token=p.get('token');
+if(!id||!token){document.getElementById('err').classList.add('show');document.getElementById('app').style.display='none'}
+
+var db=JSON.parse(localStorage.getItem('di_db')||'{}');
+var inv=db[id];
+
+if(!inv||inv.token!==token){document.getElementById('err').classList.add('show');document.getElementById('app').style.display='none'}
+
+var base=window.location.href.replace(/manage\.html.*/,'');
+var invUrl=base+'invite.html?id='+id;
+
+var sl={waiting:'等待打开',opened:'已打开',accepted:'已接受',reschedule:'希望改期'};
+var sc={waiting:'w',opened:'o',accepted:'a',reschedule:'r'};
+
+var schH='';
+if(inv.sch&&inv.sch.length)schH=inv.sch.map(function(s){return'<div>'+E(s.time)+' ｜ '+E(s.event)+'</div>'}).join('');
+
+function render(){
+  document.getElementById('content').innerHTML=
+    '<div class="sb '+(sc[inv.status]||'')+'">'+(sl[inv.status]||inv.status)+'</div>'+
+    '<div class="ib"><div class="lb">邀请标题</div><div class="vl big">'+E(inv.title)+'</div></div>'+
+    '<div class="ib"><div class="lb">致</div><div class="vl">'+E(inv.nickname)+'</div></div>'+
+    '<div class="ib"><div class="lb">邀请链接</div><div class="lb2">'+invUrl+'</div></div>'+
+    '<div class="ib"><div class="lb">日期 · 时间 · 地点</div><div class="vl">'+E(inv.date)+' '+E(inv.time)+'<br>'+E(inv.location)+'</div></div>'+
+    (inv.address?'<div class="ib"><div class="lb">详细地址</div><div class="vl">'+E(inv.address)+'</div></div>':'')+
+    (schH?'<div class="ib"><div class="lb">约会行程</div><div class="vl">'+schH+'</div></div>':'')+
+    '<div class="ib"><div class="lb">状态详情</div><div class="vl">是否打开：'+(inv.openedAt?'是 ('+inv.openedAt+')':'否')+'<br>是否回应：'+(inv.respondedAt?'是 ('+inv.respondedAt+')':'否')+'<br>'+
+    (inv.respType==='reschedule'?'建议新日期：'+E(inv.rsDate)+'<br>':'')+
+    (inv.rsMsg?'对方留言：'+E(inv.rsMsg)+'<br>':'')+
+    '创建时间：'+inv.createdAt+'</div></div>'+
+    '<div class="ab">'+
+    '<button class="btn btn-d" id="cpBtn">复制邀请链接</button>'+
+    '<a class="btn btn-o" href="'+invUrl+'" target="_blank">预览邀请</a>'+
+    '<button class="btn btn-o" id="edBtn">编辑邀请</button>'+
+    '<button class="btn btn-r" id="dlBtn">删除邀请</button>'+
+    '</div>'+
+    '<div class="ef" id="ef">'+
+    '<div class="fg"><label>对方昵称</label><input type="text" id="enn" value="'+E(inv.nickname)+'"></div>'+
+    '<div class="fg"><label>邀请标题</label><input type="text" id="ett" value="'+E(inv.title)+'"></div>'+
+    '<div class="fg"><label>邀请文案</label><input type="text" id="emsg" value="'+E(inv.message||'')+'"></div>'+
+    '<div class="fg"><label>日期</label><input type="date" id="edt" value="'+inv.date+'"></div>'+
+    '<div class="fg"><label>时间</label><input type="time" id="etm" value="'+inv.time+'"></div>'+
+    '<div class="fg"><label>地点</label><input type="text" id="elo" value="'+E(inv.location)+'"></div>'+
+    '<div class="fg"><label>详细地址</label><input type="text" id="ead" value="'+E(inv.address||'')+'"></div>'+
+    '<div class="ebt"><button class="cbtn" id="cEd">取消</button><button class="sbtn" id="sEd">保存</button></div>'+
+    '</div>';
+
+  document.getElementById('cpBtn').onclick=function(){navigator.clipboard.writeText(invUrl).then(function(){T('邀请链接已复制')}).catch(function(){T('复制失败，请手动复制',1)})};
+  document.getElementById('edBtn').onclick=function(){document.getElementById('ef').classList.toggle('show')};
+  document.getElementById('cEd').onclick=function(){document.getElementById('ef').classList.remove('show')};
+  document.getElementById('sEd').onclick=function(){
+    var nn=document.getElementById('enn').value.trim(),ti=document.getElementById('ett').value.trim();
+    var dt=document.getElementById('edt').value,tm=document.getElementById('etm').value,lo=document.getElementById('elo').value.trim();
+    if(!nn||!ti||!dt||!tm||!lo)return T('请填写所有必填字段',1);
+    inv.nickname=nn;inv.title=ti;inv.message=document.getElementById('emsg').value.trim();
+    inv.date=dt;inv.time=tm;inv.location=lo;inv.address=document.getElementById('ead').value.trim();
+    localStorage.setItem('di_db',JSON.stringify(db));
+    T('已保存');document.getElementById('ef').classList.remove('show');render();
+  };
+  document.getElementById('dlBtn').onclick=function(){document.getElementById('co').classList.add('show')};
+}
+render();
+
+document.getElementById('cD').onclick=function(){document.getElementById('co').classList.remove('show')};
+document.getElementById('okD').onclick=function(){
+  delete db[id];localStorage.setItem('di_db',JSON.stringify(db));
+  document.getElementById('co').classList.remove('show');
+  document.getElementById('content').innerHTML='<div style="text-align:center;padding:60px 0"><p style="font-size:18px;margin-bottom:8px">邀请已删除</p><a href="index.html" style="color:#8B7E74;font-size:14px;text-decoration:none">返回首页</a></div>';
+};
+</script>
+</body>
+</html>

@@ -1,7 +1,7 @@
-__pycache__/
-*.pyc
+server.py
+requirements.txt
 data/
 uploads/
 *.db
-server.py
-requirements.txt
+static/
+playwright*

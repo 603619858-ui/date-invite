@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>创建邀请</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:#FAF7F2;color:#1A1A1A;min-height:100vh;min-height:100dvh;
+}
+.page{max-width:390px;margin:0 auto;padding:0 24px 40px}
+.header{padding:20px 0;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #E8E3DC;margin-bottom:32px}
+.header h1{font-size:18px;font-weight:400;letter-spacing:.06em}
+.header a{font-size:13px;color:#8B7E74;text-decoration:none;letter-spacing:.04em}
+
+.style-selector{display:flex;gap:8px;margin-bottom:24px;overflow-x:auto}
+.style-opt{flex:0 0 auto;padding:10px 16px;border:1px solid #E8E3DC;background:transparent;font-size:13px;letter-spacing:.04em;cursor:pointer;color:#8B7E74;font-family:inherit}
+.style-opt.active{border-color:#1A1A1A;color:#1A1A1A;background:rgba(0,0,0,.03)}
+
+.preview{padding:20px;margin-bottom:28px;border:1px solid #E8E3DC;min-height:100px}
+.preview .pl{font-size:10px;letter-spacing:.1em;color:#8B7E74;margin-bottom:12px;text-transform:uppercase}
+.preview h3{font-size:18px;font-weight:400;margin-bottom:4px}
+.preview .ps{font-size:13px;color:#8B7E74;margin-bottom:8px}
+.preview .pi{font-size:13px}
+.preview.cream{background:#FAF7F2}
+.preview.noir{background:#1A1A1A;color:#D4C9B8;border-color:#333}
+.preview.noir h3{color:#D4C9B8}
+.preview.noir .ps{color:#8B7E74}
+.preview.noir .pi{color:#C4A35A}
+.preview.nature{background:#F5F4F0;border-color:#C5CFBE}
+
+.fs{margin-bottom:28px}
+.fsl{font-size:11px;letter-spacing:.1em;color:#8B7E74;margin-bottom:16px;text-transform:uppercase;padding-bottom:8px;border-bottom:1px solid #E8E3DC}
+.fg{margin-bottom:20px}
+.fg label{display:block;font-size:13px;letter-spacing:.04em;margin-bottom:8px}
+.fg label .rq{color:#8B3A3A;margin-left:2px}
+
+input[type=text],input[type=date],input[type=time],textarea{
+  width:100%;padding:12px 0;border:none;border-bottom:1px solid #E8E3DC;
+  background:transparent;font-size:15px;color:#1A1A1A;font-family:inherit;
+  outline:none;-webkit-appearance:none;border-radius:0
+}
+input:focus,textarea:focus{border-bottom-color:#1A1A1A}
+textarea{resize:none;min-height:60px;line-height:1.6}
+::placeholder{color:#C4BFB6;font-size:14px}
+
+.up-area{border:1px dashed #E8E3DC;padding:32px 20px;text-align:center;cursor:pointer;position:relative}
+.up-area.has-img{border-style:solid;padding:0}
+.up-area img{width:100%;display:block;max-height:200px;object-fit:cover}
+.up-area .up-text{font-size:13px;color:#8B7E74;letter-spacing:.04em}
+.up-area .rm-img{position:absolute;top:8px;right:8px;width:24px;height:24px;background:rgba(0,0,0,.6);color:#fff;border:none;border-radius:50%;cursor:pointer;font-size:14px;display:none;align-items:center;justify-content:center}
+.up-area.has-img .rm-img{display:flex}
+
+.sch-editor{border:1px solid #E8E3DC;padding:12px}
+.sch-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #E8E3DC}
+.sch-row:last-child{border-bottom:none}
+.sch-row input{width:auto;padding:6px 0;border:none;border-bottom:1px solid transparent;background:transparent;font-size:14px;font-family:inherit;outline:none}
+.sch-row input:focus{border-bottom-color:#1A1A1A}
+.sch-row .ti{width:70px}
+.sch-row .ei{flex:1}
+.sch-act{display:flex;gap:4px}
+.sch-act button{width:28px;height:28px;border:1px solid #E8E3DC;background:transparent;cursor:pointer;font-size:14px;color:#8B7E74;display:flex;align-items:center;justify-content:center}
+.add-sch{width:100%;padding:12px;border:1px dashed #E8E3DC;background:transparent;font-size:13px;color:#8B7E74;cursor:pointer;letter-spacing:.04em;margin-top:8px;font-family:inherit}
+
+.btn{display:inline-block;padding:14px 40px;border:1px solid #1A1A1A;background:transparent;color:#1A1A1A;font-size:15px;letter-spacing:.08em;cursor:pointer;text-decoration:none;transition:all .3s;font-family:inherit;text-align:center}
+.btn:active{transform:scale(.97)}
+.btn-full{width:100%}
+.btn-dark{background:#1A1A1A;color:#FAF7F2}
+
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1A1A1A;color:#FAF7F2;padding:12px 24px;font-size:14px;letter-spacing:.04em;z-index:1000;opacity:0;transition:opacity .3s;pointer-events:none;max-width:90vw;text-align:center}
+.toast.show{opacity:1}
+.toast.err{background:#8B3A3A}
+
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:999;display:none}
+.modal-overlay.show{display:flex}
+.modal{background:#fff;padding:40px 28px;width:90vw;max-width:340px;text-align:center}
+.modal h2{font-size:20px;font-weight:400;margin-bottom:8px;letter-spacing:.06em}
+.modal p{font-size:13px;color:#8B7E74;margin-bottom:24px}
+.modal .link-box{border:1px solid #E8E3DC;padding:14px;font-size:13px;word-break:break-all;margin-bottom:16px;background:#FAF7F2}
+.modal .btns{display:flex;flex-direction:column;gap:10px}
+.modal .btns .btn{width:100%}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header"><h1>创建邀请</h1><a href="index.html">返回</a></div>
+
+  <div class="fs">
+    <div class="fsl">选择风格</div>
+    <div class="style-selector" id="styleSel">
+      <button class="style-opt active" data-s="cream">奶油极简</button>
+      <button class="style-opt" data-s="noir">黑金电影感</button>
+      <button class="style-opt" data-s="nature">清透自然感</button>
+    </div>
+    <div class="preview cream" id="preview">
+      <div class="pl" id="pl">奶油极简 · CREAM</div>
+      <h3 id="pt">邀请标题</h3>
+      <div class="ps" id="pn">致：昵称</div>
+      <div class="pi" id="pdt">日期 · 时间</div>
+    </div>
+  </div>
+
+  <div class="fs">
+    <div class="fsl">基本信息</div>
+    <div class="fg"><label>对方昵称 <span class="rq">*</span></label><input type="text" id="nickname" placeholder="对方的名字或昵称" maxlength="30"></div>
+    <div class="fg"><label>邀请标题 <span class="rq">*</span></label><input type="text" id="title" placeholder="例如：一个安静的周末午后" maxlength="50"></div>
+    <div class="fg"><label>一句话邀请文案</label><input type="text" id="message" placeholder="写一句想对TA说的话" maxlength="100"></div>
+    <div class="fg"><label>封面图片</label>
+      <div class="up-area" id="upArea"><span class="up-text">点击上传封面图片</span><button class="rm-img" id="rmImg" type="button">&times;</button><input type="file" accept="image/*" id="fileInp" style="display:none"></div>
+    </div>
+  </div>
+
+  <div class="fs">
+    <div class="fsl">约会信息</div>
+    <div class="fg"><label>约会日期 <span class="rq">*</span></label><input type="date" id="date"></div>
+    <div class="fg"><label>约会时间 <span class="rq">*</span></label><input type="time" id="time"></div>
+    <div class="fg"><label>约会地点 <span class="rq">*</span></label><input type="text" id="location" placeholder="例如：山谷图书馆" maxlength="50"></div>
+    <div class="fg"><label>详细地址</label><input type="text" id="address" placeholder="详细地址，方便对方导航" maxlength="200"></div>
+  </div>
+
+  <div class="fs">
+    <div class="fsl">约会行程</div>
+    <div class="sch-editor" id="schEditor"></div>
+    <button class="add-sch" id="addSch">+ 添加行程节点</button>
+  </div>
+
+  <div class="fs">
+    <div class="fsl">更多信息</div>
+    <div class="fg"><label>穿搭提示</label><input type="text" id="dressCode" placeholder="例如：浅色系，适合散步的鞋子" maxlength="100"></div>
+    <div class="fg"><label>备注</label><textarea id="notes" placeholder="任何想补充的内容..." maxlength="300"></textarea></div>
+  </div>
+
+  <button class="btn btn-dark btn-full" id="submitBtn">生成邀请</button>
+  <div style="height:40px"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal-overlay" id="okModal">
+  <div class="modal">
+    <h2>邀请已生成</h2>
+    <p>复制链接发送给TA</p>
+    <div class="link-box" id="invLink"></div>
+    <div class="btns">
+      <button class="btn" id="copyBtn">复制链接</button>
+      <a class="btn" id="mgLink" href="#" style="display:block">查看管理页面</a>
+      <button class="btn" id="closeModal" style="border-color:#E8E3DC;color:#8B7E74">关闭</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var st={style:'cream',img:'',sch:[{time:'17:30',event:'见面'},{time:'18:00',event:'一起吃饭'},{time:'20:00',event:'散步或看电影'}]};
+
+function T(m,t){var e=document.getElementById('toast');e.textContent=m;e.className='toast'+(t?' err':'')+' show';clearTimeout(e._t);e._t=setTimeout(function(){e.className='toast'},2500)}
+
+function E(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
+
+function UP(){
+  var p=document.getElementById('preview');
+  p.className='preview '+st.style;
+  var lb={cream:'奶油极简 · CREAM',noir:'黑金电影感 · NOIR',nature:'清透自然感 · NATURE'};
+  document.getElementById('pl').textContent=lb[st.style];
+  document.getElementById('pt').textContent=document.getElementById('title').value||'邀请标题';
+  document.getElementById('pn').textContent='致：'+(document.getElementById('nickname').value||'昵称');
+  document.getElementById('pdt').textContent=(document.getElementById('date').value||'日期')+' · '+(document.getElementById('time').value||'时间');
+}
+
+document.querySelectorAll('#styleSel .style-opt').forEach(function(b){
+  b.onclick=function(){
+    document.querySelectorAll('#styleSel .style-opt').forEach(function(x){x.classList.remove('active')});
+    b.classList.add('active');st.style=b.dataset.s;UP();
+  }
+});
+['title','nickname','date','time'].forEach(function(id){
+  document.getElementById(id).oninput=UP;
+});
+
+// 图片
+var ua=document.getElementById('upArea'),fi=document.getElementById('fileInp');
+ua.onclick=function(e){if(e.target.id!=='rmImg')fi.click()};
+fi.onchange=function(e){
+  var f=e.target.files[0];if(!f)return;
+  if(f.size>10*1024*1024)return T('图片大小不能超过10MB',1);
+  var r=new FileReader();
+  r.onload=function(ev){st.img=ev.target.result;showImg(ev.target.result)};
+  r.readAsDataURL(f);
+};
+document.getElementById('rmImg').onclick=function(e){e.stopPropagation();st.img='';ua.classList.remove('has-img');ua.innerHTML='<span class="up-text">点击上传封面图片</span><button class="rm-img" id="rmImg2" type="button">&times;</button><input type="file" accept="image/*" id="fileInp2" style="display:none">';rebindUp()};
+function showImg(url){
+  ua.classList.add('has-img');
+  ua.innerHTML='<img src="'+url+'" alt=""><button class="rm-img" id="rmImg2" type="button">&times;</button><input type="file" accept="image/*" id="fileInp2" style="display:none">';
+  rebindUp();
+}
+function rebindUp(){
+  document.getElementById('rmImg2').onclick=function(e){e.stopPropagation();st.img='';ua.classList.remove('has-img');ua.innerHTML='<span class="up-text">点击上传封面图片</span><button class="rm-img" id="rmImg3" type="button">&times;</button><input type="file" accept="image/*" id="fileInp3" style="display:none">';rebindUp()};
+  document.getElementById('fileInp2').onchange=fi.onchange;
+  ua.onclick=function(e){if(e.target.id!=='rmImg2')document.getElementById('fileInp2').click()};
+}
+
+// 行程
+function renderSch(){
+  var ed=document.getElementById('schEditor');
+  ed.innerHTML=st.sch.map(function(item,i){
+    return '<div class="sch-row"><input class="ti" value="'+E(item.time)+'" placeholder="时间" data-i="'+i+'" data-f="time"><span style="color:#8B7E74">｜</span><input class="ei" value="'+E(item.event)+'" placeholder="事项" data-i="'+i+'" data-f="event"><div class="sch-act">'+
+      (i>0?'<button data-a="up" data-i="'+i+'">↑</button>':'<span style="width:28px"></span>')+
+      (i<st.sch.length-1?'<button data-a="down" data-i="'+i+'">↓</button>':'<span style="width:28px"></span>')+
+      '<button data-a="del" data-i="'+i+'">×</button></div></div>';
+  }).join('');
+  ed.querySelectorAll('input').forEach(function(inp){
+    inp.oninput=function(){st.sch[+inp.dataset.i][inp.dataset.f]=inp.value};
+  });
+  ed.querySelectorAll('button[data-a]').forEach(function(btn){
+    btn.onclick=function(){
+      var i=+btn.dataset.i,a=btn.dataset.a;
+      if(a==='del')st.sch.splice(i,1);
+      else if(a==='up'&&i>0){var t=st.sch[i];st.sch[i]=st.sch[i-1];st.sch[i-1]=t}
+      else if(a==='down'&&i<st.sch.length-1){var t=st.sch[i];st.sch[i]=st.sch[i+1];st.sch[i+1]=t}
+      renderSch();
+    };
+  });
+}
+renderSch();
+document.getElementById('addSch').onclick=function(){st.sch.push({time:'',event:''});renderSch()};
+
+// 默认日期
+var t=new Date();t.setDate(t.getDate()+1);
+document.getElementById('date').value=t.toISOString().split('T')[0];
+document.getElementById('time').value='18:00';
+UP();
+
+// 提交
+document.getElementById('submitBtn').onclick=function(){
+  var nn=document.getElementById('nickname').value.trim();
+  var ti=document.getElementById('title').value.trim();
+  var dt=document.getElementById('date').value;
+  var tm=document.getElementById('time').value;
+  var lo=document.getElementById('location').value.trim();
+  if(!nn)return T('请填写对方昵称',1);
+  if(!ti)return T('请填写邀请标题',1);
+  if(!dt)return T('请选择约会日期',1);
+  if(!tm)return T('请选择约会时间',1);
+  if(!lo)return T('请填写约会地点',1);
+
+  var id=Date.now().toString(36)+Math.random().toString(36).substring(2,6);
+  var token=Date.now().toString(36)+Math.random().toString(36).substring(2,8);
+
+  var invite={
+    id:id,token:token,
+    nickname:nn,title:ti,
+    message:document.getElementById('message').value.trim(),
+    date:dt,time:tm,location:lo,
+    address:document.getElementById('address').value.trim(),
+    dressCode:document.getElementById('dressCode').value.trim(),
+    notes:document.getElementById('notes').value.trim(),
+    img:st.img,sch:st.sch.filter(function(s){return s.time||s.event}),
+    style:st.style,
+    status:'waiting',openedAt:null,respondedAt:null,
+    respType:'',rsDate:'',rsMsg:'',createdAt:new Date().toLocaleString('zh-CN')
+  };
+
+  var db=JSON.parse(localStorage.getItem('di_db')||'{}');
+  db[id]=invite;
+  localStorage.setItem('di_db',JSON.stringify(db));
+
+  var base=window.location.href.replace('create.html','');
+  var invUrl=base+'invite.html?id='+id;
+  var mgUrl=base+'manage.html?id='+id+'&token='+token;
+
+  document.getElementById('invLink').textContent=invUrl;
+  document.getElementById('mgLink').href=mgUrl;
+  document.getElementById('okModal').classList.add('show');
+
+  document.getElementById('copyBtn').onclick=function(){
+    navigator.clipboard.writeText(invUrl).then(function(){T('链接已复制')}).catch(function(){T('复制失败，请手动复制',1)});
+  };
+  document.getElementById('closeModal').onclick=function(){
+    document.getElementById('okModal').classList.remove('show');
+  };
+};
+</script>
+</body>
+</html>
