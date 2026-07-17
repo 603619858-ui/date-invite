@@ -291,13 +291,13 @@ body.theme-noir .link-box { background: #2A2A2A; border-color: #333; }
   <div class="line"></div>
   <h1>约会邀请</h1>
   <p class="subtitle">DIGITAL INVITATION</p>
-  <button class="btn" id="homeCreateBtn">创建邀请</button>
+  <a class="btn" href="#create" style="text-decoration:none;display:inline-block;">创建邀请</a>
   <p class="footer-text">为特别的人，制作一份特别的邀请</p>
 </div>
 
 <!-- ==================== 创建页 ==================== -->
 <div class="page" id="page-create">
-  <div class="header"><h1>创建邀请</h1><a onclick="navigate('home')">返回</a></div>
+  <div class="header"><h1>创建邀请</h1><a href="#home">返回</a></div>
   
   <div class="form-section">
     <div class="form-section-label">选择风格</div>
@@ -375,7 +375,7 @@ body.theme-noir .link-box { background: #2A2A2A; border-color: #333; }
 
 <!-- ==================== 管理页 ==================== -->
 <div class="page" id="page-manage">
-  <div class="header"><h1>管理邀请</h1><a onclick="navigate('home')">返回首页</a></div>
+  <div class="header"><h1>管理邀请</h1><a href="#home">返回首页</a></div>
   <div id="manageContent"></div>
 </div>
 
@@ -425,7 +425,7 @@ body.theme-noir .link-box { background: #2A2A2A; border-color: #333; }
 <div class="error-page" id="errorPage">
   <h2 id="errorTitle">邀请不存在</h2>
   <p id="errorMsg">这个邀请链接可能已经失效</p>
-  <a onclick="navigate('home')" style="color:var(--dark);cursor:pointer;font-size:14px;">返回首页</a>
+  <a href="#home" style="color:var(--dark);cursor:pointer;font-size:14px;">返回首页</a>
 </div>
 
 <script>
@@ -958,7 +958,7 @@ function showManage(params) {
       delete db[invite.id];
       saveDB(db);
       document.getElementById('confirmOverlay').classList.remove('show');
-      mc.innerHTML = '<div style="text-align:center;padding:60px 0"><p style="font-size:18px;margin-bottom:8px">邀请已删除</p><a onclick="navigate(\'home\')" style="color:var(--taupe);cursor:pointer;font-size:14px;">返回首页</a></div>';
+      mc.innerHTML = '<div style="text-align:center;padding:60px 0"><p style="font-size:18px;margin-bottom:8px">邀请已删除</p><a href="#home" style="color:var(--taupe);cursor:pointer;font-size:14px;">返回首页</a></div>';
     };
   };
   
@@ -968,22 +968,6 @@ function showManage(params) {
 }
 
 // ==================== 启动 ====================
-// 绑定首页按钮
-document.getElementById('homeCreateBtn').addEventListener('click', function() {
-  navigate('create');
-});
-
-// 绑定返回按钮
-document.querySelectorAll('.page a[onclick]').forEach(function(a) {
-  var fn = a.getAttribute('onclick');
-  a.removeAttribute('onclick');
-  a.style.cursor = 'pointer';
-  a.addEventListener('click', function() {
-    var fnStr = fn;
-    if (fnStr.includes("navigate('home')")) navigate('home');
-  });
-});
-
 parseHash();
 </script>
 </body>
