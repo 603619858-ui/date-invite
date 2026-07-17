@@ -58,6 +58,19 @@ body{
 
 .footer-text{margin-top:30px;font-size:12px;color:#B098A3;letter-spacing:.06em}
 
+.mini-card{
+  background:#fff;border-radius:18px;padding:18px 12px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:8px;box-shadow:0 4px 16px rgba(225,200,210,.2);
+  border:2px dashed #F0C8D5;min-height:110px;
+  transition:transform .3s;
+}
+.mini-card:active{transform:scale(.96)}
+.card-left{background:linear-gradient(135deg,#FFF5F0,#FFE8E8);border-color:#F0C8C8}
+.card-right{background:linear-gradient(135deg,#FFF0F5,#FFE8F0);border-color:#F0C8D8}
+.mc-emoji{font-size:30px;line-height:1}
+.mc-text{font-size:13px;font-weight:600;color:#3D2C35;text-align:center;line-height:1.4}
+
 .decor-icons{position:absolute;pointer-events:none;z-index:0;font-size:16px}
 .decor-icons span{position:absolute;animation:twinkle 3s ease-in-out infinite}
 @keyframes twinkle{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.2)}}
@@ -166,7 +179,18 @@ body{
 <div class="english-label anim d2">BE MY DATE?</div>
 <h1 class="chinese-title anim d2">约会邀请</h1>
 
-<div class="nav-buttons anim d3" style="display:flex;flex-direction:column;gap:12px;margin-top:40px">
+<div class="cards-row anim d2" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:24px 0;width:100%;max-width:340px">
+  <div class="mini-card card-left">
+    <div class="mc-emoji">💌</div>
+    <div class="mc-text">为TA准备<br>一份心意</div>
+  </div>
+  <div class="mini-card card-right">
+    <div class="mc-emoji">💖</div>
+    <div class="mc-text">甜甜的<br>见面</div>
+  </div>
+</div>
+
+<div class="nav-buttons anim d3" style="display:flex;flex-direction:column;gap:12px;margin-top:8px">
   <a class="btn btn-accept" href="create.html">邀请和你约会</a>
   <a class="btn btn-decline" href="javascript:void(0)" onclick="this.textContent='没关系，下次见 👋';this.style.opacity='0.5';this.style.pointerEvents='none'">不用了谢谢</a>
 </div>
